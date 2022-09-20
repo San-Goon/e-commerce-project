@@ -1,15 +1,7 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Input,
-  Select,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Image, Input, Select, Text } from '@chakra-ui/react';
 
 import useSignUpForm from '@components/SignUpPage/_hook/useSignInForm';
 import FormHelper from '@components/common/FormHelper';
@@ -19,6 +11,45 @@ import FilledPlus from '@icons/System/FilledPlus';
 import ProfileIcon from '@icons/System/Profile';
 
 function SignUpPage() {
+  const [agreeAll, setAgreeAll] = React.useState(false);
+  const [serviceAgree, setServiceAgree] = React.useState(false);
+  const [PIAgree, setPIAgree] = React.useState(false);
+  const [marketingAgree, setMarketingAgree] = React.useState(false);
+
+  const onClickAll = React.useCallback(() => {
+    if (agreeAll) {
+      setServiceAgree(false);
+      setPIAgree(false);
+      setMarketingAgree(false);
+      setAgreeAll(false);
+    } else {
+      setServiceAgree(true);
+      setPIAgree(true);
+      setMarketingAgree(true);
+      setAgreeAll(true);
+    }
+  }, [agreeAll]);
+
+  const onClickService = React.useCallback(() => {
+    setServiceAgree((prev) => !prev);
+  }, []);
+
+  const onClickPI = React.useCallback(() => {
+    setPIAgree((prev) => !prev);
+  }, []);
+
+  const onClickMarketing = React.useCallback(() => {
+    setMarketingAgree((prev) => !prev);
+  }, []);
+
+  React.useEffect(() => {
+    if (serviceAgree && PIAgree && marketingAgree) {
+      setAgreeAll(true);
+    } else {
+      setAgreeAll(false);
+    }
+  }, [serviceAgree, PIAgree, marketingAgree]);
+
   const {
     register,
     control,
@@ -27,9 +58,11 @@ function SignUpPage() {
   } = useSignUpForm();
   const onSubmit = handleSubmit(
     ({ name, nickname, gender, phone, email, age }) => {
-      console.log('submit!');
+      console.log(name, nickname, gender, phone, email, age);
     },
   );
+
+  console.log('Error!', errors);
   return (
     <Box as="form" m="16px" onSubmit={onSubmit}>
       <Image mt="16px" src="/images/signup/logo.png" />
@@ -189,7 +222,12 @@ function SignUpPage() {
           <Text color="primary.500" fontWeight="700" fontSize="md">
             아래 약관에 모두 동의합니다.
           </Text>
-          <CircledCheck boxSize="24px" color="#CBCED6" />
+          <CircledCheck
+            boxSize="24px"
+            color={agreeAll ? 'primary.500' : '#CBCED6'}
+            onClick={onClickAll}
+            cursor="pointer"
+          />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
           <Text
@@ -200,7 +238,12 @@ function SignUpPage() {
           >
             서비스 이용을 위한 필수약관 동의
           </Text>
-          <Check boxSize="24px" color="#CBCED6" />
+          <Check
+            boxSize="24px"
+            color={serviceAgree ? 'primary.500' : '#CBCED6'}
+            onClick={onClickService}
+            cursor="pointer"
+          />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
           <Text
@@ -211,7 +254,12 @@ function SignUpPage() {
           >
             개인정보수집 및 이용, 제3자 제공 동의
           </Text>
-          <Check boxSize="24px" color="#CBCED6" />
+          <Check
+            boxSize="24px"
+            color={PIAgree ? 'primary.500' : '#CBCED6'}
+            onClick={onClickPI}
+            cursor="pointer"
+          />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
           <Text
@@ -222,7 +270,12 @@ function SignUpPage() {
           >
             마케팅 정보 수신 및 맞춤형 광고 동의(선택)
           </Text>
-          <Check boxSize="24px" color="#CBCED6" />
+          <Check
+            boxSize="24px"
+            color={marketingAgree ? 'primary.500' : '#CBCED6'}
+            onClick={onClickMarketing}
+            cursor="pointer"
+          />
         </Flex>
       </Box>
 
