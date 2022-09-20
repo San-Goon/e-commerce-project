@@ -47,6 +47,7 @@ export * from './History';
 export * from './Hospital';
 export * from './Id';
 export * from './Info';
+export * from './Logo';
 export * from './Menu';
 export * from './Message';
 export * from './Mic';
