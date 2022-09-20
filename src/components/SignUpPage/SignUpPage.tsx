@@ -66,7 +66,7 @@ function SignUpPage() {
   return (
     <Box as="form" m="16px" onSubmit={onSubmit}>
       <Image mt="16px" src="/images/signup/logo.png" />
-      <Text fontWeight="700" fontSize="xl" ml="16px" mt="41px" mb="60px">
+      <Text fontWeight="700" fontSize="xl" mt="41px" mb="60px">
         회원가입
       </Text>
       <FormHelper mb="40px" label="회원정보입력">

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CONFIG } from '@config';
 
-import { Flex, Image,Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 import SocialButton, { SocialType } from '@components/common/SocialButton';
 import Logo from '@icons/System/Logo';
@@ -25,14 +25,14 @@ function LogInPage() {
       justifyContent="center"
       alignItems="center"
       flexGrow={1}
-      direction='column'
-      position='relative'
+      direction="column"
+      position="relative"
     >
       <Logo boxSize="262px" color="white" />
-      <Box w='315px' h='45px' position='absolute' bottom='50'>
-      {SOCIAL_LIST.map((social) => {
-        return <SocialButton key={social.social} data={social} size="md" />;
-      })}
+      <Box w="315px" h="45px" position="absolute" bottom="50">
+        {SOCIAL_LIST.map((social) => {
+          return <SocialButton key={social.social} data={social} size="md" />;
+        })}
       </Box>
     </Flex>
   );
