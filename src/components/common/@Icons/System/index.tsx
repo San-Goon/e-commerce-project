@@ -58,6 +58,7 @@ export * from './Password';
 export * from './Paste';
 export * from './Payment';
 export * from './Photo';
+export * from './Plus';
 export * from './Profile';
 export * from './QRcode';
 export * from './RadioOff';
