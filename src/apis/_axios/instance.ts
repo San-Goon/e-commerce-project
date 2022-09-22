@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { CONFIG } from '@config';
+
 import { apiLogger } from '@utils/apiLogger';
 import { getToken } from '@utils/localStorage/token';
 import styledConsole from '@utils/styledConsole';
@@ -10,7 +11,8 @@ import { refresh } from './refresh';
 const isDev = CONFIG.ENV === 'development';
 
 const instance = axios.create({
-  baseURL: CONFIG.API_BASE_URL,
+  // baseURL: CONFIG.API_BASE_URL,
+  baseURL: 'https://api.commerce.incourse.run/',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',

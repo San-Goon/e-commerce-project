@@ -1,15 +1,18 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { CONFIG } from '@config';
 
 import { Box, Flex } from '@chakra-ui/react';
 
+import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
+
 import SocialButton, { SocialType } from '@components/common/SocialButton';
 import Logo from '@icons/System/Logo';
 
 import { SOCIAL } from '@constants/social';
 
-const SOCIAL_REDIRECT_URL = `${CONFIG.DOMAIN}`;
+const SOCIAL_REDIRECT_URL = `${CONFIG.REDIRECT_DOMAIN}`;
 
 const SOCIAL_LIST: Array<{ social: SocialType; link: string }> = [
   {
@@ -19,6 +22,20 @@ const SOCIAL_LIST: Array<{ social: SocialType; link: string }> = [
 ];
 
 function LogInPage() {
+  const { query } = useRouter();
+  console.log(query);
+  const data = usePostSocialLoginMutation();
+
+  React.useEffect(() => {
+    if (query.code) {
+      data.mutate({
+        code: query.code,
+        state: query.state,
+        redirectUri: 'http://localhost:3000/login',
+      });
+    }
+  }, [query]);
+
   return (
     <Flex
       bg="primary.500"
