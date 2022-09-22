@@ -1,7 +1,12 @@
+import React from 'react';
+
 import { Flex, IconButton, Image } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 
 import MenuIcon from '@components/common/@Icons/System/Menu';
+import Cart from '@icons/System/Cart';
+import DoubleLine from '@icons/System/DoubleLine';
+import Logo from '@icons/System/Logo';
 
 import { LAYOUT } from '@constants/layout';
 
@@ -30,22 +35,18 @@ const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
         w="100%"
         h={LAYOUT.HEADER.HEIGHT}
         {...cssByVariant.header}
+        background="transparent"
       >
-        <Image //
-          src="/images/header/logo.png"
-          w="74px"
-          h="42px"
-          cursor="pointer"
-        />
-        <Image src="/images/header/menu.png" w="24px" h="24px" />
-        <IconButton //
+        <IconButton
           color={cssByVariant.pointColor}
-          icon={<MenuIcon w="24px" h="24px" />}
+          icon={<DoubleLine boxSize="24px" />}
           onClick={onOpen}
           cursor="pointer"
           bg="transparent"
           aria-label="btn-toggle-drawer"
         />
+        <Logo boxSize="262px" color="primary.500" />
+        <Cart boxSize="24px" />
       </Flex>
       <HomeHeaderDrawer
         isOpen={isOpen}

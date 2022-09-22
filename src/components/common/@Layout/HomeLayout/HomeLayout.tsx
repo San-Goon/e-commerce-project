@@ -23,7 +23,7 @@ const HomeLayout = ({
   return (
     <>
       {header}
-      <Container pt={LAYOUT.HEADER.HEIGHT} {...containerProps}>
+      <Container p="0" {...containerProps}>
         {content}
       </Container>
       {footer}

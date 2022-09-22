@@ -16,13 +16,12 @@ const HomeHeaderDrawer = ({
   ...basisProps
 }: HomeHeaderDrawerProps) => {
   return (
-    <Drawer placement="right" size="sm" {...basisProps}>
+    <Drawer placement="left" {...basisProps}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerBody //
           {...bodyProps}
           py="0px"
-          px="16px"
           position="relative"
         >
           <DrawerCloseButton //
