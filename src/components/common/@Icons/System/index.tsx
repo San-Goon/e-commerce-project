@@ -35,6 +35,7 @@ export * from './CheckedOn';
 export * from './CheckedSolid';
 export * from './Copy';
 export * from './CopyPaste';
+export * from './Curve';
 export * from './Delete';
 export * from './DoubleLine';
 export * from './Download';
