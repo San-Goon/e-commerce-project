@@ -13,9 +13,11 @@ const Section4 = () => {
             인코스런
           </Text>
           가입하고
-          <Text fontWeight="700">전상품 1000원 혜택</Text>
-          <Text>받아보세요</Text>
         </Text>
+        <Text textStyle="xl" fontWeight="700">
+          전상품 1000원 혜택
+        </Text>
+        <Text textStyle="xl">받아보세요</Text>
         <Flex mt="20px" alignItems="center">
           <Text textStyle="md">이벤트 상세보기</Text>
           <ArrowRight />
