@@ -16,6 +16,12 @@ function SignUpPage() {
   const [PIAgree, setPIAgree] = React.useState(false);
   const [marketingAgree, setMarketingAgree] = React.useState(false);
 
+  const [isAgree, setIsAgree] = React.useState({
+    service: false,
+    PI: false,
+    marketing: false,
+  });
+
   const onClickAll = React.useCallback(() => {
     if (agreeAll) {
       setServiceAgree(false);

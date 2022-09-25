@@ -43,28 +43,19 @@ const accessibleColorMap: { [key: string]: AccessibleColor } = {
   },
 };
 
-const variantSolid: StyleObjectOrFn = (props) => {
-  const { colorScheme: c } = props;
+const buttonDisabled = {
+  opacity: 1,
+  bg: 'gray.200',
+  borderColor: 'gray.200',
+  color: 'gray.500',
+};
 
-  if (c === 'gray') {
-    const bg = 'gray.100';
-    return {
-      bg,
-      _hover: {
-        bg: 'gray.100',
-        _disabled: {
-          bg,
-        },
-      },
-      _active: { bg: 'gray.300' },
-    };
-  }
-
+const variantSolid: StyleObjectOrFn = ({ colorScheme: c }) => {
   const {
     bg = `${c}.500`,
     color = 'white',
-    hoverBg = `${c}.600`,
-    activeBg = `${c}.700`,
+    hoverBg = `${c}.400`,
+    activeBg = `${c}.400`,
     border = `${c}.500`,
   } = accessibleColorMap[c] ?? {};
 
@@ -76,14 +67,94 @@ const variantSolid: StyleObjectOrFn = (props) => {
     color: color,
     borderWidth: 1,
     borderColor: borderColor,
+    _disabled: buttonDisabled,
+    borderRadius: '25px',
     _hover: {
       bg: hoverBg,
       borderColor: hoverBg,
-      _disabled: {
-        bg: background,
-      },
+      _disabled: buttonDisabled,
     },
     _active: { bg: activeBg, borderColor: activeBg },
+  };
+};
+
+const variantSub: StyleObjectOrFn = ({ colorScheme: c }) => {
+  const {
+    bg = `${c}.100`,
+    color = `${c}.500`,
+    hoverBg = `${c}.200`,
+    activeBg = `${c}.200`,
+    border = `${c}.100`,
+  } = accessibleColorMap[c] ?? {};
+
+  const background = bg;
+  const borderColor = border;
+
+  return {
+    bg: background,
+    color: color,
+    borderWidth: 1,
+    borderColor: borderColor,
+    _disabled: buttonDisabled,
+    _hover: {
+      bg: hoverBg,
+      borderColor: hoverBg,
+      _disabled: buttonDisabled,
+    },
+    _active: { bg: activeBg, borderColor: activeBg },
+  };
+};
+
+const variantOutline: StyleObjectOrFn = ({ colorScheme: c }) => {
+  const {
+    bg = `white`,
+    color = `${c}.500`,
+    hoverBg = `${c}.100`,
+    activeBg = `${c}.100`,
+    border = `${c}.500`,
+  } = accessibleColorMap[c] ?? {};
+
+  const background = bg;
+  const borderColor = border;
+
+  return {
+    bg: background,
+    color: color,
+    borderWidth: 1,
+    borderColor: borderColor,
+    _disabled: buttonDisabled,
+    _hover: {
+      bg: hoverBg,
+      borderColor: border,
+      _disabled: buttonDisabled,
+    },
+    _active: { bg: activeBg, borderColor: border },
+  };
+};
+const variantGrayOutline: StyleObjectOrFn = ({ colorScheme: c }) => {
+  const {
+    bg = `transparent`,
+    color = `gray.900`,
+    hoverBg = `transparent`,
+    activeBg = `transparent`,
+    border = `gray.300`,
+  } = accessibleColorMap[c] ?? {};
+
+  const background = bg;
+  const borderColor = border;
+
+  return {
+    bg: background,
+    color: color,
+    borderWidth: 1,
+    borderColor: borderColor,
+    _disabled: buttonDisabled,
+    _hover: {
+      bg: hoverBg,
+      borderColor: `${c}.300`,
+      _disabled: buttonDisabled,
+    },
+    _active: { bg: activeBg, borderColor: `${c}.300` },
   };
 };
 
@@ -93,29 +164,37 @@ export const Button: ComponentSingleStyleConfig = {
     h: 'fit-content',
     _focus: { boxShadow: 'none' },
   },
+  defaultProps: {
+    variant: 'primary',
+    size: 'xl',
+  },
   variants: {
-    solid: variantSolid,
+    primary: variantSolid,
+    primarySub: variantSub,
+    outline: variantOutline,
+    grayOutline: variantGrayOutline,
   },
   sizes: {
-    lg: {
+    xl: {
+      w: '343px',
       h: '50px',
-      fontSize: ['16px', '14px', '15px'],
-      px: '15px',
+      fontSize: ['16px'],
+      lineHeight: ['28px'],
+      fontWeight: ['700'],
     },
-    md: {
+    l: {
+      w: '180px',
+      h: '48px',
+      fontSize: ['16px'],
+      lineHeight: [1.5],
+      fontWeight: ['semibold'],
+    },
+    m: {
+      w: '116px',
       h: '40px',
-      fontSize: ['12px', '10px', '12px'],
-      px: '15px',
-    },
-    sm: {
-      h: '30px',
-      fontSize: ['12px', '10px', '12px'],
-      px: '15px',
-    },
-    xs: {
-      h: '26px',
-      fontSize: ['12px', '10px', '12px'],
-      px: '8px',
+      fontSize: ['14px'],
+      lineHeight: [1.5],
+      fontWeight: ['semibold'],
     },
   },
 };

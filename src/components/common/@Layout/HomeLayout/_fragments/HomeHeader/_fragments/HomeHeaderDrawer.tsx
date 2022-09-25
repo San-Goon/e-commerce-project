@@ -1,4 +1,11 @@
-import { Box, ChakraProps, DrawerProps, Flex, Text } from '@chakra-ui/react';
+import {
+  Box,
+  ChakraProps,
+  DrawerFooter,
+  DrawerProps,
+  Flex,
+  Text,
+} from '@chakra-ui/react';
 import {
   Drawer,
   DrawerBody,
@@ -17,26 +24,23 @@ const HomeHeaderDrawer = ({
   bodyProps,
   ...basisProps
 }: HomeHeaderDrawerProps) => {
-  console.log('bodyProps', bodyProps);
-  console.log('basisProps', basisProps);
   return (
     <Drawer placement="left" {...basisProps}>
       <DrawerOverlay />
       <DrawerContent>
+        <DrawerCloseButton //
+          w="40px"
+          h="40px"
+          top="20px"
+          right={{ base: '16px', md: '80px' }}
+          onClick={basisProps.onClose}
+        />
         <DrawerBody //
           {...bodyProps}
           py="0px"
           px="0px"
-          position="relative"
         >
-          <DrawerCloseButton //
-            w="40px"
-            h="40px"
-            top="20px"
-            right={{ base: '16px', md: '80px' }}
-            onClick={basisProps.onClose}
-          />
-          <Box top="80px" position="absolute" fontWeight="700" w="100%">
+          <Box mt="80px" fontWeight="700" w="100%">
             <Text ml="16px" textStyle="lg">
               카테고리
             </Text>
@@ -73,18 +77,15 @@ const HomeHeaderDrawer = ({
               </Text>
             </Flex>
           </Box>
-          <Flex
-            position="absolute"
-            bottom="25px"
-            left="16px"
-            alignItems="center"
-          >
+        </DrawerBody>
+        <DrawerFooter>
+          <Flex alignItems="center">
             <Logout boxSize="24px" />
             <Text textStyle="lg" fontWeight="700">
               로그아웃
             </Text>
           </Flex>
-        </DrawerBody>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

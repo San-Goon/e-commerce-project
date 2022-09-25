@@ -29,7 +29,7 @@ const ListPage = () => {
           boxShadow="0px 0px 10px rgba(26, 26, 26, 0.1)"
           borderRadius="20px"
         >
-          <Image src={item.description} alt={item.name} w="100%" h="auto" />
+          <Image src={item.description} alt={item.name} />
 
           <Box p="30px">
             <Box display="flex" alignItems="baseline">
