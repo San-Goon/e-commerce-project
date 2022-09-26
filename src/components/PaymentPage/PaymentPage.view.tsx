@@ -8,12 +8,15 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Radio,
   Text,
 } from '@chakra-ui/react';
 
 import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
+
+import { CreditCardIcon } from '../../generated/icons/MyIcons';
 
 interface FormPageProps extends BoxProps {
   formData?: UseFormReturn<FormDataType>;
@@ -119,6 +122,10 @@ const PaymentPageView = ({ onSubmit, ...basisProps }: FormPageProps) => {
       <Text mt="40px" mb="10px" textStyle="md" fontWeight="700">
         결제수단
       </Text>
+      <Radio defaultChecked textStyle="md" colorScheme="primary">
+        <CreditCardIcon boxSize="50px" mr="10px" />
+        신용카드 결제
+      </Radio>
       <Text mt="30px" mb="40px" textStyle="md" fontWeight="700">
         최종 결제금액
       </Text>
@@ -156,9 +163,7 @@ const PaymentPageView = ({ onSubmit, ...basisProps }: FormPageProps) => {
         개인정보 수집 이용 동의(필수)
       </Checkbox>
       <Flex justifyContent="center" mb="80px">
-        <Button colorScheme="primary" variant="primary">
-          결제하기
-        </Button>
+        <Button colorScheme="primary">결제하기</Button>
       </Flex>
     </Box>
   );
