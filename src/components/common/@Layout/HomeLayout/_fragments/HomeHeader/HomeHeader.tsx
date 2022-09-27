@@ -37,9 +37,8 @@ const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
         {...cssByVariant.header}
         background="transparent"
       >
-        <IconButton
-          color={cssByVariant.pointColor}
-          icon={<DoubleLine boxSize="24px" />}
+        <DoubleLine
+          boxSize="24px"
           onClick={onOpen}
           cursor="pointer"
           bg="transparent"
