@@ -11,7 +11,7 @@ export class UserApi {
   getMe = async (params?: any): Promise<any> => {
     const data = await this.axios({
       method: 'GET',
-      url: '/v1/user/me',
+      url: '/v1/user/me/',
       params,
     });
     return data;
@@ -20,7 +20,7 @@ export class UserApi {
   postRefreshToken = async (body: any): Promise<any> => {
     const data = await this.axios({
       method: 'POST',
-      url: '/v1/user/refresh',
+      url: '/v1/user/refresh/',
       data: body,
     });
     return data;
@@ -38,7 +38,7 @@ export class UserApi {
   postRegister = async (body: any): Promise<any> => {
     const data = await this.axios({
       method: 'POST',
-      url: '/v1/user/register',
+      url: '/v1/user/register/',
       data: body,
     });
     return data;
