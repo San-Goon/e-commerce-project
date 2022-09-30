@@ -20,6 +20,7 @@ import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 import ArrowDown from '@icons/System/ArrowDown';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
+import useMoveScroll from '../../hooks/useMoveScroll';
 
 const chakraSelectStyle: ChakraStylesConfig = {
   dropdownIndicator: (provided) => ({
@@ -68,6 +69,10 @@ const DetailPage = () => {
 
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
+
+  const { element: detail, onMoveToElement: onMoveToDetail } = useMoveScroll();
+  const { element: info, onMoveToElement: onMoveToInfo } = useMoveScroll();
+  const { element: review, onMoveToElement: onMoveToReview } = useMoveScroll();
 
   useEffect(() => {
     if (data) {
@@ -147,18 +152,24 @@ const DetailPage = () => {
           </Center>
         </Box>
         <Flex justifyContent="space-around" my="26px">
-          <Text textStyle="md" color="gray.600">
-            상세정보
-          </Text>
-          <Text textStyle="md" color="gray.600">
-            구매정보
-          </Text>
-          <Text textStyle="md" color="gray.600">
-            리뷰 ({data.reviewCount})
-          </Text>
+          <Box onClick={onMoveToDetail} cursor="pointer">
+            <Text textStyle="md" color="primary.500" fontWeight="700">
+              상세정보
+            </Text>
+          </Box>
+          <Box onClick={onMoveToInfo} cursor="pointer">
+            <Text textStyle="md" color="gray.600">
+              구매정보
+            </Text>
+          </Box>
+          <Box onClick={onMoveToReview} cursor="pointer">
+            <Text textStyle="md" color="gray.600">
+              리뷰 ({data.reviewCount})
+            </Text>
+          </Box>
         </Flex>
         <Box>
-          <Flex justifyContent="center">
+          <Flex justifyContent="center" ref={detail}>
             <Image
               src={`/images/detail/${data.name}.png`}
               alt={`${data.name} 상세이미지`}
@@ -171,12 +182,12 @@ const DetailPage = () => {
             bg="gray.100"
             px="16px"
           >
-            <Text textStyle="md" fontWeight="700">
+            <Text textStyle="md" fontWeight="700" ref={info}>
               주문 및 배송 안내
             </Text>
             <ArrowDown />
           </Flex>
-          <Box m="16px">
+          <Box m="16px" ref={review}>
             <Flex mt="50px" justifyContent="space-between">
               <Text textStyle="md" fontWeight="700">
                 리뷰{' '}
