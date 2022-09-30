@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import {
@@ -13,7 +13,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import RatingStars from '@components/ReviewPage/_fragment/RatingStars';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
 
@@ -53,7 +52,6 @@ const WithdrawPageView = ({ onSubmit }: any) => {
         control={control}
         name="reason"
         render={({ field: { value, onChange } }) => {
-          console.log(value);
           return (
             <FormHelper my="14px" label="탈퇴 사유" textStyle="md" ml="16px">
               <RadioGroup onChange={onChange} colorScheme="primary">
@@ -65,6 +63,11 @@ const WithdrawPageView = ({ onSubmit }: any) => {
                   </Radio>
                   <Radio value="타 브랜드 이용">타 브랜드 이용</Radio>
                   <Radio value="기타">기타</Radio>
+                  {value === '기타' && (
+                    <FormHelper errorText={formState.errors.etcReason?.message}>
+                      <Input fieldName="etcReason" w="90%" />
+                    </FormHelper>
+                  )}
                 </Stack>
               </RadioGroup>
             </FormHelper>
