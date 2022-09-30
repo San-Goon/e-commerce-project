@@ -9,10 +9,18 @@ import {
   Button,
   Center,
   Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   Image,
   Tag,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
@@ -70,9 +78,13 @@ const DetailPage = () => {
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
 
+  const [count, setCount] = useState(1);
+
   const { element: detail, onMoveToElement: onMoveToDetail } = useMoveScroll();
   const { element: info, onMoveToElement: onMoveToInfo } = useMoveScroll();
   const { element: review, onMoveToElement: onMoveToReview } = useMoveScroll();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (data) {
@@ -146,10 +158,88 @@ const DetailPage = () => {
             <Button colorScheme="primary" variant="outline">
               장바구니
             </Button>
-            <Button colorScheme="primary" mt="10px">
+            <Button colorScheme="primary" mt="10px" onClick={onOpen}>
               바로구매
             </Button>
           </Center>
+          <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
+            <DrawerOverlay />
+            <DrawerContent
+              pt="20px"
+              borderRadius="20px 20px 0px 0px"
+              boxShadow=" 0px 0px 10px rgba(26, 26, 26, 0.1)"
+            >
+              <DrawerBody>
+                <Box bg="gray.200" p="10px">
+                  <Text textStyle="md" color="gray.600">
+                    {data.name}
+                  </Text>
+                  <Flex justifyContent="space-between">
+                    <Flex textAlign="center" bg="white">
+                      <Box
+                        boxSize="25px"
+                        border="1px"
+                        borderColor="gray.300"
+                        onClick={() => {
+                          if (count > 1) {
+                            setCount((prev) => prev - 1);
+                          }
+                        }}
+                        cursor="pointer"
+                      >
+                        -
+                      </Box>
+                      <Box boxSize="25px" border="1px" borderColor="gray.300">
+                        {count}
+                      </Box>
+                      <Box
+                        boxSize="25px"
+                        border="1px"
+                        borderColor="gray.300"
+                        onClick={() => {
+                          setCount((prev) => prev + 1);
+                        }}
+                        cursor="pointer"
+                      >
+                        +
+                      </Box>
+                    </Flex>
+                    <Text textStyle="md" color="gray.600" fontWeight="700">
+                      {data.price * count}원
+                    </Text>
+                  </Flex>
+                </Box>
+                <Flex justifyContent="space-between" mt="5px">
+                  <Text textStyle="md">
+                    총 수량{' '}
+                    <Text as="span" color="primary.500" fontWeight="700">
+                      {count}
+                    </Text>{' '}
+                    개
+                  </Text>
+                  <Text textStyle="md">
+                    합계{' '}
+                    <Text as="span" fontWeight="700">
+                      {data.price * count}원
+                    </Text>
+                  </Text>
+                </Flex>
+                <Flex justifyContent="space-around" mt="15px" mb="30px">
+                  <Button
+                    colorScheme="primary"
+                    variant="outline"
+                    w="165px"
+                    h="50px"
+                  >
+                    장바구니
+                  </Button>
+                  <Button colorScheme="primary" w="165px" h="50px">
+                    바로구매
+                  </Button>
+                </Flex>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
         </Box>
         <Flex justifyContent="space-around" my="26px">
           <Box onClick={onMoveToDetail} cursor="pointer">
