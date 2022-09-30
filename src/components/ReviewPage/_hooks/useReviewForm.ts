@@ -7,19 +7,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export type FormDataType = {
   rating: number;
   content: string;
-  photos: [];
+  images: [];
 };
 
 export const defaultValues: FormDataType = {
   rating: 0,
   content: '',
-  photos: [],
+  images: [],
 };
 
 export const ReviewFormSchema = yup.object().shape({
   rating: yup.number().required('별점을 정해주세요.'),
-  content: yup.string().min(20, '20자 이상 입력해주세요.'),
-  photos: yup.array(),
+  content: yup.string().min(20, '20자 이상 입력해주세요.').required(),
+  images: yup.array(),
 });
 
 const useReviewForm = (options?: UseFormProps<FormDataType>) => {

@@ -8,8 +8,8 @@ import useReviewForm, {
 const ReviewPage = () => {
   const formData = useReviewForm({ defaultValues });
   const { handleSubmit } = formData;
-  const onSubmit = handleSubmit(({ rating, content, photos }) => {
-    console.log(rating, content, photos);
+  const onSubmit = handleSubmit(({ rating, content, images }) => {
+    console.log(rating, content, images);
   });
   return (
     <FormProvider {...formData}>

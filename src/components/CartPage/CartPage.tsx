@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Box } from '@chakra-ui/react';
 
+import ItemExistComponent from '@components/CartPage/_fragments/ItemExistComponent';
 import NoItemComponent from '@components/CartPage/_fragments/NoItemComponent';
 
 // const ITEM_DATA = [
