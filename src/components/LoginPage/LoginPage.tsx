@@ -17,21 +17,23 @@ const SOCIAL_REDIRECT_URL = `${CONFIG.REDIRECT_DOMAIN}`;
 const SOCIAL_LIST: Array<{ social: SocialType; link: string }> = [
   {
     social: 'kakao',
-    link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${SOCIAL.KAKAO_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=kakao`,
+    // link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${SOCIAL.KAKAO_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=kakao`,
+    link: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${SOCIAL.KAKAO_CLIENT_ID}&redirect_uri=http://localhost:3000/social_login/callback&state=kakao`
   },
 ];
 
 function LogInPage() {
   const { query } = useRouter();
+  const json = JSON.stringify(query);
   console.log(query);
   const data = usePostSocialLoginMutation();
+  console.log(SOCIAL.KAKAO_CLIENT_ID)
 
   React.useEffect(() => {
     if (query.code) {
       data.mutate({
         code: query.code,
         state: query.state,
-        redirectUri: 'http://localhost:3000/login',
       });
     }
   }, [query]);
