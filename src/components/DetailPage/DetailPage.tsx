@@ -77,6 +77,7 @@ const DetailPage = () => {
 
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
+  const [showAll, setShowAll] = useState(false);
 
   const [count, setCount] = useState(1);
 
@@ -259,11 +260,15 @@ const DetailPage = () => {
           </Box>
         </Flex>
         <Box>
-          <Flex justifyContent="center" ref={detail}>
+          <Flex justifyContent="center" ref={detail} position='relative' h={showAll ? '4000px' :  '500px'} overflow='hidden'>
             <Image
               src={`/images/detail/${data.name}.png`}
               alt={`${data.name} 상세이미지`}
+              position='absolute'
             />
+            <Flex position='absolute' bottom='10px'>
+             <Button onClick={() => {setShowAll((prev) => !prev)}}>상세정보 펼쳐보기</Button>
+            </Flex>
           </Flex>
           <Flex
             alignItems="center"
