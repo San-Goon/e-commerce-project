@@ -10,10 +10,10 @@ const MyPageComponent = () => {
   return (
     <Box mt="150px">
       <Text mx="16px" textStyle="lg" fontWeight="700">
-        조강훈
+        인코스런
       </Text>
       <Text mx="16px" mb="30px" textStyle="md" color="gray.400">
-        tigerlove95@naver.com
+        @naver.com
       </Text>
       <Flex h="10px" backgroundColor="gray.100" />
       <Center
