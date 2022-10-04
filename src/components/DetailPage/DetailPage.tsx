@@ -86,8 +86,7 @@ const DetailPage = ({ productData }: IProps) => {
     options: { initialData: productData },
   });
   const [countRate, setCountRate] = useState([0, 0, 0, 0, 0]);
-  const [sortedArray, setSortedArray] = useState<any>([...data.reviewList]);
-  const [filteredArray, setFilteredArray] = useState<any>([...data.reviewList]);
+  const [sortedArray, setSortedArray] = useState<any>([]);
 
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
@@ -110,30 +109,21 @@ const DetailPage = ({ productData }: IProps) => {
   }, [data.reviewList]);
 
   useEffect(() => {
-    const tempArr = [...filteredArray];
-    if (tempArr) {
-      if (sortValue === '최신순') {
-        tempArr.sort(
-          (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
-        );
-      } else if (sortValue === '평점 높은순') {
-        tempArr.sort((a, b) => b.rate - a.rate);
-      } else if (sortValue === '평점 낮은순') {
-        tempArr.sort((a, b) => a.rate - b.rate);
-      }
-      setSortedArray(tempArr);
+    const tempArr = [...data.reviewList];
+    if (sortValue === '최신순') {
+      tempArr.sort(
+        (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
+      );
+    } else if (sortValue === '평점 높은순') {
+      tempArr.sort((a, b) => b.rate - a.rate);
+    } else if (sortValue === '평점 낮은순') {
+      tempArr.sort((a, b) => a.rate - b.rate);
     }
-  }, [sortValue, filteredArray, data.reviewList]);
-
-  // useEffect(() => {
-  //   const tempArr = [...filteredArray];
-  //   if (showValue === '전체보기') {
-  //     setFilteredArray([...data.reviewList]);
-  //   } else if (showValue === '포토리뷰') {
-  //     tempArr.filter((item) => item.reviewImageSet.length !== 0);
-  //     setFilteredArray(tempArr);
-  //   }
-  // }, [showValue, data.reviewList, filteredArray]);
+    if (showValue === '포토리뷰') {
+      tempArr.filter((item) => item.reviewimageSet.length !== 0);
+    }
+    setSortedArray(tempArr);
+  }, [sortValue, showValue, data.reviewList]);
 
   return (
     <Box mt="116px" mb="80px">
