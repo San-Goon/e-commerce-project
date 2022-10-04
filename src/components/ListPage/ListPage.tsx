@@ -27,7 +27,7 @@ const ListPage = ({ productsList }: IProps) => {
           boxShadow="0px 0px 10px rgba(26, 26, 26, 0.1)"
           borderRadius="20px"
         >
-          <Image src={item.name} alt={item.name} />
+          <Image src={item.thumbnail} alt={item.name} />
 
           <Box p="30px">
             <Box display="flex" alignItems="baseline">

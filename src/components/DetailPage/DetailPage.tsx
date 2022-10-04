@@ -130,7 +130,7 @@ const DetailPage = ({ productData }: IProps) => {
   return (
     <Box mt="116px" mb="80px">
       <Center>
-        <Image src="/images/home/Group 243.png" alt="Image" />
+        <Image src={data.photo} alt={data.name} />
       </Center>
       <Box
         p="16px"
@@ -270,15 +270,14 @@ const DetailPage = ({ productData }: IProps) => {
         </Box>
       </Flex>
       <Box>
-        <Flex justifyContent="center" ref={detail} position="relative">
-          <Image
-            src={`/images/detail/${data.name}.png`}
-            alt={`${data.name} 상세이미지`}
-            {...(!showAll && { height: '500px' })}
-            w="100%"
-            maxW="600px"
-            objectFit="cover"
-          />
+        <Flex
+          justifyContent="center"
+          ref={detail}
+          position="relative"
+          {...(!showAll && { height: '500px' })}
+          overflow="hidden"
+        >
+          <Box dangerouslySetInnerHTML={{ __html: data.detail }} />
           <Flex position="absolute" bottom="10px">
             <Button
               onClick={() => {
