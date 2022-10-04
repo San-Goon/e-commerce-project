@@ -113,8 +113,8 @@ const InfoForm = () => {
               focusBorderColor="primary.500"
               color="black"
             >
-              <option value="남">남</option>
-              <option value="여">여</option>
+              <option value="male">남</option>
+              <option value="female">여</option>
             </Select>
           </FormHelper>
         )}
@@ -137,15 +137,12 @@ const InfoForm = () => {
               focusBorderColor="primary.500"
               color="black"
             >
-              <option value="teens">10대</option>
-              <option value="twenties">20대</option>
-              <option value="thirties">30대</option>
-              <option value="forties">40대</option>
-              <option value="fifties">50대</option>
-              <option value="sixties">60대</option>
-              <option value="seventies">70대</option>
-              <option value="eighties">80대</option>
-              <option value="etc">그 외</option>
+              <option value={10}>10대</option>
+              <option value={20}>20대</option>
+              <option value={30}>30대</option>
+              <option value={40}>40대</option>
+              <option value={50}>50대</option>
+              <option value={60}>60대</option>
             </Select>
           </FormHelper>
         )}

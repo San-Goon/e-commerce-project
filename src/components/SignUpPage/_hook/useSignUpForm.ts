@@ -11,6 +11,9 @@ export type FormDataType = {
   phone: string;
   gender?: string;
   age?: string;
+  serviceAgree: boolean;
+  PIAgree: boolean;
+  marketingAdAgree: boolean;
 };
 
 export const defaultValues = {
@@ -20,6 +23,9 @@ export const defaultValues = {
   phone: '',
   gender: '',
   age: '',
+  serviceAgree: false,
+  PIAgree: false,
+  marketingAdAgree: false,
 };
 
 /**
@@ -59,6 +65,9 @@ export const signUpFormSchema = yup.object().shape({
     ),
   gender: yup.string(),
   age: yup.string(),
+  serviceAgree: yup.boolean().oneOf([true], 'Field must be checked'),
+  PIAgree: yup.boolean().oneOf([true], 'Field must be checked'),
+  marketingAdAgree: yup.boolean(),
 });
 
 const useSignUpForm = (options?: UseFormProps<FormDataType>) => {

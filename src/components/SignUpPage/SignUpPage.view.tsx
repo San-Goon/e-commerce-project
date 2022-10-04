@@ -1,56 +1,82 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Flex, Image, Text } from '@chakra-ui/react';
 
+import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
+
+import { FormDataType } from '@components/SignUpPage/_hook/useSignUpForm';
 import InfoForm from '@components/common/InfoForm';
 import Check from '@icons/System/Check';
 import CircledCheck from '@icons/System/CircledCheck';
 
-function SignUpPageView({ onSubmit }: any) {
-  const [agreeAll, setAgreeAll] = React.useState(false);
-  const [serviceAgree, setServiceAgree] = React.useState(false);
-  const [PIAgree, setPIAgree] = React.useState(false);
-  const [marketingAgree, setMarketingAgree] = React.useState(false);
+interface FormPageProps extends BoxProps {
+  formData: UseFormReturn<FormDataType>;
+}
 
-  // const [isAgree, setIsAgree] = React.useState({
-  //   service: false,
-  //   PI: false,
-  //   marketing: false,
-  // });
+function SignUpPageView({ formData }: FormPageProps) {
+  const router = useRouter();
+  const { formState, handleSubmit, setValue, getValues, watch } = formData;
+  watch(['serviceAgree', 'PIAgree', 'marketingAdAgree']);
+  const { mutate } = usePostRegisterMutation();
+  const onSubmit = handleSubmit(
+    ({ name, nickname, gender, phone, email, age, marketingAdAgree }) => {
+      console.log(name, nickname, gender, phone, email, age);
+      mutate({
+        name,
+        nickname,
+        gender,
+        phone,
+        email,
+        age,
+        profile: 'http://naver.com',
+        socialToken: router.query.token,
+        marketingAdAgree,
+      });
+    },
+  );
+  const [agreeAll, setAgreeAll] = useState(false);
+
+  const [serviceAgree, PIAgree, marketingAdAgree] = getValues([
+    'serviceAgree',
+    'PIAgree',
+    'marketingAdAgree',
+  ]);
 
   const onClickAll = React.useCallback(() => {
     if (agreeAll) {
-      setServiceAgree(false);
-      setPIAgree(false);
-      setMarketingAgree(false);
       setAgreeAll(false);
+      setValue('serviceAgree', false);
+      setValue('PIAgree', false);
+      setValue('marketingAdAgree', false);
     } else {
-      setServiceAgree(true);
-      setPIAgree(true);
-      setMarketingAgree(true);
       setAgreeAll(true);
+      setValue('serviceAgree', true);
+      setValue('PIAgree', true);
+      setValue('marketingAdAgree', true);
     }
-  }, [agreeAll]);
+  }, [agreeAll, setValue]);
 
-  const onClickService = React.useCallback(() => {
-    setServiceAgree((prev) => !prev);
-  }, []);
+  const onClickService = () => {
+    setValue('serviceAgree', !getValues('serviceAgree'));
+  };
 
-  const onClickPI = React.useCallback(() => {
-    setPIAgree((prev) => !prev);
-  }, []);
+  const onClickPI = () => {
+    setValue('PIAgree', !getValues('PIAgree'));
+  };
 
-  const onClickMarketing = React.useCallback(() => {
-    setMarketingAgree((prev) => !prev);
-  }, []);
+  const onClickMarketing = () => {
+    setValue('marketingAdAgree', !getValues('marketingAdAgree'));
+  };
 
   React.useEffect(() => {
-    if (serviceAgree && PIAgree && marketingAgree) {
+    if (serviceAgree && PIAgree && marketingAdAgree) {
       setAgreeAll(true);
     } else {
       setAgreeAll(false);
     }
-  }, [serviceAgree, PIAgree, marketingAgree]);
+  }, [serviceAgree, PIAgree, marketingAdAgree]);
 
   return (
     <Box as="form" m="16px" onSubmit={onSubmit}>
@@ -92,7 +118,7 @@ function SignUpPageView({ onSubmit }: any) {
           </Text>
           <Check
             boxSize="24px"
-            color={serviceAgree ? 'primary.500' : '#CBCED6'}
+            color={getValues('serviceAgree') ? 'primary.500' : '#CBCED6'}
             onClick={onClickService}
             cursor="pointer"
           />
@@ -108,7 +134,7 @@ function SignUpPageView({ onSubmit }: any) {
           </Text>
           <Check
             boxSize="24px"
-            color={PIAgree ? 'primary.500' : '#CBCED6'}
+            color={getValues('PIAgree') ? 'primary.500' : '#CBCED6'}
             onClick={onClickPI}
             cursor="pointer"
           />
@@ -124,39 +150,22 @@ function SignUpPageView({ onSubmit }: any) {
           </Text>
           <Check
             boxSize="24px"
-            color={marketingAgree ? 'primary.500' : '#CBCED6'}
+            color={getValues('marketingAdAgree') ? 'primary.500' : '#CBCED6'}
             onClick={onClickMarketing}
             cursor="pointer"
           />
         </Flex>
+        {(formState.errors?.PIAgree || formState.errors?.serviceAgree) && (
+          <Text textStyle="md" color="red">
+            필수약관에 모두 동의해주셔야 합니다.
+          </Text>
+        )}
       </Box>
 
       <Flex justifyContent="center" alignItems="center" mt="80px">
-        <Box
-          type="submit"
-          as="button"
-          height="50px"
-          lineHeight="1.2"
-          transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-          px="125.5px"
-          borderRadius="100px"
-          fontSize="16px"
-          fontWeight="700"
-          bg="primary.500"
-          color="white"
-          _hover={{ bg: '#ebedf0' }}
-          _active={{
-            bg: '#dddfe2',
-            transform: 'scale(0.98)',
-            borderColor: '#bec3c9',
-          }}
-          _focus={{
-            boxShadow:
-              '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
-          }}
-        >
+        <Button colorScheme="primary" type="submit">
           회원가입완료
-        </Box>
+        </Button>
       </Flex>
     </Box>
   );

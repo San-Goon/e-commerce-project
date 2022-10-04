@@ -1,6 +1,6 @@
 import { FormProvider } from 'react-hook-form';
 
-import SignUpPageView from '@components/SignUpPage/SignUpPage.view';
+import ModifyPageView from '@components/MyPage/_Fragments/ModifyPage.view';
 
 import useModifyForm, { defaultValues } from './_hook/useModifyForm';
 
@@ -15,7 +15,7 @@ const ModifyPage = () => {
 
   return (
     <FormProvider {...formData}>
-      <SignUpPageView onSubmit={onSubmit} />
+      <ModifyPageView onSubmit={onSubmit} />
     </FormProvider>
   );
 };
