@@ -27,6 +27,7 @@ import {
 
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 
+import ImagesComponent from '@components/common/ImagesComponent';
 import ArrowDown from '@icons/System/ArrowDown';
 import ArrowUp from '@icons/System/ArrowUp';
 
@@ -85,7 +86,8 @@ const DetailPage = ({ productData }: IProps) => {
     options: { initialData: productData },
   });
   const [countRate, setCountRate] = useState([0, 0, 0, 0, 0]);
-  const [sortedArray, setSortedArray] = useState<any>([]);
+  const [sortedArray, setSortedArray] = useState<any>([...data.reviewList]);
+  const [filteredArray, setFilteredArray] = useState<any>([...data.reviewList]);
 
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
@@ -100,33 +102,39 @@ const DetailPage = ({ productData }: IProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    if (data) {
-      const tempArr = [0, 0, 0, 0, 0];
-      for (const review of data.reviewList) {
-        tempArr[review.rate - 1] += 1;
-      }
-      setCountRate(tempArr);
-      setSortedArray(data.reviewList);
+    const tempArr = [0, 0, 0, 0, 0];
+    for (const review of data.reviewList) {
+      tempArr[review.rate - 1] += 1;
     }
-  }, [data]);
+    setCountRate(tempArr);
+  }, [data.reviewList]);
 
   useEffect(() => {
-    if (data) {
-      const tempArr = [...data.reviewList];
-      if (tempArr) {
-        if (sortValue === '최신순') {
-          tempArr.sort(
-            (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
-          );
-        } else if (sortValue === '평점 높은순') {
-          tempArr.sort((a, b) => b.rate - a.rate);
-        } else if (sortValue === '평점 낮은순') {
-          tempArr.sort((a, b) => a.rate - b.rate);
-        }
-        setSortedArray(tempArr);
+    const tempArr = [...filteredArray];
+    if (tempArr) {
+      if (sortValue === '최신순') {
+        tempArr.sort(
+          (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
+        );
+      } else if (sortValue === '평점 높은순') {
+        tempArr.sort((a, b) => b.rate - a.rate);
+      } else if (sortValue === '평점 낮은순') {
+        tempArr.sort((a, b) => a.rate - b.rate);
       }
+      setSortedArray(tempArr);
     }
-  }, [sortValue, data]);
+  }, [sortValue, filteredArray, data.reviewList]);
+
+  // useEffect(() => {
+  //   const tempArr = [...filteredArray];
+  //   if (showValue === '전체보기') {
+  //     setFilteredArray([...data.reviewList]);
+  //   } else if (showValue === '포토리뷰') {
+  //     tempArr.filter((item) => item.reviewImageSet.length !== 0);
+  //     setFilteredArray(tempArr);
+  //   }
+  // }, [showValue, data.reviewList, filteredArray]);
+
   return (
     <Box mt="116px" mb="80px">
       <Center>
@@ -159,7 +167,7 @@ const DetailPage = ({ productData }: IProps) => {
         <Flex alignItems="center" mt="10px">
           <RatingStarIcon boxSize="16px" color="primary.500" />
           <Text textStyle="md" fontWeight="700">
-            {data.avgRate}
+            {data.avgRate.toFixed(1)}
           </Text>
           <Text ml="5px" textStyle="md" textColor="gray.600">
             ({data.reviewCount}개 리뷰)
@@ -297,7 +305,7 @@ const DetailPage = ({ productData }: IProps) => {
             </Button>
           </Flex>
         </Flex>
-        <Accordion allowToggle bg="gray.100">
+        <Accordion allowToggle bg="gray.100" ref={info}>
           <AccordionItem>
             <h2>
               <AccordionButton>
@@ -337,6 +345,7 @@ const DetailPage = ({ productData }: IProps) => {
               <Box>
                 <Select
                   size="sm"
+                  instanceId="sortSelect"
                   focusBorderColor="gray.200"
                   isSearchable={false}
                   onChange={(e: any) => setSortValue(e.value)}
@@ -352,6 +361,7 @@ const DetailPage = ({ productData }: IProps) => {
               <Box ml="10px">
                 <Select
                   size="sm"
+                  instanceId="filterSelect"
                   isSearchable={false}
                   focusBorderColor="gray.200"
                   onChange={(e: any) => setShowValue(e.value)}
@@ -368,7 +378,7 @@ const DetailPage = ({ productData }: IProps) => {
           <Flex mt="32px">
             <Flex w="50%" alignItems="center">
               <Tag bg="primary.500" size="md" color="white" borderRadius="15px">
-                {data.avgRate}
+                {data.avgRate.toFixed(1)}
               </Tag>
               {[1, 2, 3, 4, 5].map((rate) => {
                 return (
@@ -432,7 +442,7 @@ const DetailPage = ({ productData }: IProps) => {
                 <Flex justifyContent="space-between">
                   <Box>
                     <Text textStyle="sm" fontWeight="700">
-                      {item.user}
+                      {item.nickname}
                     </Text>
                     <Text mt="2px" textStyle="sm" color="gray.600">
                       {dayjs(item.created).format('YYYY-MM-DD')}
@@ -452,6 +462,11 @@ const DetailPage = ({ productData }: IProps) => {
                   </Flex>
                 </Flex>
                 <Text mt="17px">{item.content}</Text>
+                <Flex mt="10px">
+                  {item.reviewimageSet.map((item: any, idx: number) => {
+                    return <ImagesComponent url={item.url} key={idx} />;
+                  })}
+                </Flex>
               </Box>
             );
           })}

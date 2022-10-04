@@ -49,7 +49,7 @@ const ListPage = ({ productsList }: IProps) => {
             <Flex mt="2" alignItems="center" color="gray.700">
               <StarIcon boxSize="16px" color="primary.500" />
               <Box color="black" fontWeight="700" mr="3px">
-                {item.avgRate}
+                {item.avgRate.toFixed(1)}
               </Box>
               (리뷰 {item.reviewCount}개)
             </Flex>
