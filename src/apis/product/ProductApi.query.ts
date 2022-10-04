@@ -5,8 +5,8 @@ import { QueryHookParams } from '@apis/type';
 import { useQuery } from '@tanstack/react-query';
 
 export const PRODUCT_API_QUERY_KEY = {
-  GET: (param?: ProductParamGetType) => ['product-list', param],
-  GET_BY_ID: (id: string) => ['example-by-id', id],
+  GET: (param?: ProductParamGetType) => ['products-list', param],
+  GET_BY_ID: (id: string) => ['product-by-id', id],
 };
 
 export function useGetProductListQuery(

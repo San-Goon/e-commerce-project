@@ -1,15 +1,29 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+
+import productApi from '@apis/product/ProductApi';
 
 import ListPage from '@components/ListPage';
 import HomeLayout from '@components/common/@Layout/HomeLayout';
 
-const list = () => {
+import { IProductsList } from '@utils/types';
+
+export const getStaticProps: GetStaticProps = async () => {
+  const productsList = await productApi.getProductList();
+  return { props: { productsList } };
+};
+
+interface IProps {
+  productsList: IProductsList;
+}
+
+const list = ({ productsList }: IProps) => {
   return (
     <>
       <Head>
         <title>상품 리스트</title>
       </Head>
-      <HomeLayout content={<ListPage />} />
+      <HomeLayout content={<ListPage productsList={productsList} />} />
     </>
   );
 };
