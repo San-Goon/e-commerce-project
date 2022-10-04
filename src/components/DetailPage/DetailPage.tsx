@@ -5,6 +5,11 @@ import { ChakraStylesConfig, Select } from 'chakra-react-select';
 import dayjs from 'dayjs';
 
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   Center,
@@ -264,6 +269,7 @@ const DetailPage = () => {
               alt={`${data.name} 상세이미지`}
               {...(!showAll && { height: '500px' })}
               w="100%"
+              maxW="600px"
               objectFit="cover"
             />
             <Flex position="absolute" bottom="10px">
@@ -285,18 +291,38 @@ const DetailPage = () => {
               </Button>
             </Flex>
           </Flex>
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-            h="60px"
-            bg="gray.100"
-            px="16px"
-          >
-            <Text textStyle="md" fontWeight="700" ref={info}>
-              주문 및 배송 안내
-            </Text>
-            <ArrowDown />
-          </Flex>
+          <Accordion allowToggle bg="gray.100">
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    flex="1"
+                    textAlign="left"
+                    textStyle="md"
+                    fontWeight="700"
+                  >
+                    주문 및 배송 안내
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb="20px">
+                <Box>
+                  <Text textStyle="md" fontWeight="700">
+                    [주문 및 배송 안내]
+                  </Text>
+                  <Box textStyle="md">
+                    <Text mt="20px">배송방법: 인코스런 택배 </Text>
+                    <Text mt="10px">배송지역: 전국</Text>
+                    <Text mt="10px">
+                      배송비용: 단품 상품 구매 시 3,000원의 배송비 발생 그 외
+                      단품 묶음 구매의 경우 30,000원 이상 구매시 무료 배송
+                    </Text>
+                  </Box>
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
           <Box m="16px" ref={review}>
             <Flex mt="50px" justifyContent="space-between">
               <Text textStyle="md" fontWeight="700">
