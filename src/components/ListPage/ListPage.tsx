@@ -4,6 +4,7 @@ import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
+import { formatPrice } from '@utils/format';
 import { IProductMap, IProductsList, ITags } from '@utils/types';
 
 import { StarIcon } from '../../generated/icons/MyIcons';
@@ -43,7 +44,7 @@ const ListPage = ({ productsList }: IProps) => {
             </Box>
 
             <Box mt="10px" fontWeight="700" textStyle="lg" color="primary.500">
-              {item.price}
+              {formatPrice(item.price)}
               <Box as="span" color="black">
                 원
               </Box>

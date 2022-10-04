@@ -31,6 +31,7 @@ import ImagesComponent from '@components/common/ImagesComponent';
 import ArrowDown from '@icons/System/ArrowDown';
 import ArrowUp from '@icons/System/ArrowUp';
 
+import { formatPrice } from '@utils/format';
 import { IProduct } from '@utils/types';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
@@ -143,7 +144,7 @@ const DetailPage = ({ productData }: IProps) => {
         </Text>
         <Text mt="14px" textStyle="lg">
           <Text as="span" color="primary.500" fontWeight="700">
-            {data.price}
+            {formatPrice(data.price)}
           </Text>
           원
         </Text>
@@ -214,7 +215,7 @@ const DetailPage = ({ productData }: IProps) => {
                     </Box>
                   </Flex>
                   <Text textStyle="md" color="gray.600" fontWeight="700">
-                    {data.price * count}원
+                    {formatPrice(data.price * count)}원
                   </Text>
                 </Flex>
               </Box>
@@ -229,20 +230,19 @@ const DetailPage = ({ productData }: IProps) => {
                 <Text textStyle="md">
                   합계{' '}
                   <Text as="span" fontWeight="700">
-                    {data.price * count}원
+                    {formatPrice(data.price * count)}원
                   </Text>
                 </Text>
               </Flex>
               <Flex justifyContent="space-around" mt="15px" mb="30px">
                 <Button
                   colorScheme="primary"
-                  variant="outline"
                   w="165px"
                   h="50px"
+                  onClick={() => {
+                    router.push('/payment');
+                  }}
                 >
-                  장바구니
-                </Button>
-                <Button colorScheme="primary" w="165px" h="50px">
                   바로구매
                 </Button>
               </Flex>
