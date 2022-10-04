@@ -11,10 +11,7 @@ import {
   Divider,
   Drawer,
   DrawerBody,
-  DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   Flex,
   Image,
@@ -26,6 +23,7 @@ import {
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 
 import ArrowDown from '@icons/System/ArrowDown';
+import ArrowUp from '@icons/System/ArrowUp';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
 import useMoveScroll from '../../hooks/useMoveScroll';
@@ -260,14 +258,31 @@ const DetailPage = () => {
           </Box>
         </Flex>
         <Box>
-          <Flex justifyContent="center" ref={detail} position='relative' h={showAll ? '4000px' :  '500px'} overflow='hidden'>
+          <Flex justifyContent="center" ref={detail} position="relative">
             <Image
               src={`/images/detail/${data.name}.png`}
               alt={`${data.name} 상세이미지`}
-              position='absolute'
+              {...(!showAll && { height: '500px' })}
+              w="100%"
+              objectFit="cover"
             />
-            <Flex position='absolute' bottom='10px'>
-             <Button onClick={() => {setShowAll((prev) => !prev)}}>상세정보 펼쳐보기</Button>
+            <Flex position="absolute" bottom="10px">
+              <Button
+                onClick={() => {
+                  setShowAll((prev) => !prev);
+                }}
+              >
+                {showAll ? (
+                  <>
+                    상세정보 접기 <ArrowUp boxSize="16px" />
+                  </>
+                ) : (
+                  <>
+                    상세정보 펼쳐보기
+                    <ArrowDown boxSize="16px" />
+                  </>
+                )}
+              </Button>
             </Flex>
           </Flex>
           <Flex
