@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
+
 import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
-import { IProductsList } from '@utils/types';
+import { IProductMap, IProductsList, ITags } from '@utils/types';
 
 import { StarIcon } from '../../generated/icons/MyIcons';
 
@@ -11,13 +13,14 @@ interface IProps {
 }
 
 const ListPage = ({ productsList }: IProps) => {
+  const router = useRouter();
   const { data } = useGetProductListQuery({
     options: { initialData: productsList },
   });
 
   return (
     <Center mt="120px" flexDirection="column">
-      {data.results.map((item: any) => (
+      {data.results.map((item: IProductMap) => (
         <Box
           key={item.id}
           m="0 16px 30px 16px"
@@ -54,7 +57,7 @@ const ListPage = ({ productsList }: IProps) => {
               (리뷰 {item.reviewCount}개)
             </Flex>
             <Flex>
-              {item.tags.map((item: any) => {
+              {item.tags.map((item: ITags) => {
                 return (
                   <Box key={item.id} mt="25px" color="gray.700" textStyle="md">
                     #{item.name}&ensp;
@@ -68,8 +71,11 @@ const ListPage = ({ productsList }: IProps) => {
                 h="50px"
                 borderRadius="25px"
                 colorScheme="primary"
+                onClick={() => {
+                  router.push(`/detail/${item.id}`);
+                }}
               >
-                바로구매
+                사러가기
               </Button>
               <Button
                 w="150px"

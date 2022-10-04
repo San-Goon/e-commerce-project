@@ -1,3 +1,8 @@
+export interface ITags {
+  id: number;
+  name: string;
+}
+
 export interface IProductMap {
   id: number;
   name: string;
@@ -5,10 +10,7 @@ export interface IProductMap {
   price: number;
   capacity: number;
   thumbnail: string;
-  tags: Array<{
-    id: number;
-    name: string;
-  }>;
+  tags: Array<ITags>;
   avgRate: number;
   reviewCount: number;
 }
