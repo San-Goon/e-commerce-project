@@ -1,6 +1,6 @@
 import { FormProvider } from 'react-hook-form';
 
-import ModifyPageView from '@components/MyPage/_Fragments/ModifyPage.view';
+import ModifyPageView from '@components/ModifyPage/ModifyPage.view';
 
 import useModifyForm, { defaultValues } from './_hook/useModifyForm';
 
