@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Flex, IconButton, Image } from '@chakra-ui/react';
@@ -18,9 +19,14 @@ interface HomeHeaderProps {
 }
 
 const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const cssByVariant = HOME_HEADER_VARIANTS[variant];
+
+  const onClickCart = () => {
+    router.push('/cart');
+  };
 
   return (
     <>
@@ -45,7 +51,7 @@ const HomeHeader = ({ variant = 'light' }: HomeHeaderProps) => {
           aria-label="btn-toggle-drawer"
         />
         <Logo boxSize="262px" color="primary.500" />
-        <Cart boxSize="24px" />
+        <Cart boxSize="24px" onClick={onClickCart} cursor="pointer" />
       </Flex>
       <HomeHeaderDrawer
         isOpen={isOpen}
