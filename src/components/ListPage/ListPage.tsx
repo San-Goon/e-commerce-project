@@ -32,7 +32,6 @@ const ListPage = ({ productsList }: IProps) => {
           borderRadius="20px"
         >
           <Image src={item.thumbnail} alt={item.name} />
-
           <Box p="30px">
             <Box display="flex" alignItems="baseline">
               <Box fontWeight="700" letterSpacing="wide" fontSize="md">
@@ -76,16 +75,7 @@ const ListPage = ({ productsList }: IProps) => {
                   router.push(`/detail/${item.id}`);
                 }}
               >
-                사러가기
-              </Button>
-              <Button
-                w="150px"
-                h="50px"
-                borderRadius="25px"
-                colorScheme="primary"
-                variant="outline"
-              >
-                장바구니
+                보러가기
               </Button>
             </Flex>
           </Box>

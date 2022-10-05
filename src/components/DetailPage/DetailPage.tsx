@@ -165,11 +165,8 @@ const DetailPage = ({ productData }: IProps) => {
           </Text>
         </Flex>
         <Center mt="20px" flexDirection="column">
-          <Button colorScheme="primary" variant="outline">
-            장바구니
-          </Button>
           <Button colorScheme="primary" mt="10px" onClick={onOpen}>
-            바로구매
+            상품담기
           </Button>
         </Center>
         <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
@@ -239,8 +236,24 @@ const DetailPage = ({ productData }: IProps) => {
                   colorScheme="primary"
                   w="165px"
                   h="50px"
+                  // onClick={() => {
+                  //   router.push({
+                  //     pathname: '/payment',
+                  //     query: { id: id },
+                  //   });
+                  // }}
+                >
+                  장바구니
+                </Button>
+                <Button
+                  colorScheme="primary"
+                  w="165px"
+                  h="50px"
                   onClick={() => {
-                    router.push('/payment');
+                    router.push({
+                      pathname: '/payment',
+                      query: { id: id, count: count },
+                    });
                   }}
                 >
                   바로구매
