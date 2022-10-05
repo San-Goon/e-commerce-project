@@ -3,9 +3,13 @@ import React, { useEffect } from 'react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
 
+import { setToken } from '@utils/localStorage/token';
+
 const Callback = () => {
   const router = useRouter();
   const { data, mutate } = usePostSocialLoginMutation();
+
+  console.log(router.query);
 
   React.useEffect(() => {
     if (router.query.code) {
@@ -18,6 +22,7 @@ const Callback = () => {
 
   useEffect(() => {
     if (data) {
+      setToken(data.data);
       if (data.data.isRegister) {
         router.push('/');
       } else {
