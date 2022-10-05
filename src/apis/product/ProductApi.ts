@@ -12,7 +12,7 @@ export class ProductApi {
   getProductList = async (params?: ProductParamGetType): Promise<any> => {
     const { data } = await this.axios({
       method: 'GET',
-      url: '/v1/product/',
+      url: '/v1/product/?page_size=10',
       params,
     });
     return data;
