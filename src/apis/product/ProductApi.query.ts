@@ -2,7 +2,7 @@ import productApi from '@apis/product/ProductApi';
 import { ProductParamGetType } from '@apis/product/ProductApi.type';
 import { QueryHookParams } from '@apis/type';
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 export const PRODUCT_API_QUERY_KEY = {
   GET: (param?: ProductParamGetType) => ['products-list', param],
@@ -13,9 +13,9 @@ export function useGetProductListQuery(
   params?: QueryHookParams<typeof productApi.getProductList>,
 ) {
   const queryKey = PRODUCT_API_QUERY_KEY.GET(params?.variables);
-  const query = useQuery(
+  const query = useInfiniteQuery(
     queryKey,
-    () => productApi.getProductList(params?.variables),
+    ({ pageParam = undefined }) => productApi.getProductList(pageParam),
     params?.options,
   );
   return { ...query, queryKey };

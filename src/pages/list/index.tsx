@@ -9,21 +9,23 @@ import HomeLayout from '@components/common/@Layout/HomeLayout';
 import { IProductsList } from '@utils/types';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const productsList = await productApi.getProductList();
-  return { props: { productsList } };
+  const initialData = await productApi.getProductList();
+  return {
+    props: { initialData },
+  };
 };
 
 interface IProps {
-  productsList: IProductsList;
+  initialData: IProductsList;
 }
 
-const list = ({ productsList }: IProps) => {
+const list = ({ initialData }: IProps) => {
   return (
     <>
       <Head>
         <title>상품 리스트</title>
       </Head>
-      <HomeLayout content={<ListPage productsList={productsList} />} />
+      <HomeLayout content={<ListPage initialData={initialData} />} />
     </>
   );
 };

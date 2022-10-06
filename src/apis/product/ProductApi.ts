@@ -9,10 +9,12 @@ export class ProductApi {
     if (axios) this.axios = axios;
   }
 
-  getProductList = async (params?: ProductParamGetType): Promise<any> => {
+  getProductList = async (params?: any): Promise<any> => {
     const { data } = await this.axios({
       method: 'GET',
-      url: '/v1/product/?page_size=10',
+      url: params
+        ? `/v1/product/?cursor=${params}&page_size=10`
+        : '/v1/product/?page_size=10',
       params,
     });
     return data;

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 
@@ -12,14 +13,40 @@ import { IProductMap, IProductsList, ITags } from '@utils/types';
 import { StarIcon } from '../../generated/icons/MyIcons';
 
 interface IProps {
-  productsList: IProductsList;
+  initialData: IProductsList;
 }
 
-const ListPage = ({ productsList }: IProps) => {
+const ListPage = ({ initialData }: IProps) => {
   const router = useRouter();
-  const { data } = useGetProductListQuery({
-    options: { initialData: productsList },
+  const [ref, isView] = useInView();
+
+  const { data, fetchNextPage, hasNextPage } = useGetProductListQuery({
+    options: {
+      initialData: () => ({
+        pages: [initialData],
+        pageParams: [...new Array(1)],
+      }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.cursor ? lastPage.cursor : undefined;
+      },
+      onSuccess: (data) =>
+        setProductList(
+          data?.pages
+            .map((page: IProductsList) => page.results)
+            .reduce((acc: IProductMap[], cur: IProductMap[]) => {
+              return acc.concat(cur);
+            }),
+        ),
+    },
   });
+
+  const [productList, setProductList] = useState(
+    data?.pages
+      .map((page) => page.results)
+      .reduce(function (acc, cur) {
+        return acc.concat(cur);
+      }),
+  );
 
   useEffect(() => {
     const token = getToken();
@@ -29,9 +56,15 @@ const ListPage = ({ productsList }: IProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isView, hasNextPage, fetchNextPage]);
+
   return (
     <Center mt="120px" flexDirection="column">
-      {data.results.map((item: IProductMap) => (
+      {productList.map((item: IProductMap) => (
         <Box
           key={item.id}
           m="0 16px 30px 16px"
@@ -91,6 +124,7 @@ const ListPage = ({ productsList }: IProps) => {
           </Box>
         </Box>
       ))}
+      <Box ref={ref}></Box>
     </Center>
   );
 };
