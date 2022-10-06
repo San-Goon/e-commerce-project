@@ -6,7 +6,7 @@ import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
-import { formatPrice } from '@utils/format';
+import { formatAvgRate, formatPrice } from '@utils/format';
 import { getToken } from '@utils/localStorage/token';
 import { IProductMap, IProductsList, ITags } from '@utils/types';
 
@@ -95,7 +95,7 @@ const ListPage = ({ initialData }: IProps) => {
             <Flex mt="2" alignItems="center" color="gray.700">
               <StarIcon boxSize="16px" color="primary.500" />
               <Box color="black" fontWeight="700" mr="3px">
-                {item.avgRate ? item.avgRate.toFixed(1) : 0}
+                {formatAvgRate(item.avgRate)}
               </Box>
               (리뷰 {item.reviewCount}개)
             </Flex>

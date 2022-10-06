@@ -113,3 +113,7 @@ export const formatExamTime = (SECONDS: number) => {
 export const formatPrice = (price: number) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export const formatAvgRate = (rate: number | null) => {
+  return rate ? rate.toFixed(1) : 0;
+};

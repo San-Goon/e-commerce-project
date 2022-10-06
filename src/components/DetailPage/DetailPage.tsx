@@ -31,12 +31,12 @@ import ImagesComponent from '@components/common/ImagesComponent';
 import ArrowDown from '@icons/System/ArrowDown';
 import ArrowUp from '@icons/System/ArrowUp';
 
-import { formatPrice } from '@utils/format';
+import { formatAvgRate, formatPrice } from '@utils/format';
+import { getToken } from '@utils/localStorage/token';
 import { IProduct } from '@utils/types';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
 import useMoveScroll from '../../hooks/useMoveScroll';
-import {getToken} from "@utils/localStorage/token";
 
 const chakraSelectStyle: ChakraStylesConfig = {
   dropdownIndicator: (provided) => ({
@@ -166,7 +166,7 @@ const DetailPage = ({ productData }: IProps) => {
         <Flex alignItems="center" mt="10px">
           <RatingStarIcon boxSize="16px" color="primary.500" />
           <Text textStyle="md" fontWeight="700">
-            {data.avgRate.toFixed(1)}
+            {formatAvgRate(data.avgRate)}
           </Text>
           <Text ml="5px" textStyle="md" textColor="gray.600">
             ({data.reviewCount}개 리뷰)
@@ -389,7 +389,7 @@ const DetailPage = ({ productData }: IProps) => {
           <Flex mt="32px">
             <Flex w="50%" alignItems="center">
               <Tag bg="primary.500" size="md" color="white" borderRadius="15px">
-                {data.avgRate.toFixed(1)}
+                {formatAvgRate(data.avgRate)}
               </Tag>
               {[1, 2, 3, 4, 5].map((rate) => {
                 return (
@@ -397,7 +397,11 @@ const DetailPage = ({ productData }: IProps) => {
                     key={rate}
                     mx="3px"
                     boxSize="10px"
-                    color={rate <= data.avgRate ? 'primary.500' : 'gray.400'}
+                    color={
+                      rate <= formatAvgRate(data.avgRate)
+                        ? 'primary.500'
+                        : 'gray.400'
+                    }
                   />
                 );
               })}
