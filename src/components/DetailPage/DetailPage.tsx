@@ -118,7 +118,7 @@ const DetailPage = ({ productData }: IProps) => {
   }, [data.reviewList]);
 
   useEffect(() => {
-    const tempArr = [...data.reviewList];
+    let tempArr = [...data.reviewList];
     if (sortValue === '최신순') {
       tempArr.sort(
         (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
@@ -129,7 +129,7 @@ const DetailPage = ({ productData }: IProps) => {
       tempArr.sort((a, b) => a.rate - b.rate);
     }
     if (showValue === '포토리뷰') {
-      tempArr.filter((item) => item.reviewimageSet.length !== 0);
+      tempArr = tempArr.filter((item) => item.reviewimageSet.length !== 0);
     }
     setSortedArray(tempArr);
   }, [sortValue, showValue, data.reviewList]);

@@ -5,7 +5,7 @@ import productApi from '@apis/product/ProductApi';
 import DetailPage from '@components/DetailPage';
 import HomeLayout from '@components/common/@Layout/HomeLayout';
 
-import { IProduct, IProductMap } from '@utils/types';
+import { IProduct } from '@utils/types';
 
 export async function getStaticPaths() {
   const productsList = await productApi.getProductList();

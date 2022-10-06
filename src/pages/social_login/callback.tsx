@@ -8,6 +8,7 @@ import { setToken } from '@utils/localStorage/token';
 const Callback = () => {
   const router = useRouter();
   const { data, mutate } = usePostSocialLoginMutation();
+  console.log(data);
 
   console.log(router.query);
 
