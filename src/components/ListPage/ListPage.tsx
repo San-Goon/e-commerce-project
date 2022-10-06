@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
 import { formatPrice } from '@utils/format';
+import { getToken } from '@utils/localStorage/token';
 import { IProductMap, IProductsList, ITags } from '@utils/types';
 
 import { StarIcon } from '../../generated/icons/MyIcons';
@@ -18,6 +20,14 @@ const ListPage = ({ productsList }: IProps) => {
   const { data } = useGetProductListQuery({
     options: { initialData: productsList },
   });
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      alert('로그인 후 이용해주세요.');
+      router.push('/login');
+    }
+  }, []);
 
   return (
     <Center mt="120px" flexDirection="column">

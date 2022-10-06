@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 
 import { CONFIG } from '@config';
 
@@ -8,6 +9,7 @@ import SocialButton, { SocialType } from '@components/common/SocialButton';
 import Logo from '@icons/System/Logo';
 
 import { SOCIAL } from '@constants/social';
+import { getToken } from '@utils/localStorage/token';
 
 const SOCIAL_REDIRECT_URL = `${CONFIG.REDIRECT_DOMAIN}`;
 

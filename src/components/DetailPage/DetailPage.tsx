@@ -36,6 +36,7 @@ import { IProduct } from '@utils/types';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
 import useMoveScroll from '../../hooks/useMoveScroll';
+import {getToken} from "@utils/localStorage/token";
 
 const chakraSelectStyle: ChakraStylesConfig = {
   dropdownIndicator: (provided) => ({
@@ -81,6 +82,13 @@ interface IProps {
 
 const DetailPage = ({ productData }: IProps) => {
   const router = useRouter();
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      alert('로그인 후 이용해주세요.');
+      router.push('/login');
+    }
+  }, []);
   const { id }: any = router.query;
   const { data } = useGetProductByIdQuery({
     variables: id,

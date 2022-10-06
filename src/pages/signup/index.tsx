@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import React from 'react';
 
+import { useGetMeQuery } from '@apis/user/UserApi.query';
+
 import SignUpPage from '@components/SignUpPage';
 
 function SignUp() {
