@@ -9,9 +9,10 @@ import { IProduct, IProductMap } from '@utils/types';
 
 export async function getStaticPaths() {
   const productsList = await productApi.getProductList();
-  const paths = productsList.results.map((product: IProductMap) => ({
-    params: { id: `${product.id}` },
-  }));
+  const paths = [];
+  for (let i = 0; i < productsList.results[0].id; i++) {
+    paths.push({ params: { id: `${i}` } });
+  }
   return { paths, fallback: false };
 }
 
