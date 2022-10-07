@@ -1,48 +1,21 @@
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { Box, BoxProps, Button, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
-
-import { FormDataType } from '@components/SignUpPage/_hook/useSignUpForm';
-import InfoForm from '@components/common/InfoForm';
 import Check from '@icons/System/Check';
 import CircledCheck from '@icons/System/CircledCheck';
 
-interface FormPageProps extends BoxProps {
-  formData: UseFormReturn<FormDataType>;
-}
-
-function SignUpPageView({ formData }: FormPageProps) {
-  const router = useRouter();
-  const { formState, handleSubmit, setValue, getValues, watch } = formData;
-  watch(['serviceAgree', 'PIAgree', 'marketingAdAgree']);
-  const { mutate } = usePostRegisterMutation();
-  const onSubmit = handleSubmit(
-    ({ name, nickname, gender, phone, email, age, marketingAdAgree }) => {
-      console.log(name, nickname, gender, phone, email, age);
-      mutate({
-        name,
-        nickname,
-        gender,
-        phone,
-        email,
-        age,
-        profile: 'http://naver.com',
-        socialToken: router.query.token,
-        marketingAdAgree,
-      });
-    },
-  );
-  const [agreeAll, setAgreeAll] = useState(false);
+const SignUpAgreeChecks = () => {
+  const { formState, control, getValues, setValue } = useFormContext();
 
   const [serviceAgree, PIAgree, marketingAdAgree] = getValues([
     'serviceAgree',
     'PIAgree',
     'marketingAdAgree',
   ]);
+
+  const [agreeAll, setAgreeAll] = useState(false);
 
   const onClickAll = React.useCallback(() => {
     if (agreeAll) {
@@ -70,21 +43,15 @@ function SignUpPageView({ formData }: FormPageProps) {
     setValue('marketingAdAgree', !getValues('marketingAdAgree'));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (serviceAgree && PIAgree && marketingAdAgree) {
       setAgreeAll(true);
     } else {
       setAgreeAll(false);
     }
   }, [serviceAgree, PIAgree, marketingAdAgree]);
-
   return (
-    <Box as="form" m="16px" onSubmit={onSubmit}>
-      <Image mt="16px" src="/images/signup/logo.png" />
-      <Text fontWeight="700" fontSize="xl" mt="41px" mb="60px">
-        회원가입
-      </Text>
-      <InfoForm />
+    <>
       <Text fontWeight="700" fontSize="md" mt="80px" mb="40px">
         이용약관동의
       </Text>
@@ -161,14 +128,8 @@ function SignUpPageView({ formData }: FormPageProps) {
           </Text>
         )}
       </Box>
-
-      <Flex justifyContent="center" alignItems="center" mt="80px">
-        <Button colorScheme="primary" type="submit">
-          회원가입완료
-        </Button>
-      </Flex>
-    </Box>
+    </>
   );
-}
+};
 
-export default SignUpPageView;
+export default SignUpAgreeChecks;

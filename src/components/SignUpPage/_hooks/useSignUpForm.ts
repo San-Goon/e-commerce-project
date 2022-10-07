@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export type FormDataType = {
+  profile: string;
   name: string;
   nickname: string;
   email: string;
@@ -17,6 +18,7 @@ export type FormDataType = {
 };
 
 export const defaultValues = {
+  profile: '',
   name: '',
   nickname: '',
   email: '',
@@ -41,6 +43,7 @@ export const defaultValues = {
  * */
 
 export const signUpFormSchema = yup.object().shape({
+  profile: yup.string().required('필수!'),
   name: yup.string().min(2, '최소 2자 이상 입력해주세요.'),
   nickname: yup
     .string()
