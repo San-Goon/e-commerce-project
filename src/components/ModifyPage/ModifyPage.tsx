@@ -20,12 +20,16 @@ const ModifyPage = () => {
       alert('로그인 후 이용해주세요.');
       router.push('/login');
     }
+    if (!router.query.id) {
+      alert('비정상적인 접근입니다.');
+      router.back();
+    }
   }, []);
 
   return (
     <FormProvider {...formData}>
       <Box m="16px">
-        <InfoForm />
+        <InfoForm data={router.query} />
         <ModifyButtons />
       </Box>
     </FormProvider>

@@ -27,23 +27,22 @@ const MyPageComponent = () => {
       },
     },
   });
-  console.log(data);
   const router = useRouter();
   const onClickLogout = () => {
     deleteToken();
     router.push('/login');
   };
   const onClickWithdraw = () => {
-    router.push('/withdraw');
+    router.push({ pathname: '/withdraw', query: data.data.id });
   };
   const onClickModify = () => {
-    router.push('/modify');
+    router.push({ pathname: '/modify', query: data.data });
   };
   const onClickMyReview = () => {
-    router.push('/myreview');
+    router.push({ pathname: '/myreview', query: data.data.id });
   };
   const onClickHistory = () => {
-    router.push('/history');
+    router.push({ pathname: '/history', query: data.data.id });
   };
   useEffect(() => {
     const token = getToken();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Box, Flex, Select, Text } from '@chakra-ui/react';
@@ -8,8 +8,24 @@ import Input from '@components/common/Input';
 import FilledPlus from '@icons/System/FilledPlus';
 import ProfileIcon from '@icons/System/Profile';
 
-const InfoForm = () => {
-  const { formState, control } = useFormContext();
+import Dict = NodeJS.Dict;
+
+interface IProps {
+  data?: Dict<string | string[]>;
+}
+
+const InfoForm = ({ data }: IProps) => {
+  const { formState, control, setValue } = useFormContext();
+  useEffect(() => {
+    if (data) {
+      setValue('name', data.name);
+      setValue('nickname', data.nickname);
+      setValue('phone', data.phone);
+      setValue('email', data.email);
+      setValue('age', data.age);
+      setValue('gender', data.gender);
+    }
+  }, []);
   return (
     <>
       <FormHelper mb="40px" label="회원정보입력">
