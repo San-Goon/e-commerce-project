@@ -17,6 +17,15 @@ export class UserApi {
     return data;
   };
 
+  patchMe = async (body: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: '/v1/user/me/',
+      data: body,
+    });
+    return data;
+  };
+
   postRefreshToken = async (body: any): Promise<any> => {
     const data = await this.axios({
       method: 'POST',
