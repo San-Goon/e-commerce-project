@@ -38,3 +38,15 @@ export interface IProduct {
   avgRate: number;
   reviewCount: number;
 }
+
+export interface IMe {
+  address?: string;
+  age: number;
+  email: string;
+  gender: string;
+  id: number;
+  name: string;
+  nickname: string;
+  phone: string;
+  profile: string;
+}

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 
@@ -8,11 +8,26 @@ import { useGetMeQuery } from '@apis/user/UserApi.query';
 import ArrowRight from '@icons/System/ArrowRight';
 
 import { deleteToken, getToken } from '@utils/localStorage/token';
+import { IMe } from '@utils/types';
 
 import { BookIcon, BoxIcon, InfoIcon } from '../../generated/icons/MyIcons';
 
+interface IData {
+  data: IMe;
+}
+
 const MyPageComponent = () => {
-  const data = useGetMeQuery();
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const { data } = useGetMeQuery({
+    options: {
+      onSuccess: ({ data }) => {
+        setNickname(data.nickname);
+        setEmail(data.email);
+      },
+    },
+  });
+  console.log(data);
   const router = useRouter();
   const onClickLogout = () => {
     deleteToken();
@@ -40,10 +55,10 @@ const MyPageComponent = () => {
   return (
     <Box mt="150px">
       <Text mx="16px" textStyle="lg" fontWeight="700">
-        인코스런
+        {nickname}
       </Text>
       <Text mx="16px" mb="30px" textStyle="md" color="gray.400">
-        @naver.com
+        {email}
       </Text>
       <Flex h="10px" backgroundColor="gray.100" />
       <Center
