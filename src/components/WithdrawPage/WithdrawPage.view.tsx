@@ -15,9 +15,11 @@ import {
 
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
+import {useRouter} from "next/router";
 
 const WithdrawPageView = ({ onSubmit }: any) => {
   const { formState, control } = useFormContext();
+  const { query } = useRouter();
 
   return (
     <Box mt="130px">
@@ -41,10 +43,10 @@ const WithdrawPageView = ({ onSubmit }: any) => {
         </Box>
         <Box ml="24px" textColor="gray.700">
           <Text mt="15px" mb="10px">
-            조강훈
+            {query.name}
           </Text>
-          <Text mb="10px">010-6611-2574</Text>
-          <Text>tigerlove95@naver.com</Text>
+          <Text mb="10px">{query.phone}</Text>
+          <Text>{query.email}</Text>
         </Box>
       </Flex>
       <Box w="100vw" h="10px" backgroundColor="gray.100" />

@@ -33,7 +33,7 @@ const MyPageComponent = () => {
     router.push('/login');
   };
   const onClickWithdraw = () => {
-    router.push({ pathname: '/withdraw', query: data.data.id });
+    router.push({ pathname: '/withdraw', query: data.data });
   };
   const onClickModify = () => {
     router.push({ pathname: '/modify', query: data.data });
