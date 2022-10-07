@@ -26,6 +26,13 @@ export class UserApi {
     return data;
   };
 
+  deleteMe = async (id: string): Promise<any> => {
+    await this.axios({
+      method: 'DELETE',
+      url: `/v1/user/withdrawal/${id}/`,
+    });
+  };
+
   postRefreshToken = async (body: any): Promise<any> => {
     const data = await this.axios({
       method: 'POST',
@@ -48,6 +55,15 @@ export class UserApi {
     const data = await this.axios({
       method: 'POST',
       url: '/v1/user/register/',
+      data: body,
+    });
+    return data;
+  };
+
+  postWithdrawReason = async (body: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'POST',
+      url: '/v1/user/withdrawal/reason/',
       data: body,
     });
     return data;

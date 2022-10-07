@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-const WithdrawModal = ({ isOpen, onClose }: ModalProps) => {
+const WithdrawModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />

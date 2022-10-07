@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 export const USER_API_MUTATION_KEY = {
   POST: (param?: any) => ['user-post', param],
   PATCH: (param?: any) => ['user-patch', param],
+  DELETE: (id: string) => ['user-delete', id],
 };
 
 export const usePostRefreshTokenMutation = (params?: any) => {
@@ -19,6 +20,12 @@ export const usePatchMeMutation = (params?: any) => {
   });
 };
 
+export const useDeleteMeMutation = (params?: any) => {
+  return useMutation(userApi.deleteMe, {
+    ...params?.options,
+  });
+};
+
 export const usePostSocialLoginMutation = (params?: any) => {
   return useMutation(userApi.postSocialLogin, {
     ...params?.options,
@@ -26,6 +33,12 @@ export const usePostSocialLoginMutation = (params?: any) => {
 };
 export const usePostRegisterMutation = (params?: any) => {
   return useMutation(userApi.postRegister, {
+    ...params?.options,
+  });
+};
+
+export const usePostWithdrawReasonMutation = (params?: any) => {
+  return useMutation(userApi.postWithdrawReason, {
     ...params?.options,
   });
 };

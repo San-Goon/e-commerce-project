@@ -1,3 +1,3 @@
-import WithdrawPage from "./WithdrawPage";
+import WithdrawPage from './WithdrawPage';
 
 export default WithdrawPage;

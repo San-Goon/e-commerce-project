@@ -7,19 +7,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export type FormDataType = {
   reason: string;
   typo: string;
-  etcReason: string;
+  additionalReason: string;
 };
 
 export const defaultValues: FormDataType = {
   reason: '',
   typo: '',
-  etcReason: '',
+  additionalReason: '',
 };
 
 export const withdrawFormSchema = yup.object().shape({
   reason: yup.string(),
   typo: yup.string().oneOf(['인코스런']),
-  etcReason: yup
+  additionalReason: yup
     .string()
     .nullable()
     .transform((o, c) => (o === '' ? null : c))
