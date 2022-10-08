@@ -1,32 +1,20 @@
-import { AxiosInstance } from 'axios';
+import cartApi from '@apis/cart/CartApi';
+import { QueryHookParams } from '@apis/type';
 
-import instance from '@apis/_axios/instance';
-import { ProductParamGetType } from '@apis/product/ProductApi.type';
+import { useQuery } from '@tanstack/react-query';
 
-export class ProductApi {
-	axios: AxiosInstance = instance;
-	constructor(axios?: AxiosInstance) {
-		if (axios) this.axios = axios;
-	}
+export const CART_API_QUERY_KEY = {
+  GET: (param?: any) => ['get-cart', param],
+};
 
-	getProductList = async (params?: ProductParamGetType): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: '/v1/product/',
-			params,
-		});
-		return data;
-	};
-
-	getProductById = async (id: string): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: `/v1/product/${id}/`,
-		});
-		return data;
-	};
+export function useGetCartQuery(
+  params?: QueryHookParams<typeof cartApi.getCart>,
+) {
+  const queryKey = CART_API_QUERY_KEY.GET(params?.variables);
+  const query = useQuery(
+    queryKey,
+    () => cartApi.getCart(params?.variables),
+    params?.options,
+  );
+  return { ...query, queryKey };
 }
-
-const productApi = new ProductApi();
-
-export default productApi;

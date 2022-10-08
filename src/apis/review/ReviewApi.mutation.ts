@@ -1,32 +1,16 @@
-import { AxiosInstance } from 'axios';
+import reviewApi from '@apis/review/ReviewApi';
+import { MutationHookParams } from '@apis/type';
 
-import instance from '@apis/_axios/instance';
-import { ProductParamGetType } from '@apis/product/ProductApi.type';
+import { useMutation } from '@tanstack/react-query';
 
-export class ProductApi {
-	axios: AxiosInstance = instance;
-	constructor(axios?: AxiosInstance) {
-		if (axios) this.axios = axios;
-	}
+export const REVIEW_API_MUTATION_KEY = {
+  POST: (param?: any) => ['post-review', param],
+};
 
-	getProductList = async (params?: ProductParamGetType): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: '/v1/product/',
-			params,
-		});
-		return data;
-	};
-
-	getProductById = async (id: string): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: `/v1/product/${id}/`,
-		});
-		return data;
-	};
-}
-
-const productApi = new ProductApi();
-
-export default productApi;
+export const usePostReviewMutation = (
+  params?: MutationHookParams<typeof reviewApi.postReview>,
+) => {
+  return useMutation(reviewApi.postReview, {
+    ...params?.options,
+  });
+};

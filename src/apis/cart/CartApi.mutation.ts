@@ -1,32 +1,24 @@
-import { AxiosInstance } from 'axios';
+import cartApi from '@apis/cart/CartApi';
+import { MutationHookParams } from '@apis/type';
 
-import instance from '@apis/_axios/instance';
-import { ProductParamGetType } from '@apis/product/ProductApi.type';
+import { useMutation } from '@tanstack/react-query';
 
-export class ProductApi {
-	axios: AxiosInstance = instance;
-	constructor(axios?: AxiosInstance) {
-		if (axios) this.axios = axios;
-	}
+export const CART_API_MUTATION_KEY = {
+  POST: (param?: any) => ['post-cart-item', param],
+};
 
-	getProductList = async (params?: ProductParamGetType): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: '/v1/product/',
-			params,
-		});
-		return data;
-	};
+export const usePostCartMutation = (
+  params?: MutationHookParams<typeof cartApi.postCart>,
+) => {
+  return useMutation(cartApi.postCart, {
+    ...params?.options,
+  });
+};
 
-	getProductById = async (id: string): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: `/v1/product/${id}/`,
-		});
-		return data;
-	};
-}
-
-const productApi = new ProductApi();
-
-export default productApi;
+export const usePostCartItemMutation = (
+  params?: MutationHookParams<typeof cartApi.postCartItem>,
+) => {
+  return useMutation(cartApi.postCartItem, {
+    ...params?.options,
+  });
+};

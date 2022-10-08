@@ -1,32 +1,40 @@
 import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
-import { ProductParamGetType } from '@apis/product/ProductApi.type';
 
-export class ProductApi {
-	axios: AxiosInstance = instance;
-	constructor(axios?: AxiosInstance) {
-		if (axios) this.axios = axios;
-	}
+export class CartApi {
+  axios: AxiosInstance = instance;
+  constructor(axios?: AxiosInstance) {
+    if (axios) this.axios = axios;
+  }
 
-	getProductList = async (params?: ProductParamGetType): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: '/v1/product/',
-			params,
-		});
-		return data;
-	};
+  getCart = async (id: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `v1/cart/?user_id=${id}`,
+    });
+    return data;
+  };
 
-	getProductById = async (id: string): Promise<any> => {
-		const { data } = await this.axios({
-			method: 'GET',
-			url: `/v1/product/${id}/`,
-		});
-		return data;
-	};
+  postCart = async (body: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'POST',
+      url: '/v1/cart/',
+      data: body,
+    });
+    return data;
+  };
+
+  postCartItem = async (body: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'POST',
+      url: '/v1/cart/item/',
+      data: body,
+    });
+    return data;
+  };
 }
 
-const productApi = new ProductApi();
+const cartApi = new CartApi();
 
-export default productApi;
+export default cartApi;
