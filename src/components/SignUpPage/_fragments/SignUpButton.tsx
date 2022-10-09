@@ -38,20 +38,27 @@ const SignUpButton = () => {
     return false;
   }, [formState, data]);
 
-  const onSubmit: SubmitHandler<FormDataType> = (data) => {
-    onOpen();
-    console.log(data);
-    // mutate({
-    //   name,
-    //   nickname,
-    //   gender,
-    //   phone,
-    //   email,
-    //   age,
-    //   profile: 'http://naver.com',
-    //   socialToken: router.query.token,
-    //   marketingAdAgree,
-    // });
+  const onSubmit: SubmitHandler<FormDataType> = ({
+    email,
+    phone,
+    name,
+    nickname,
+    profile,
+    gender,
+    age,
+    marketingAdAgree,
+  }) => {
+    mutate({
+      email,
+      phone,
+      name,
+      nickname,
+      profile,
+      gender,
+      age,
+      marketingAdAgree,
+      socialToken: router.query.token,
+    });
   };
 
   return (

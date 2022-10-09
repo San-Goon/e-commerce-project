@@ -11,20 +11,18 @@ export type FormDataType = {
   email: string;
   phone: string;
   gender?: string;
-  age?: string;
+  age?: number;
   serviceAgree: boolean;
   PIAgree: boolean;
   marketingAdAgree: boolean;
 };
 
 export const defaultValues = {
-  profile: '',
+  profile: 'https://www.naver.com',
   name: '',
   nickname: '',
   email: '',
   phone: '',
-  gender: '',
-  age: '',
   serviceAgree: false,
   PIAgree: false,
   marketingAdAgree: false,
@@ -66,8 +64,8 @@ export const signUpFormSchema = yup.object().shape({
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
       '이메일 주소를 정확하게 입력해주세요.',
     ),
-  gender: yup.string(),
-  age: yup.string(),
+  gender: yup.string().nullable(),
+  age: yup.number().nullable(),
   serviceAgree: yup.boolean().oneOf([true], 'Field must be checked'),
   PIAgree: yup.boolean().oneOf([true], 'Field must be checked'),
   marketingAdAgree: yup.boolean(),
