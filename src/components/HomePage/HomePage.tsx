@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import { Box, BoxProps } from '@chakra-ui/react';
+import { Box, BoxProps, Flex } from '@chakra-ui/react';
 
 import { getToken } from '@utils/localStorage/token';
 
@@ -25,7 +25,7 @@ function HomePageContent({ ...basisProps }: HomePageContentProps) {
     }
   }, []);
   return (
-    <Box {...basisProps}>
+    <Box maxW="600px" m="auto">
       <Section1 />
       <Section2 />
       <Section3 />
