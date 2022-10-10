@@ -25,7 +25,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import cartApi from '@apis/cart/CartApi';
+import {
+  usePostCartItemMutation,
+  usePostCartMutation,
+} from '@apis/cart/CartApi.mutation';
+import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
+import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import ImagesComponent from '@components/common/ImagesComponent';
 import ArrowDown from '@icons/System/ArrowDown';
@@ -81,6 +88,33 @@ interface IProps {
 }
 
 const DetailPage = ({ productData }: IProps) => {
+  const { mutate: cartMutate } = usePostCartItemMutation();
+  const { mutate: postCartIdMutate, data: MutateData } = usePostCartMutation();
+  const [cartId, setCartId] = useState('');
+  useGetMeQuery({
+    options: {
+      onSuccess: async ({ data }) => {
+        try {
+          const myCart = await cartApi.getCart(data.id.toString());
+          if (myCart.length === 0) {
+            try {
+              const postCart = await cartApi.postCart({
+                userId: data.id.toString(),
+              });
+              console.log('postCart', postCart);
+            } catch (error) {
+              console.error('장바구니를 불러오는데 실패했습니다.', error);
+            }
+          } else {
+            setCartId(myCart[0].id);
+          }
+        } catch (error) {
+          console.error('장바구니를 불러오는데 실패했습니다.', error);
+        }
+      },
+    },
+  });
+
   const router = useRouter();
   useEffect(() => {
     const token = getToken();
@@ -116,6 +150,8 @@ const DetailPage = ({ productData }: IProps) => {
     }
     setCountRate(tempArr);
   }, [data.reviewList]);
+
+  console.log('data:', data);
 
   useEffect(() => {
     let tempArr = [...data.reviewList];
@@ -244,12 +280,9 @@ const DetailPage = ({ productData }: IProps) => {
                   colorScheme="primary"
                   w="165px"
                   h="50px"
-                  // onClick={() => {
-                  //   router.push({
-                  //     pathname: '/payment',
-                  //     query: { id: id },
-                  //   });
-                  // }}
+                  onClick={() => {
+                    cartMutate({ productId: data.id, cartId, count });
+                  }}
                 >
                   장바구니
                 </Button>

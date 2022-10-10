@@ -6,6 +6,7 @@ import DetailPage from '@components/DetailPage';
 import HomeLayout from '@components/common/@Layout/HomeLayout';
 
 import { IProduct } from '@utils/types';
+import userApi from "@apis/user/UserApi";
 
 export async function getStaticPaths() {
   const productsList = await productApi.getProductList();

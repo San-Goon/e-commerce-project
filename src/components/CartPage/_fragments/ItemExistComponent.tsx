@@ -3,8 +3,10 @@ import React from 'react';
 import { Box, Button, Center, Divider, Flex, Text } from '@chakra-ui/react';
 
 import CheckBox from '@components/common/CheckBox';
+import ShowItemComponent from "@components/CartPage/_fragments/ShowItemComponent";
 
-const ItemExistComponent = () => {
+const ItemExistComponent = ({ items }: any) => {
+  console.log(items);
   return (
     <>
       <Flex
@@ -19,7 +21,9 @@ const ItemExistComponent = () => {
         <Text>선택삭제</Text>
       </Flex>
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
-      <Text>여기에 데이터 넣어주세요.</Text>
+      {items.map((item: any) => {
+        return <ShowItemComponent item={item} key={item.id} />;
+      })}
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
       <Flex
         mx="16px"

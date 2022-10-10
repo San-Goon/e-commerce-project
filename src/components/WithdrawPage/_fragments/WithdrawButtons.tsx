@@ -44,7 +44,6 @@ const WithdrawButtons = () => {
   }, []);
 
   const onSubmit: SubmitHandler<FormDataType> = (data) => {
-    console.log(data);
     mutatePostReason(data);
   };
   return (

@@ -33,6 +33,23 @@ export class CartApi {
     });
     return data;
   };
+
+  patchCartItem = async (req: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: `/v1/cart/item/${req.id}/`,
+      data: req.count,
+    });
+    return data;
+  };
+
+  deleteCartItem = async (id: any): Promise<any> => {
+    const { data } = await this.axios({
+      method: 'DELETE',
+      url: `/v1/cart/item/${id}/`,
+    });
+    return data;
+  };
 }
 
 const cartApi = new CartApi();

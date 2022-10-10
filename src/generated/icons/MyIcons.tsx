@@ -136,3 +136,22 @@ export const CloserCircleIcon = ({ ...props }) => {
     </Icon>
   );
 };
+
+export const XIcon = ({ ...props }) => {
+  return (
+    <Icon viewBox="0 0 20 20" fill="none" {...props}>
+      <path
+        d="M5 5L14.4314 14.4314"
+        stroke="#1A1A1A"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14.4307 5L4.99927 14.4314"
+        stroke="#1A1A1A"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </Icon>
+  );
+};
