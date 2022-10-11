@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Center, Divider, Flex, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Checkbox,
+  Divider,
+  Flex,
+  Text,
+} from '@chakra-ui/react';
+
+import { useDeleteCartItemMutation } from '@apis/cart/CartApi.mutation';
 
 import ShowItemComponent from '@components/CartPage/_fragments/ShowItemComponent';
-import CheckBox from '@components/common/CheckBox';
 
 import { formatPrice } from '@utils/format';
 import { CartItem } from '@utils/types';
@@ -13,7 +22,35 @@ interface IProps {
 }
 
 const ItemExistComponent = ({ items }: IProps) => {
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [priceList, setPriceList] = useState<number[]>(
+    Array(items.length).fill(0),
+  );
+  const [checked, setChecked] = useState<number[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const { mutate: deleteMutate } = useDeleteCartItemMutation();
+
+  useEffect(() => {
+    setTotalPrice(priceList.reduce((a, b) => a + b));
+  }, [priceList]);
+
+  const allChecked = checked.length === items.length;
+  const onChangeCheckAll = () => {
+    if (allChecked) {
+      setChecked([]);
+    } else {
+      const tempArr = [];
+      for (const item of items) {
+        tempArr.push(item.id);
+      }
+      setChecked(tempArr);
+    }
+  };
+  const onClickDelete = () => {
+    for (const id of checked) {
+      deleteMutate(id);
+    }
+  };
+
   return (
     <>
       <Flex
@@ -24,20 +61,34 @@ const ItemExistComponent = ({ items }: IProps) => {
         textColor="gray.600"
         textStyle="md"
       >
-        <CheckBox checked={false}>모두 선택</CheckBox>
-        <Text>선택삭제</Text>
+        <Checkbox
+          colorScheme="primary"
+          isChecked={allChecked}
+          onChange={onChangeCheckAll}
+        >
+          모두 선택
+        </Checkbox>
+        <Text cursor="pointer" onClick={onClickDelete}>
+          선택삭제
+        </Text>
       </Flex>
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
-      {items.map((item) => {
+      {items.map((item, index) => {
         return (
-          <ShowItemComponent
-            item={item}
-            key={item.id}
-            setTotalPrice={setTotalPrice}
-          />
+          <React.Fragment key={item.id}>
+            <ShowItemComponent
+              item={item}
+              index={index}
+              priceList={priceList}
+              setPriceList={setPriceList}
+              checked={checked}
+              setChecked={setChecked}
+              deleteMutate={deleteMutate}
+            />
+            <Box w="100vw" h="10px" backgroundColor="gray.100" />
+          </React.Fragment>
         );
       })}
-      <Box w="100vw" h="10px" backgroundColor="gray.100" />
       <Flex
         mx="16px"
         mt="20px"

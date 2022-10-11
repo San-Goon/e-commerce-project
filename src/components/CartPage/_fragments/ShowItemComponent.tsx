@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Box, Checkbox, Flex, Image, Text } from '@chakra-ui/react';
 
-import {
-  useDeleteCartItemMutation,
-  usePatchCartItemMutation,
-} from '@apis/cart/CartApi.mutation';
+import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 
+import { UseMutateFunction } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 import { CartItem, IProduct } from '@utils/types';
 
@@ -15,13 +13,25 @@ import { XIcon } from '../../../generated/icons/MyIcons';
 
 interface IProps {
   item: CartItem;
-  setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
+  index: number;
+  priceList: number[];
+  setPriceList: React.Dispatch<React.SetStateAction<number[]>>;
+  checked: number[];
+  setChecked: React.Dispatch<React.SetStateAction<number[]>>;
+  deleteMutate: UseMutateFunction<any, any, any, unknown>;
 }
 
-const ShowItemComponent = ({ item, setTotalPrice }: IProps) => {
+const ShowItemComponent = ({
+  item,
+  index,
+  priceList,
+  setPriceList,
+  checked,
+  setChecked,
+  deleteMutate,
+}: IProps) => {
   const [itemData, setItemData] = useState<IProduct | undefined>(undefined);
   const [count, setCount] = useState(item.count);
-  const { mutate: deleteMutate } = useDeleteCartItemMutation();
   const { mutate: patchMutate } = usePatchCartItemMutation();
   useGetProductByIdQuery({
     variables: item.productId.toString(),
@@ -31,32 +41,73 @@ const ShowItemComponent = ({ item, setTotalPrice }: IProps) => {
       },
     },
   });
-  useEffect(() => {
-    if (itemData) {
-      setTotalPrice((prev) => prev + itemData.price * count);
-    }
-  }, [itemData]);
 
   const onClickX = () => {
     deleteMutate(item.id);
   };
+
+  const onChangeCheckbox = () => {
+    let tempCheck = [...checked];
+    const tempPrice = [...priceList];
+    if (tempCheck.includes(item.id)) {
+      tempCheck = tempCheck.filter((data) => data !== item.id);
+      tempPrice[index] = 0;
+    } else {
+      tempCheck.push(item.id);
+      tempPrice[index] = itemData!.price * count;
+    }
+    setChecked(tempCheck);
+    setPriceList(tempPrice);
+  };
+
+  const onClickMinus = () => {
+    const tempPrice = [...priceList];
+    if (count > 1) {
+      setCount((prev) => prev - 1);
+      if (tempPrice[index] && itemData) {
+        tempPrice[index] -= itemData.price;
+        setPriceList(tempPrice);
+      }
+    }
+  };
+
+  const onClickPlus = () => {
+    const tempPrice = [...priceList];
+    setCount((prev) => prev + 1);
+    if (tempPrice[index] && itemData) {
+      tempPrice[index] += itemData.price;
+      setPriceList(tempPrice);
+    }
+  };
+
   return (
-    <Box>
+    <Box m="16px">
       {itemData && (
         <>
-          <Flex>
-            <Checkbox colorScheme="primary" />
-            <Box bg="gray.100">
+          <Flex mb="15px">
+            <Checkbox
+              colorScheme="primary"
+              isChecked={checked.includes(item.id)}
+              onChange={onChangeCheckbox}
+            />
+            <Box bg="gray.100" ml="10px">
               <Image src={itemData.photo} boxSize="90px" />
             </Box>
-            <Box>
-              <Text>{itemData.name}</Text>
-              <Text>{`${itemData.name} | ${itemData.capacity}ml`}</Text>
-              <Text>{formatPrice(itemData.price)}원</Text>
+            <Box ml="10px" textStyle="md">
+              <Text fontWeight="700">{itemData.name}</Text>
+              <Text color="gray.600">{`${itemData.name} | ${itemData.capacity}ml`}</Text>
+              <Text color="primary.500" fontWeight="700">
+                {formatPrice(itemData.price)}원
+              </Text>
             </Box>
-            <XIcon boxSize="20px" cursor="pointer" onClick={onClickX} />
+            <XIcon
+              boxSize="20px"
+              cursor="pointer"
+              onClick={onClickX}
+              ml="auto"
+            />
           </Flex>
-          <Box bg="gray.200" p="10px">
+          <Box bg="gray.200" p="10px" ml="30px">
             <Text textStyle="md" color="gray.600">
               {itemData.name}
             </Text>
@@ -66,12 +117,7 @@ const ShowItemComponent = ({ item, setTotalPrice }: IProps) => {
                   boxSize="25px"
                   border="1px"
                   borderColor="gray.300"
-                  onClick={() => {
-                    if (count > 1) {
-                      setCount((prev) => prev - 1);
-                      setTotalPrice((prev) => prev - itemData.price);
-                    }
-                  }}
+                  onClick={onClickMinus}
                   cursor="pointer"
                 >
                   -
@@ -83,10 +129,7 @@ const ShowItemComponent = ({ item, setTotalPrice }: IProps) => {
                   boxSize="25px"
                   border="1px"
                   borderColor="gray.300"
-                  onClick={() => {
-                    setCount((prev) => prev + 1);
-                    setTotalPrice((prev) => prev + itemData.price);
-                  }}
+                  onClick={onClickPlus}
                   cursor="pointer"
                 >
                   +
