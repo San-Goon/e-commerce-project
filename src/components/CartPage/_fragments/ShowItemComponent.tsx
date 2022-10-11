@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Checkbox, Flex, Image, Text } from '@chakra-ui/react';
 
@@ -9,24 +9,34 @@ import {
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 
 import { formatPrice } from '@utils/format';
-import { IProduct } from '@utils/types';
+import { CartItem, IProduct } from '@utils/types';
 
 import { XIcon } from '../../../generated/icons/MyIcons';
 
-const ShowItemComponent = ({ item }: any) => {
+interface IProps {
+  item: CartItem;
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const ShowItemComponent = ({ item, setTotalPrice }: IProps) => {
   const [itemData, setItemData] = useState<IProduct | undefined>(undefined);
   const [count, setCount] = useState(item.count);
   const { mutate: deleteMutate } = useDeleteCartItemMutation();
   const { mutate: patchMutate } = usePatchCartItemMutation();
   useGetProductByIdQuery({
-    variables: item.productId,
+    variables: item.productId.toString(),
     options: {
       onSuccess: (data) => {
-        console.log('onSuccess', data);
         setItemData(data);
       },
     },
   });
+  useEffect(() => {
+    if (itemData) {
+      setTotalPrice((prev) => prev + itemData.price * count);
+    }
+  }, [itemData]);
+
   const onClickX = () => {
     deleteMutate(item.id);
   };
@@ -58,7 +68,8 @@ const ShowItemComponent = ({ item }: any) => {
                   borderColor="gray.300"
                   onClick={() => {
                     if (count > 1) {
-                      setCount((prev: number) => prev - 1);
+                      setCount((prev) => prev - 1);
+                      setTotalPrice((prev) => prev - itemData.price);
                     }
                   }}
                   cursor="pointer"
@@ -73,7 +84,8 @@ const ShowItemComponent = ({ item }: any) => {
                   border="1px"
                   borderColor="gray.300"
                   onClick={() => {
-                    setCount((prev: number) => prev + 1);
+                    setCount((prev) => prev + 1);
+                    setTotalPrice((prev) => prev + itemData.price);
                   }}
                   cursor="pointer"
                 >

@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Button, Center, Divider, Flex, Text } from '@chakra-ui/react';
 
+import ShowItemComponent from '@components/CartPage/_fragments/ShowItemComponent';
 import CheckBox from '@components/common/CheckBox';
-import ShowItemComponent from "@components/CartPage/_fragments/ShowItemComponent";
 
-const ItemExistComponent = ({ items }: any) => {
-  console.log(items);
+import { formatPrice } from '@utils/format';
+import { CartItem } from '@utils/types';
+
+interface IProps {
+  items: CartItem[];
+}
+
+const ItemExistComponent = ({ items }: IProps) => {
+  const [totalPrice, setTotalPrice] = useState(0);
   return (
     <>
       <Flex
@@ -21,8 +28,14 @@ const ItemExistComponent = ({ items }: any) => {
         <Text>선택삭제</Text>
       </Flex>
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
-      {items.map((item: any) => {
-        return <ShowItemComponent item={item} key={item.id} />;
+      {items.map((item) => {
+        return (
+          <ShowItemComponent
+            item={item}
+            key={item.id}
+            setTotalPrice={setTotalPrice}
+          />
+        );
       })}
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
       <Flex
@@ -34,7 +47,7 @@ const ItemExistComponent = ({ items }: any) => {
         textStyle="md"
       >
         <Text>총 상품금액</Text>
-        <Text>얼마</Text>
+        <Text>{formatPrice(totalPrice)}원</Text>
       </Flex>
       <Flex
         mx="16px"
@@ -45,7 +58,7 @@ const ItemExistComponent = ({ items }: any) => {
         textStyle="md"
       >
         <Text>총 배송비</Text>
-        <Text>얼마</Text>
+        <Text>{totalPrice < 30000 ? '3,000원' : '무료'}</Text>
       </Flex>
       <Divider my="20px" mx="16px" />
       <Flex
@@ -55,7 +68,12 @@ const ItemExistComponent = ({ items }: any) => {
         alignItems="center"
       >
         <Text>결제금액</Text>
-        <Text color="primary.500">얼마</Text>
+        <Text color="primary.500">
+          {totalPrice < 30000
+            ? formatPrice(totalPrice + 3000)
+            : formatPrice(totalPrice)}
+          원
+        </Text>
       </Flex>
       <Center>
         <Button colorScheme="primary">결제하기</Button>

@@ -50,3 +50,10 @@ export interface IMe {
   phone: string;
   profile: string;
 }
+
+export interface CartItem {
+  id: number;
+  cartId: number;
+  productId: number;
+  count: number;
+}
