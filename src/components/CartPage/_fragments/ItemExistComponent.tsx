@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -22,6 +23,7 @@ interface IProps {
 }
 
 const ItemExistComponent = ({ items }: IProps) => {
+  const router = useRouter();
   const [priceList, setPriceList] = useState<number[]>(
     Array(items.length).fill(0),
   );
@@ -49,6 +51,15 @@ const ItemExistComponent = ({ items }: IProps) => {
     for (const id of checked) {
       deleteMutate(id);
     }
+  };
+
+  const onClickOrder = () => {
+    router.push({
+      pathname: '/payment',
+      query: {
+        product: checked,
+      },
+    });
   };
 
   return (
@@ -127,7 +138,9 @@ const ItemExistComponent = ({ items }: IProps) => {
         </Text>
       </Flex>
       <Center>
-        <Button colorScheme="primary">결제하기</Button>
+        <Button colorScheme="primary" onClick={onClickOrder}>
+          결제하기
+        </Button>
       </Center>
     </>
   );

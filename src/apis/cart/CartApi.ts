@@ -38,7 +38,7 @@ export class CartApi {
     const { data } = await this.axios({
       method: 'PATCH',
       url: `/v1/cart/item/${req.id}/`,
-      data: req.count,
+      data: { count: req.count },
     });
     return data;
   };

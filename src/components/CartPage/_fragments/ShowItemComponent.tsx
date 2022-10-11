@@ -5,7 +5,7 @@ import { Box, Checkbox, Flex, Image, Text } from '@chakra-ui/react';
 import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
 
-import { UseMutateFunction } from '@tanstack/react-query';
+import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 import { CartItem, IProduct } from '@utils/types';
 
@@ -31,8 +31,17 @@ const ShowItemComponent = ({
   deleteMutate,
 }: IProps) => {
   const [itemData, setItemData] = useState<IProduct | undefined>(undefined);
-  const [count, setCount] = useState(item.count);
-  const { mutate: patchMutate } = usePatchCartItemMutation();
+  const queryClient = useQueryClient();
+  const { mutate: patchMutate } = usePatchCartItemMutation({
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['me']);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    },
+  });
   useGetProductByIdQuery({
     variables: item.productId.toString(),
     options: {
@@ -54,7 +63,7 @@ const ShowItemComponent = ({
       tempPrice[index] = 0;
     } else {
       tempCheck.push(item.id);
-      tempPrice[index] = itemData!.price * count;
+      tempPrice[index] = itemData!.price * item.count;
     }
     setChecked(tempCheck);
     setPriceList(tempPrice);
@@ -62,22 +71,22 @@ const ShowItemComponent = ({
 
   const onClickMinus = () => {
     const tempPrice = [...priceList];
-    if (count > 1) {
-      setCount((prev) => prev - 1);
+    if (item.count > 1) {
       if (tempPrice[index] && itemData) {
         tempPrice[index] -= itemData.price;
         setPriceList(tempPrice);
       }
+      patchMutate({ id: item.id, count: item.count + 1 });
     }
   };
 
   const onClickPlus = () => {
     const tempPrice = [...priceList];
-    setCount((prev) => prev + 1);
     if (tempPrice[index] && itemData) {
       tempPrice[index] += itemData.price;
       setPriceList(tempPrice);
     }
+    patchMutate({ id: item.id, count: item.count + 1 });
   };
 
   return (
@@ -123,7 +132,7 @@ const ShowItemComponent = ({
                   -
                 </Box>
                 <Box boxSize="25px" border="1px" borderColor="gray.300">
-                  {count}
+                  {item.count}
                 </Box>
                 <Box
                   boxSize="25px"
@@ -136,7 +145,7 @@ const ShowItemComponent = ({
                 </Box>
               </Flex>
               <Text textStyle="md" color="gray.600" fontWeight="700">
-                {formatPrice(itemData.price * count)}원
+                {formatPrice(itemData.price * item.count)}원
               </Text>
             </Flex>
           </Box>
