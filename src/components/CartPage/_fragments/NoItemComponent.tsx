@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Button, Center, Text } from '@chakra-ui/react';
 
 const NoItemComponent = () => {
@@ -7,9 +9,11 @@ const NoItemComponent = () => {
         장바구니가 비어있습니다. <br />
         상품을 추가해보세요!
       </Text>
-      <Button mt="30px" colorScheme="primary">
-        상품보러가기
-      </Button>
+      <Link href="/list" passHref>
+        <Button mt="30px" colorScheme="primary">
+          상품보러가기
+        </Button>
+      </Link>
     </Center>
   );
 };

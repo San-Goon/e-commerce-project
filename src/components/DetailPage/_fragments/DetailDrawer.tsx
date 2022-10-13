@@ -14,8 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import cartApi from '@apis/cart/CartApi';
 import { usePostCartItemMutation } from '@apis/cart/CartApi.mutation';
+import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 
@@ -39,28 +39,25 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
     },
   });
   const [count, setCount] = useState(1);
-  const [cartId, setCartId] = useState('');
   const {
     isOpen: isOpenModal,
     onOpen: onOpenModal,
     onClose: onCloseModal,
   } = useDisclosure();
 
-  useGetMeQuery({
+  const { data: me } = useGetMeQuery();
+
+  const { data: cart } = useGetCartQuery({
+    variables: me?.data.id.toString(),
     options: {
-      onSuccess: async ({ data }) => {
-        try {
-          const myCart = await cartApi.getCart(data.id.toString());
-          setCartId(myCart[0].id);
-        } catch (error) {
-          console.error('장바구니를 불러오는데 실패했습니다.', error);
-        }
-      },
+      enabled: !!me,
     },
   });
 
   const onClickCart = () => {
-    cartMutate({ productId: data.id, cartId, count });
+    if (cart) {
+      cartMutate({ productId: data.id, cartId: cart[0].id, count });
+    }
   };
 
   const onClickMinus = () => {
