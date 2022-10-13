@@ -53,6 +53,7 @@
     "react-select": "^5.2.1",
     "react-syntax-highlighter": "^15.5.0",
     "tinycolor2": "^1.4.2",
+    "universal-cookie": "^4.0.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {
