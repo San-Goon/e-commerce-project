@@ -8,8 +8,10 @@ import { useGetMeQuery } from '@apis/user/UserApi.query';
 import ItemExistComponent from '@components/CartPage/_fragments/ItemExistComponent';
 import NoItemComponent from '@components/CartPage/_fragments/NoItemComponent';
 
+import { CartItem } from '@utils/types';
+
 const CartPage = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<CartItem[]>([]);
   useGetMeQuery({
     options: {
       onSuccess: async ({ data }) => {

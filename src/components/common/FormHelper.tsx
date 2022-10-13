@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 import {
   FormControl,
@@ -13,7 +14,11 @@ import {
 
 interface FormHelperProps extends FormControlProps {
   helperText?: string | JSX.Element;
-  errorText?: string | JSX.Element;
+  errorText?:
+    | string
+    | FieldError
+    | Merge<FieldError, FieldErrorsImpl<any>>
+    | undefined;
   successText?: string | JSX.Element;
   label?: string;
   children: JSX.Element | JSX.Element[];

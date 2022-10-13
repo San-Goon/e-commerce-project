@@ -1,7 +1,5 @@
 import { ThemeProvider, useColorMode, useTheme } from '@chakra-ui/react';
 
-import ToggleColorModeButton from '@components/common/ToggleColorModeButton';
-
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { mode } from '@theme/foundations/colors';
 

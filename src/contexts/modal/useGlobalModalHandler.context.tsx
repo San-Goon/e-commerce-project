@@ -23,7 +23,7 @@ export const [GlobalModalHandlerProvider, useGlobalModalHandlerContext] =
 export function withGlobalModalHandlerContext<T extends Function>(
   Component: T,
 ) {
-  return function WrappedComponent(props: Parameter<T>) {
+  return function WrappedComponent(props: any) {
     return (
       <GlobalModalHandlerProvider>
         <Component {...props} />

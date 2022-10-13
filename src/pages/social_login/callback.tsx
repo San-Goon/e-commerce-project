@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
 
-import { setToken } from '@utils/localStorage/token';
+import { setToken } from '@utils/cookie/token';
 
 const Callback = () => {
   const router = useRouter();
