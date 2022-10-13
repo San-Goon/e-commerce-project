@@ -4,10 +4,11 @@ import { Box, Checkbox, Flex, Image, Text } from '@chakra-ui/react';
 
 import { usePatchCartItemMutation } from '@apis/cart/CartApi.mutation';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
+import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
-import { CartItem, IProduct } from '@utils/types';
+import { CartItem } from '@utils/types';
 
 import { XIcon } from '../../../generated/icons/MyIcons';
 
@@ -30,7 +31,7 @@ const ShowItemComponent = ({
   setChecked,
   deleteMutate,
 }: IProps) => {
-  const [itemData, setItemData] = useState<IProduct | undefined>(undefined);
+  const [itemData, setItemData] = useState<GetProductByIdReturnType>();
   const queryClient = useQueryClient();
   const { mutate: patchMutate } = usePatchCartItemMutation({
     options: {

@@ -15,5 +15,13 @@ export type GetProductByIdReturnType = {
   photo: string;
   price: number;
   reviewCount: number;
-  reviewList: any;
+  reviewList: Array<{
+    content: string;
+    created: string;
+    id: number;
+    nickname: string;
+    rate: number;
+    reviewimageSet: { reviewId: number; url: string }[];
+    userId: number;
+  }>;
 };

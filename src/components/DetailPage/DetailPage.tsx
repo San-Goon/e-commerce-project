@@ -129,28 +129,36 @@ const DetailPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    const tempArr = [0, 0, 0, 0, 0];
-    for (const review of data?.reviewList) {
-      tempArr[review.rate - 1] += 1;
+    if (data) {
+      if (data.reviewList) {
+        const tempArr = [0, 0, 0, 0, 0];
+        for (const review of data.reviewList) {
+          tempArr[review.rate - 1] += 1;
+        }
+        setCountRate(tempArr);
+      }
     }
-    setCountRate(tempArr);
   }, [data]);
 
   useEffect(() => {
-    let tempArr = [...data?.reviewList];
-    if (sortValue === '최신순') {
-      tempArr.sort(
-        (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
-      );
-    } else if (sortValue === '평점 높은순') {
-      tempArr.sort((a, b) => b.rate - a.rate);
-    } else if (sortValue === '평점 낮은순') {
-      tempArr.sort((a, b) => a.rate - b.rate);
+    if (data) {
+      if (data.reviewList) {
+        let tempArr = [...data.reviewList];
+        if (sortValue === '최신순') {
+          tempArr.sort(
+            (a, b) => Number(new Date(b.created)) - Number(new Date(a.created)),
+          );
+        } else if (sortValue === '평점 높은순') {
+          tempArr.sort((a, b) => b.rate - a.rate);
+        } else if (sortValue === '평점 낮은순') {
+          tempArr.sort((a, b) => a.rate - b.rate);
+        }
+        if (showValue === '포토리뷰') {
+          tempArr = tempArr.filter((item) => item.reviewimageSet.length !== 0);
+        }
+        setSortedArray(tempArr);
+      }
     }
-    if (showValue === '포토리뷰') {
-      tempArr = tempArr.filter((item) => item.reviewimageSet.length !== 0);
-    }
-    setSortedArray(tempArr);
   }, [sortValue, showValue, data]);
 
   const onChangeSort = (option: any) => {
