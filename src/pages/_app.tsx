@@ -1,5 +1,6 @@
 import { ThemeProvider, useColorMode, useTheme } from '@chakra-ui/react';
 
+import { Hydrate } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { mode } from '@theme/foundations/colors';
 
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: any) {
     <ThemeProvider
       theme={{ ...theme, colors: { ...theme.colors, ...mode[colorMode] } }}
     >
-      <Component {...pageProps} />
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </ThemeProvider>
   );

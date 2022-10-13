@@ -6,26 +6,29 @@ import productApi from '@apis/product/ProductApi';
 import ListPage from '@components/ListPage';
 import HomeLayout from '@components/common/@Layout/HomeLayout';
 
-import { IProductsList } from '@utils/types';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const initialData = await productApi.getProductList();
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchInfiniteQuery(['products-list'], () =>
+    productApi.getProductList(),
+  );
+
   return {
-    props: { initialData },
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
   };
 };
 
-interface IProps {
-  initialData: IProductsList;
-}
-
-const list = ({ initialData }: IProps) => {
+const list = () => {
   return (
     <>
       <Head>
         <title>상품 리스트</title>
       </Head>
-      <HomeLayout content={<ListPage initialData={initialData} />} />
+      <HomeLayout content={<ListPage />} />
     </>
   );
 };

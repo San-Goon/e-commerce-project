@@ -1,7 +1,10 @@
 import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
-import { ProductParamGetType } from '@apis/product/ProductApi.type';
+import {
+  GetProductByIdReturnType,
+  GetProductListReturnType,
+} from '@apis/product/ProductApi.type';
 
 export class ProductApi {
   axios: AxiosInstance = instance;
@@ -9,18 +12,19 @@ export class ProductApi {
     if (axios) this.axios = axios;
   }
 
-  getProductList = async (params?: any): Promise<any> => {
+  getProductList = async (
+    pageParam?: string,
+  ): Promise<GetProductListReturnType> => {
     const { data } = await this.axios({
       method: 'GET',
-      url: params
-        ? `/v1/product/?cursor=${params}&page_size=10`
+      url: pageParam
+        ? `/v1/product/?cursor=${pageParam}&page_size=10`
         : '/v1/product/?page_size=10',
-      params,
     });
     return data;
   };
 
-  getProductById = async (id: string): Promise<any> => {
+  getProductById = async (id: string): Promise<GetProductByIdReturnType> => {
     const { data } = await this.axios({
       method: 'GET',
       url: `/v1/product/${id}/`,

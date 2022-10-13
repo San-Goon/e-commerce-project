@@ -5,29 +5,33 @@ import productApi from '@apis/product/ProductApi';
 import DetailPage from '@components/DetailPage';
 import HomeLayout from '@components/common/@Layout/HomeLayout';
 
-import { IProduct } from '@utils/types';
-import userApi from "@apis/user/UserApi";
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 export async function getStaticPaths() {
   const productsList = await productApi.getProductList();
   const paths = [];
-  for (let i = 0; i < productsList.results[0].id; i++) {
+  for (let i = 0; i <= productsList.results[0].id; i++) {
     paths.push({ params: { id: `${i}` } });
   }
   return { paths, fallback: false };
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const productData = await productApi.getProductById(params?.id as string);
-  return { props: { productData } };
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['product-by-id', params?.id], () =>
+    productApi.getProductById(params?.id as string),
+  );
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
 };
 
-interface IProps {
-  productData: IProduct;
-}
-
-const Detail = ({ productData }: IProps) => {
-  return <HomeLayout content={<DetailPage productData={productData} />} />;
+const Detail = () => {
+  return <HomeLayout content={<DetailPage />} />;
 };
 
 export default Detail;
