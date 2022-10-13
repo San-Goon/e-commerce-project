@@ -5,6 +5,16 @@ export type GetProductListReturnType = {
   results: IProductMap[];
 };
 
+export type ReviewListType = {
+  content: string;
+  created: string;
+  id: number;
+  nickname: string;
+  rate: number;
+  reviewimageSet: { reviewId: number; url: string }[];
+  userId: number;
+};
+
 export type GetProductByIdReturnType = {
   avgRate: number | null;
   capacity: number;
@@ -15,13 +25,5 @@ export type GetProductByIdReturnType = {
   photo: string;
   price: number;
   reviewCount: number;
-  reviewList: Array<{
-    content: string;
-    created: string;
-    id: number;
-    nickname: string;
-    rate: number;
-    reviewimageSet: { reviewId: number; url: string }[];
-    userId: number;
-  }>;
+  reviewList: ReviewListType[];
 };
