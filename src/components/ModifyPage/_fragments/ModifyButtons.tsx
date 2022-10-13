@@ -8,7 +8,7 @@ import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { usePatchMeMutation } from '@apis/user/UserApi.mutation';
 
 import ModifyModal from '@components/ModifyPage/_fragments/ModifyModal';
-import { FormDataType } from '@components/ModifyPage/_hook/useModifyForm';
+import { FormDataType } from '@components/ModifyPage/_hooks/useModifyForm';
 
 const ModifyButtons = () => {
   const { handleSubmit } = useFormContext<FormDataType>();

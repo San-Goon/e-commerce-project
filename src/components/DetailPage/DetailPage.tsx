@@ -39,7 +39,6 @@ import ArrowDown from '@icons/System/ArrowDown';
 import ArrowUp from '@icons/System/ArrowUp';
 
 import { formatAvgRate, formatPrice } from '@utils/format';
-import { getToken } from '@utils/localStorage/token';
 import { IProduct } from '@utils/types';
 
 import { RatingStarIcon } from '../../generated/icons/MyIcons';
@@ -116,13 +115,6 @@ const DetailPage = ({ productData }: IProps) => {
   });
 
   const router = useRouter();
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-  }, []);
   const { id }: any = router.query;
   const { data } = useGetProductByIdQuery({
     variables: id,

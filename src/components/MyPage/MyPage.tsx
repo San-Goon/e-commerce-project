@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 
@@ -7,14 +7,9 @@ import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import ArrowRight from '@icons/System/ArrowRight';
 
-import { deleteToken, getToken } from '@utils/localStorage/token';
-import { IMe } from '@utils/types';
+import { deleteToken } from '@utils/cookie/token';
 
 import { BookIcon, BoxIcon, InfoIcon } from '../../generated/icons/MyIcons';
-
-interface IData {
-  data: IMe;
-}
 
 const MyPageComponent = () => {
   const [nickname, setNickname] = useState('');
@@ -44,13 +39,7 @@ const MyPageComponent = () => {
   const onClickHistory = () => {
     router.push({ pathname: '/history', query: data.data.id });
   };
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-  }, []);
+
   return (
     <Box mt="150px">
       <Text mx="16px" textStyle="lg" fontWeight="700">

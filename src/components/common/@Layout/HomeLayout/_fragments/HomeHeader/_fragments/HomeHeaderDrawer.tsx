@@ -18,7 +18,7 @@ import {
 
 import Logout from '@icons/System/Logout';
 
-import { deleteToken } from '@utils/localStorage/token';
+import { deleteToken } from '@utils/cookie/token';
 
 interface HomeHeaderDrawerProps extends Omit<DrawerProps, 'children'> {
   bodyProps?: ChakraProps;

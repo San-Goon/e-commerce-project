@@ -7,7 +7,6 @@ import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
 import { formatAvgRate, formatPrice } from '@utils/format';
-import { getToken } from '@utils/localStorage/token';
 import { IProductMap, IProductsList, ITags } from '@utils/types';
 
 import { StarIcon } from '../../generated/icons/MyIcons';
@@ -47,14 +46,6 @@ const ListPage = ({ initialData }: IProps) => {
         return acc.concat(cur);
       }),
   );
-
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-  }, []);
 
   useEffect(() => {
     if (isView && hasNextPage) {

@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Box, BoxProps, Flex } from '@chakra-ui/react';
-
-import { getToken } from '@utils/localStorage/token';
+import { Box, BoxProps } from '@chakra-ui/react';
 
 import Section1 from './_fragments/Section1';
 import Section2 from './_fragments/Section2';
@@ -16,14 +13,6 @@ import Section7 from './_fragments/Section7';
 interface HomePageContentProps extends BoxProps {}
 
 function HomePageContent({ ...basisProps }: HomePageContentProps) {
-  const router = useRouter();
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-  }, []);
   return (
     <Box maxW="600px" m="auto">
       <Section1 />

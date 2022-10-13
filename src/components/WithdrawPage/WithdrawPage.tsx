@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
@@ -10,22 +10,9 @@ import useWithdrawForm, {
   defaultValues,
 } from '@components/WithdrawPage/_hooks/useWithdrawForm';
 
-import { getToken } from '@utils/localStorage/token';
-
 const WithdrawPage = () => {
   const formData = useWithdrawForm({ defaultValues });
   const router = useRouter();
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-    if (!router.query) {
-      alert('비정상적인 접근입니다.');
-      router.back();
-    }
-  }, []);
 
   return (
     <FormProvider {...formData}>
