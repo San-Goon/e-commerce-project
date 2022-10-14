@@ -49,7 +49,7 @@ const ItemExistComponent = ({ items }: IProps) => {
       returnArr.push(mergedObj);
     }
     return returnArr;
-  }, [products]);
+  }, [products, items]);
 
   const allChecked = useMemo(() => {
     return checked.every((v) => v);
@@ -66,6 +66,16 @@ const ItemExistComponent = ({ items }: IProps) => {
       }
     }
   };
+
+  const productIdsForQuery = useMemo(() => {
+    let temp = '';
+    for (let i = 0; i < items.length; i++) {
+      if (checked[i]) {
+        temp += `${items[i].productId}n`;
+      }
+    }
+    return temp;
+  }, [checked, items]);
 
   const onClickDelete = () => {
     for (let i = 0; i < checked.length; i++) {
@@ -167,9 +177,7 @@ const ItemExistComponent = ({ items }: IProps) => {
         <Link
           href={{
             pathname: '/payment',
-            query: {
-              // product: checked,
-            },
+            query: { ids: productIdsForQuery },
           }}
         >
           <Button colorScheme="primary">결제하기</Button>

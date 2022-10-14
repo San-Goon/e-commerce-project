@@ -16,7 +16,7 @@ export class CartApi {
     if (axios) this.axios = axios;
   }
 
-  getCart = async (id: string): Promise<GetCartReturnType[]> => {
+  getCart = async (id?: string): Promise<GetCartReturnType[]> => {
     const { data } = await this.axios({
       method: 'GET',
       url: `v1/cart/?user_id=${id}`,

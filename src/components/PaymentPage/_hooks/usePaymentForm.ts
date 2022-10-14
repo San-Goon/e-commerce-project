@@ -77,7 +77,7 @@ export const PaymentFormSchema = yup.object().shape({
   PIAgree: yup.boolean().oneOf([true], '필수약관에 동의해주세요.'),
 });
 
-const useContactForm = (options?: UseFormProps<FormDataType>) => {
+const usePaymentForm = (options?: UseFormProps<FormDataType>) => {
   return useForm<FormDataType>({
     resolver: yupResolver(PaymentFormSchema),
     mode: 'onChange',
@@ -85,4 +85,4 @@ const useContactForm = (options?: UseFormProps<FormDataType>) => {
   });
 };
 
-export default useContactForm;
+export default usePaymentForm;

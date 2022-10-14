@@ -1,28 +1,17 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
 import PaymentPageView from '@components/PaymentPage/PaymentPage.view';
-import useContactForm, {
+import usePaymentForm, {
   defaultValues,
 } from '@components/PaymentPage/_hooks/usePaymentForm';
 
-import { getToken } from '@utils/localStorage/token';
-
 const PaymentPage = () => {
-  const formData = useContactForm({ defaultValues });
-  const router = useRouter();
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert('로그인 후 이용해주세요.');
-      router.push('/login');
-    }
-  }, []);
+  const formData = usePaymentForm({ defaultValues });
 
   return (
     <FormProvider {...formData}>
-      <PaymentPageView formData={formData} />
+      <PaymentPageView />
     </FormProvider>
   );
 };
