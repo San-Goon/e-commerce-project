@@ -14,13 +14,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { usePostCartItemMutation } from '@apis/cart/CartApi.mutation';
+import {
+  usePatchCartItemMutation,
+  usePostCartItemMutation,
+} from '@apis/cart/CartApi.mutation';
 import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import DetailModal from '@components/DetailPage/_fragments/DetailModal';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 
 interface PropsType {
@@ -31,10 +35,23 @@ interface PropsType {
 }
 
 const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
+  const queryClient = useQueryClient();
   const { mutate: cartMutate } = usePostCartItemMutation({
     options: {
       onSuccess: () => {
+        queryClient.invalidateQueries(['get-cart']);
         onOpenModal();
+      },
+    },
+  });
+  const { mutate: patchMutate } = usePatchCartItemMutation({
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['get-cart']);
+        onOpenModal();
+      },
+      onError: (error) => {
+        console.error(error);
       },
     },
   });
@@ -56,7 +73,12 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
 
   const onClickCart = () => {
     if (cart) {
-      cartMutate({ productId: data.id, cartId: cart[0].id, count });
+      const cartItem = cart[0].cartitem.find((v) => v.productId === data.id);
+      if (cartItem) {
+        patchMutate({ id: cartItem.id, count: cartItem.count + count });
+      } else {
+        cartMutate({ productId: data.id, cartId: cart[0].id, count });
+      }
     }
   };
 
