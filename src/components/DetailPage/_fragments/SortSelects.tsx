@@ -53,9 +53,7 @@ interface Props {
   showValue: string;
   setSortValue: React.Dispatch<React.SetStateAction<string>>;
   setShowValue: React.Dispatch<React.SetStateAction<string>>;
-  setSortedArray: React.Dispatch<
-    React.SetStateAction<ReviewListType[] | undefined>
-  >;
+  setSortedArray: React.Dispatch<React.SetStateAction<ReviewListType[]>>;
 }
 
 const SortSelects = ({
