@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 
@@ -12,16 +12,8 @@ import { deleteToken } from '@utils/cookie/token';
 import { BookIcon, BoxIcon, InfoIcon } from '../../generated/icons/MyIcons';
 
 const MyPageComponent = () => {
-  const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
-  const { data } = useGetMeQuery({
-    options: {
-      onSuccess: ({ data }) => {
-        setNickname(data.nickname);
-        setEmail(data.email);
-      },
-    },
-  });
+  const { data } = useGetMeQuery();
+  console.log('data', data);
   const router = useRouter();
   const onClickLogout = () => {
     deleteToken();
@@ -43,10 +35,10 @@ const MyPageComponent = () => {
   return (
     <Box mt="150px">
       <Text mx="16px" textStyle="lg" fontWeight="700">
-        {nickname}
+        {data?.data.nickname}
       </Text>
       <Text mx="16px" mb="30px" textStyle="md" color="gray.400">
-        {email}
+        {data?.data.email}
       </Text>
       <Flex h="10px" backgroundColor="gray.100" />
       <Center
@@ -55,31 +47,24 @@ const MyPageComponent = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Center flexDirection="column">
-          <InfoIcon
-            boxSize="50px"
-            color="primary.500"
-            cursor="pointer"
-            onClick={onClickModify}
-          />
+        <Center flexDirection="column" cursor="pointer" onClick={onClickModify}>
+          <InfoIcon boxSize="50px" color="primary.500" />
           <Text>회원정보 수정</Text>
         </Center>
-        <Center flexDirection="column">
-          <BoxIcon
-            boxSize="50px"
-            color="primary.500"
-            cursor="pointer"
-            onClick={onClickHistory}
-          />
+        <Center
+          flexDirection="column"
+          cursor="pointer"
+          onClick={onClickHistory}
+        >
+          <BoxIcon boxSize="50px" color="primary.500" />
           <Text>주문 내역</Text>
         </Center>
-        <Center flexDirection="column">
-          <BookIcon
-            boxSize="50px"
-            color="primary.500"
-            cursor="pointer"
-            onClick={onClickMyReview}
-          />
+        <Center
+          flexDirection="column"
+          cursor="pointer"
+          onClick={onClickMyReview}
+        >
+          <BookIcon boxSize="50px" color="primary.500" />
           <Text>내 상품 리뷰</Text>
         </Center>
       </Center>
