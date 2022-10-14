@@ -2,7 +2,14 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { Box, Button, Center, Flex, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  CircularProgress,
+  Flex,
+  Image,
+} from '@chakra-ui/react';
 
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
@@ -15,13 +22,16 @@ const ListPage = () => {
   const router = useRouter();
   const [ref, isView] = useInView();
 
-  const { data, fetchNextPage, hasNextPage } = useGetProductListQuery({
-    options: {
-      getNextPageParam: (lastPage) => {
-        return lastPage.cursor ? lastPage.cursor : undefined;
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useGetProductListQuery({
+      options: {
+        getNextPageParam: (lastPage) => {
+          return lastPage.cursor ? lastPage.cursor : undefined;
+        },
       },
-    },
-  });
+    });
+
+  console.log(isFetchingNextPage);
 
   const productList = useMemo(() => {
     return data?.pages
@@ -38,7 +48,7 @@ const ListPage = () => {
   }, [isView, hasNextPage, fetchNextPage]);
 
   return (
-    <Center mt="120px" flexDirection="column">
+    <Center mt="120px" flexDirection="column" position="relative">
       {productList &&
         productList.map((item: IProductMap) => (
           <Box
@@ -110,7 +120,10 @@ const ListPage = () => {
             </Box>
           </Box>
         ))}
-      <Box ref={ref}></Box>
+      <Box position="absolute" bottom="0px" ref={ref} />
+      {isFetchingNextPage && (
+        <CircularProgress mb="50px" isIndeterminate color="primary.500" />
+      )}
     </Center>
   );
 };
