@@ -50,7 +50,7 @@ const HomeHeaderDrawer = ({
   };
 
   return (
-    <Drawer placement="left" {...basisProps}>
+    <Drawer placement="left" {...basisProps} blockScrollOnMount={false}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton //
