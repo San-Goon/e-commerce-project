@@ -7,7 +7,7 @@ import Check from '@icons/System/Check';
 import CircledCheck from '@icons/System/CircledCheck';
 
 const SignUpAgreeChecks = () => {
-  const { formState, control, getValues, setValue } = useFormContext();
+  const { formState, getValues, setValue } = useFormContext();
 
   const [serviceAgree, PIAgree, marketingAdAgree] = getValues([
     'serviceAgree',

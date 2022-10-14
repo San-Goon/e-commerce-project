@@ -20,25 +20,25 @@ const MyPageComponent = () => {
     router.push('/login');
   };
   const onClickWithdraw = () => {
-    router.push({ pathname: '/withdraw', query: data.data });
+    router.push({ pathname: '/withdraw', query: data });
   };
   const onClickModify = () => {
-    router.push({ pathname: '/modify', query: data.data });
+    router.push({ pathname: '/modify', query: data });
   };
   const onClickMyReview = () => {
-    router.push({ pathname: '/myreview', query: data.data.id });
+    router.push({ pathname: '/myreview', query: data?.id.toString() });
   };
   const onClickHistory = () => {
-    router.push({ pathname: '/history', query: data.data.id });
+    router.push({ pathname: '/history', query: data?.id.toString() });
   };
 
   return (
     <Box mt="150px">
       <Text mx="16px" textStyle="lg" fontWeight="700">
-        {data?.data.nickname}
+        {data?.nickname}
       </Text>
       <Text mx="16px" mb="30px" textStyle="md" color="gray.400">
-        {data?.data.email}
+        {data?.email}
       </Text>
       <Flex h="10px" backgroundColor="gray.100" />
       <Center

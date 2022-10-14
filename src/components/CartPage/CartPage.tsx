@@ -12,7 +12,7 @@ const CartPage = () => {
   const { data: me } = useGetMeQuery();
 
   const { data: cart } = useGetCartQuery({
-    variables: me?.data.id.toString(),
+    variables: me!.id.toString(),
     options: {
       enabled: !!me,
     },

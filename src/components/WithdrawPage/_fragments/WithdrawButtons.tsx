@@ -41,7 +41,7 @@ const WithdrawButtons = () => {
 
   const onClickBack = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   const onSubmit: SubmitHandler<FormDataType> = (data) => {
     mutatePostReason(data);

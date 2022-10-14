@@ -1,6 +1,16 @@
 import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
+import {
+  GetMeReturnType,
+  PatchMeType,
+  PostRefreshTokenType,
+  PostRegisterBodyType,
+  PostRegisterReturnType,
+  PostSocialLoginBodyType,
+  PostSocialLoginReturnType,
+  PostWithdrawReasonType,
+} from '@apis/user/UserApi.type';
 
 export class UserApi {
   axios: AxiosInstance = instance;
@@ -8,16 +18,15 @@ export class UserApi {
     if (axios) this.axios = axios;
   }
 
-  getMe = async (params?: any): Promise<any> => {
-    const data = await this.axios({
+  getMe = async (): Promise<GetMeReturnType> => {
+    const { data } = await this.axios({
       method: 'GET',
       url: '/v1/user/me/',
-      params,
     });
     return data;
   };
 
-  patchMe = async (body: any): Promise<any> => {
+  patchMe = async (body: PatchMeType): Promise<PatchMeType> => {
     const { data } = await this.axios({
       method: 'PATCH',
       url: '/v1/user/me/',
@@ -26,24 +35,26 @@ export class UserApi {
     return data;
   };
 
-  deleteMe = async (id: string): Promise<any> => {
+  deleteMe = async (id: string): Promise<void> => {
     await this.axios({
       method: 'DELETE',
       url: `/v1/user/withdrawal/${id}/`,
     });
   };
 
-  postRefreshToken = async (body: any): Promise<any> => {
-    const data = await this.axios({
+  postRefreshToken = async (refresh: string): Promise<PostRefreshTokenType> => {
+    const { data } = await this.axios({
       method: 'POST',
       url: '/v1/user/refresh/',
-      data: body,
+      data: { refresh },
     });
     return data;
   };
 
-  postSocialLogin = async (body: any): Promise<any> => {
-    const data = await this.axios({
+  postSocialLogin = async (
+    body: PostSocialLoginBodyType,
+  ): Promise<PostSocialLoginReturnType> => {
+    const { data } = await this.axios({
       method: 'POST',
       url: '/v1/user/social_login/',
       data: body,
@@ -51,8 +62,10 @@ export class UserApi {
     return data;
   };
 
-  postRegister = async (body: any): Promise<any> => {
-    const data = await this.axios({
+  postRegister = async (
+    body: PostRegisterBodyType,
+  ): Promise<PostRegisterReturnType> => {
+    const { data } = await this.axios({
       method: 'POST',
       url: '/v1/user/register/',
       data: body,
@@ -60,7 +73,9 @@ export class UserApi {
     return data;
   };
 
-  postWithdrawReason = async (body: any): Promise<any> => {
+  postWithdrawReason = async (
+    body: PostWithdrawReasonType,
+  ): Promise<PostWithdrawReasonType> => {
     const { data } = await this.axios({
       method: 'POST',
       url: '/v1/user/withdrawal/reason/',

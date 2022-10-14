@@ -3,37 +3,34 @@ import React, { useEffect } from 'react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
 
-import { setToken } from '@utils/cookie/token';
+import { TokenType, setToken } from '@utils/cookie/token';
 
 const Callback = () => {
   const router = useRouter();
   const { data, mutate } = usePostSocialLoginMutation();
-  console.log(data);
-
-  console.log(router.query);
 
   React.useEffect(() => {
-    if (router.query.code) {
+    if (router.query) {
       mutate({
-        code: router.query.code,
-        state: router.query.state,
+        code: router.query.code as string,
+        state: router.query.state as string,
       });
     }
-  }, [router.query]);
+  }, [mutate, router.query]);
 
   useEffect(() => {
     if (data) {
-      setToken(data.data);
-      if (data.data.isRegister) {
+      if (data.isRegister) {
+        setToken(data as TokenType);
         router.push('/');
       } else {
         router.push({
           pathname: '/signup',
-          query: { token: data.data.socialToken },
+          query: { token: data.socialToken },
         });
       }
     }
-  }, [data]);
+  }, [router, data]);
   return <div>callback</div>;
 };
 

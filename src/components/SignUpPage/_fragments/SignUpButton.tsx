@@ -31,7 +31,7 @@ const SignUpButton = () => {
   });
 
   const isDisabled = useMemo(() => {
-    const { profile, ...rest } = data;
+    const { profilePath, ...rest } = data;
     const restValues = Object.values(rest);
     if (restValues.some((v) => v === '')) return true;
     if (!_isEmpty(formState.errors)) return true;
@@ -43,7 +43,7 @@ const SignUpButton = () => {
     phone,
     name,
     nickname,
-    profile,
+    profilePath,
     gender,
     age,
     marketingAdAgree,
@@ -53,11 +53,11 @@ const SignUpButton = () => {
       phone,
       name,
       nickname,
-      profile,
+      profilePath,
       gender,
       age,
       marketingAdAgree,
-      socialToken: router.query.token,
+      socialToken: router.query.token as string,
     });
   };
 

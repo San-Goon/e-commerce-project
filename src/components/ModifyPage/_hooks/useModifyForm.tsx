@@ -10,7 +10,7 @@ export type FormDataType = {
   email: string;
   phone: string;
   gender?: string;
-  age?: string;
+  age?: number;
 };
 
 export const defaultValues = {
@@ -19,7 +19,7 @@ export const defaultValues = {
   email: '',
   phone: '',
   gender: '',
-  age: '',
+  age: 10,
 };
 
 /**
