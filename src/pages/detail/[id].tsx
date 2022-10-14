@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 
 import productApi from '@apis/product/ProductApi';
 
@@ -7,20 +7,11 @@ import HomeLayout from '@components/common/@Layout/HomeLayout';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-export async function getStaticPaths() {
-  const productsList = await productApi.getProductList();
-  const paths = [];
-  for (let i = 0; i <= productsList.results[0].id; i++) {
-    paths.push({ params: { id: `${i}` } });
-  }
-  return { paths, fallback: false };
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(['product-by-id', params?.id], () =>
-    productApi.getProductById(params?.id as string),
+  const { id } = ctx.query;
+  await queryClient.prefetchQuery(['product-by-id', id], () =>
+    productApi.getProductById(id as string),
   );
 
   return {
