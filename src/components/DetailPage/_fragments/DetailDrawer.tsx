@@ -75,7 +75,10 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
     if (cart) {
       const cartItem = cart[0].cartitem.find((v) => v.productId === data.id);
       if (cartItem) {
-        patchMutate({ id: cartItem.id, count: cartItem.count + count });
+        patchMutate({
+          id: cartItem.id.toString(),
+          count: cartItem.count + count,
+        });
       } else {
         cartMutate({ productId: data.id, cartId: cart[0].id, count });
       }

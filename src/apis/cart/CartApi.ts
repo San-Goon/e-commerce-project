@@ -1,7 +1,14 @@
 import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
-import { GetCartReturnType } from '@apis/cart/CartApi.type';
+import {
+  GetCartReturnType,
+  PatchCartItemReqType,
+  PatchCartItemReturnType,
+  PostCartItemBodyType,
+  PostCartItemReturnType,
+  PostCartReturnType,
+} from '@apis/cart/CartApi.type';
 
 export class CartApi {
   axios: AxiosInstance = instance;
@@ -17,16 +24,18 @@ export class CartApi {
     return data;
   };
 
-  postCart = async (body: any): Promise<any> => {
+  postCart = async (userId: number): Promise<PostCartReturnType> => {
     const { data } = await this.axios({
       method: 'POST',
       url: '/v1/cart/',
-      data: body,
+      data: { userId },
     });
     return data;
   };
 
-  postCartItem = async (body: any): Promise<any> => {
+  postCartItem = async (
+    body: PostCartItemBodyType,
+  ): Promise<PostCartItemReturnType> => {
     const { data } = await this.axios({
       method: 'POST',
       url: '/v1/cart/item/',
@@ -35,7 +44,9 @@ export class CartApi {
     return data;
   };
 
-  patchCartItem = async (req: any): Promise<any> => {
+  patchCartItem = async (
+    req: PatchCartItemReqType,
+  ): Promise<PatchCartItemReturnType> => {
     const { data } = await this.axios({
       method: 'PATCH',
       url: `/v1/cart/item/${req.id}/`,
