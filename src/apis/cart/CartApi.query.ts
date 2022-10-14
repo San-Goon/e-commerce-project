@@ -1,16 +1,16 @@
 import cartApi from '@apis/cart/CartApi';
 import { QueryHookParams } from '@apis/type';
 
-import { useQuery } from '@tanstack/react-query';
+import { QueryKey, useQuery } from '@tanstack/react-query';
 
 export const CART_API_QUERY_KEY = {
-  GET: (param: string) => ['get-cart', param],
+  GET: (): QueryKey => ['get-cart'],
 };
 
 export function useGetCartQuery(
   params: QueryHookParams<typeof cartApi.getCart>,
 ) {
-  const queryKey = CART_API_QUERY_KEY.GET(params.variables);
+  const queryKey = CART_API_QUERY_KEY.GET();
   const query = useQuery(
     queryKey,
     () => cartApi.getCart(params.variables),

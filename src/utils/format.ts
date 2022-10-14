@@ -111,7 +111,9 @@ export const formatExamTime = (SECONDS: number) => {
 };
 
 export const formatPrice = (price: number) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  if (price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 };
 
 export const formatAvgRate = (rate: number | null) => {

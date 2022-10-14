@@ -1,7 +1,12 @@
 import productApi from '@apis/product/ProductApi';
 import { InfiniteQueryHookParams, QueryHookParams } from '@apis/type';
 
-import { QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  QueryKey,
+  useInfiniteQuery,
+  useQueries,
+  useQuery,
+} from '@tanstack/react-query';
 
 export const PRODUCT_API_QUERY_KEY = {
   GET: (): QueryKey => ['products-list'],
@@ -30,4 +35,21 @@ export function useGetProductByIdQuery(
     params.options,
   );
   return { ...query, queryKey };
+}
+
+export function useGetProductsByIdQueries(
+  ids: string[],
+  params?: QueryHookParams<typeof productApi.getProductById>,
+) {
+  const queries = ids.map((id) => {
+    return {
+      queryKey: PRODUCT_API_QUERY_KEY.GET_BY_ID(id),
+      queryFn: () => productApi.getProductById(id),
+      staleTime: Infinity,
+    };
+  });
+  const query = useQueries({
+    queries,
+  });
+  return { ...query };
 }

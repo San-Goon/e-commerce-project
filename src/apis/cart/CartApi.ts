@@ -44,12 +44,11 @@ export class CartApi {
     return data;
   };
 
-  deleteCartItem = async (id: any): Promise<any> => {
-    const { data } = await this.axios({
+  deleteCartItem = async (id: string): Promise<void> => {
+    await this.axios({
       method: 'DELETE',
       url: `/v1/cart/item/${id}/`,
     });
-    return data;
   };
 }
 

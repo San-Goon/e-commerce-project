@@ -1,5 +1,7 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React, { useEffect, useMemo, useState } from 'react';
+
+import * as _ from 'lodash';
 
 import {
   Box,
@@ -12,9 +14,11 @@ import {
 } from '@chakra-ui/react';
 
 import { useDeleteCartItemMutation } from '@apis/cart/CartApi.mutation';
+import { useGetProductsByIdQueries } from '@apis/product/ProductApi.query';
 
 import ShowItemComponent from '@components/CartPage/_fragments/ShowItemComponent';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 import { CartItem } from '@utils/types';
 
@@ -23,44 +27,68 @@ interface IProps {
 }
 
 const ItemExistComponent = ({ items }: IProps) => {
-  const router = useRouter();
-  const [priceList, setPriceList] = useState<number[]>(
-    Array(items.length).fill(0),
-  );
-  const [checked, setChecked] = useState<number[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const { mutate: deleteMutate } = useDeleteCartItemMutation();
+  const [checked, setChecked] = useState<boolean[]>([]);
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutate } = useDeleteCartItemMutation({
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['get-cart']);
+      },
+    },
+  });
 
-  useEffect(() => {
-    setTotalPrice(priceList.reduce((a, b) => a + b));
-  }, [priceList]);
+  const products = Object.values(
+    useGetProductsByIdQueries(items.map((item) => item.productId.toString())),
+  );
 
-  const allChecked = checked.length === items.length;
+  const productsList = useMemo(() => {
+    const returnArr = [];
+    for (let i = 0; i < products.length; i++) {
+      const mergedObj = _.merge((products[i] as any).data, items[i]);
+      returnArr.push(mergedObj);
+    }
+    return returnArr;
+  }, [products]);
+
+  const allChecked = useMemo(() => {
+    return checked.every((v) => v);
+  }, [checked]);
+
   const onChangeCheckAll = () => {
     if (allChecked) {
-      setChecked([]);
-    } else {
-      const tempArr = [];
-      for (const item of items) {
-        tempArr.push(item.id);
+      for (let i = 0; i < items.length; i++) {
+        setChecked(Array(items.length).fill(false));
       }
-      setChecked(tempArr);
-    }
-  };
-  const onClickDelete = () => {
-    for (const id of checked) {
-      deleteMutate(id);
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        setChecked(Array(items.length).fill(true));
+      }
     }
   };
 
-  const onClickOrder = () => {
-    router.push({
-      pathname: '/payment',
-      query: {
-        product: checked,
-      },
-    });
+  const onClickDelete = () => {
+    for (let i = 0; i < checked.length; i++) {
+      if (checked[i]) {
+        deleteMutate(productsList[i].id.toString());
+      }
+    }
+    setChecked(Array(items.length).fill(false));
   };
+
+  useEffect(() => {
+    setChecked(Array(items.length).fill(false));
+  }, [items]);
+
+  useEffect(() => {
+    let totalPrice = 0;
+    for (let i = 0; i < checked.length; i++) {
+      if (checked[i]) {
+        totalPrice += productsList[i].price * productsList[i].count;
+      }
+    }
+    setTotalPrice(totalPrice);
+  }, [checked, productsList]);
 
   return (
     <>
@@ -84,17 +112,15 @@ const ItemExistComponent = ({ items }: IProps) => {
         </Text>
       </Flex>
       <Box w="100vw" h="10px" backgroundColor="gray.100" />
-      {items.map((item, index) => {
+      {productsList.map((product, index) => {
         return (
-          <React.Fragment key={item.id}>
+          <React.Fragment key={index}>
             <ShowItemComponent
-              item={item}
+              product={product}
               index={index}
-              priceList={priceList}
-              setPriceList={setPriceList}
+              deleteMutate={deleteMutate}
               checked={checked}
               setChecked={setChecked}
-              deleteMutate={deleteMutate}
             />
             <Box w="100vw" h="10px" backgroundColor="gray.100" />
           </React.Fragment>
@@ -138,9 +164,16 @@ const ItemExistComponent = ({ items }: IProps) => {
         </Text>
       </Flex>
       <Center>
-        <Button colorScheme="primary" onClick={onClickOrder}>
-          결제하기
-        </Button>
+        <Link
+          href={{
+            pathname: '/payment',
+            query: {
+              // product: checked,
+            },
+          }}
+        >
+          <Button colorScheme="primary">결제하기</Button>
+        </Link>
       </Center>
     </>
   );
