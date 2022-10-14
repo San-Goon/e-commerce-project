@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import dayjs from 'dayjs';
 
@@ -11,6 +11,7 @@ import {
 
 import SortSelects from '@components/DetailPage/_fragments/SortSelects';
 import ImagesComponent from '@components/common/ImagesComponent';
+import Pagination from '@components/common/Pagination';
 
 import { formatAvgRate } from '@utils/format';
 
@@ -26,6 +27,22 @@ const ReviewSection = ({ data }: PropsType) => {
 
   const [sortValue, setSortValue] = useState('최신순');
   const [showValue, setShowValue] = useState('전체보기');
+
+  const [page, setPage] = useState<number>(1);
+
+  const shownPostsNum = 5;
+
+  const offset = useMemo(() => {
+    return (page - 1) * shownPostsNum;
+  }, [page]);
+
+  const numPages = useMemo(() => {
+    if (sortedArray) {
+      return Math.ceil(sortedArray.length / shownPostsNum);
+    }
+    return 0;
+  }, [sortedArray, shownPostsNum]);
+
   useEffect(() => {
     if (data) {
       if (data.reviewList) {
@@ -117,7 +134,7 @@ const ReviewSection = ({ data }: PropsType) => {
         </Box>
       </Flex>
       {sortedArray &&
-        sortedArray.map((item) => {
+        sortedArray.slice(offset, offset + shownPostsNum).map((item) => {
           return (
             <Box
               key={item.id}
@@ -156,6 +173,7 @@ const ReviewSection = ({ data }: PropsType) => {
             </Box>
           );
         })}
+      <Pagination numPages={numPages} page={page} setPage={setPage} />
     </Box>
   );
 };

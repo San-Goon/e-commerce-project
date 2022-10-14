@@ -137,7 +137,7 @@ export const CloserCircleIcon = ({ ...props }) => {
   );
 };
 
-export const XIcon = ({ ...props }) => {
+export const XIcon = ({ ...props }: IconProps) => {
   return (
     <Icon viewBox="0 0 20 20" fill="none" {...props}>
       <path
@@ -151,6 +151,34 @@ export const XIcon = ({ ...props }) => {
         stroke="#1A1A1A"
         strokeWidth="2"
         strokeLinecap="round"
+      />
+    </Icon>
+  );
+};
+
+export const ArrowRightIcon = ({ ...props }: IconProps) => {
+  return (
+    <Icon viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M8.5 18.8781L15.523 11.9298L8.5 5.50012"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Icon>
+  );
+};
+
+export const ArrowLeftIcon = ({ ...props }: IconProps) => {
+  return (
+    <Icon viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M15.523 18.8781L8.5 11.9298L15.523 5.50012"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Icon>
   );
