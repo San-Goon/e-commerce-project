@@ -5,8 +5,7 @@ import { Box, Flex, Select, Text } from '@chakra-ui/react';
 
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
-import FilledPlus from '@icons/System/FilledPlus';
-import ProfileIcon from '@icons/System/Profile';
+import ProfileImageUploader from '@components/common/ProfileImageUploader';
 
 import Dict = NodeJS.Dict;
 
@@ -25,20 +24,13 @@ const InfoForm = ({ data }: IProps) => {
       setValue('age', data.age);
       setValue('gender', data.gender);
     }
-  }, []);
+  }, [data, setValue]);
   return (
     <>
       <FormHelper mb="40px" label="회원정보입력">
         <Flex justifyContent="center" alignItems="center">
           <Box position="relative">
-            <ProfileIcon boxSize="70px" />
-            <FilledPlus
-              boxSize="20px"
-              color="primary.500"
-              right="0"
-              bottom="0"
-              position="absolute"
-            />
+            <ProfileImageUploader fieldName="profilePath" />
           </Box>
         </Flex>
       </FormHelper>
