@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Container, ContainerProps } from '@chakra-ui/react';
 
-import { LAYOUT } from '@constants/layout';
-
 import HomeFooter from './_fragments/HomeFooter';
 import HomeHeader from './_fragments/HomeHeader';
 
@@ -24,7 +22,7 @@ const HomeLayout = ({
   return (
     <>
       {header}
-      <Container p="0" {...containerProps}>
+      <Container p="0" mt="80px" {...containerProps}>
         {content}
       </Container>
       {footer}

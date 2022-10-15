@@ -123,6 +123,7 @@ const variantOutline: StyleObjectOrFn = ({ colorScheme: c }) => {
     borderWidth: 1,
     borderColor: borderColor,
     _disabled: buttonDisabled,
+    borderRadius: '25px',
     _hover: {
       bg: hoverBg,
       borderColor: border,

@@ -18,7 +18,14 @@ const Section4 = () => {
           전상품 1000원 혜택
         </Text>
         <Text textStyle="xl">받아보세요</Text>
-        <Flex mt="20px" alignItems="center">
+        <Flex
+          mt="20px"
+          alignItems="center"
+          cursor="pointer"
+          onClick={() => {
+            alert('현재 진행중인 이벤트가 없습니다.');
+          }}
+        >
           <Text textStyle="md">이벤트 상세보기</Text>
           <ArrowRight />
         </Flex>

@@ -5,7 +5,7 @@ import {
   deleteToken,
   getToken,
   setToken,
-} from '@utils/localStorage/token';
+} from '@utils/cookie/token';
 
 import instance from './instance';
 

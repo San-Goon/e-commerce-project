@@ -1,6 +1,7 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 
 import { SOCIALS } from './SocialButton.data';
+import {useRouter} from "next/router";
 
 export type SocialType = 'kakao' | 'naver' | 'facebook' | 'google' | 'apple';
 export interface SocialButtonProps {
@@ -12,6 +13,7 @@ export interface SocialButtonProps {
 }
 
 const SocialButton = ({ data, size }: SocialButtonProps) => {
+  const router = useRouter();
   const width = size !== 'sm' ? '100%' : '45px';
   const maxWidth = size !== 'sm' ? '310px' : '45px';
   const left = size !== 'sm' ? '27px' : '9px';
@@ -21,7 +23,7 @@ const SocialButton = ({ data, size }: SocialButtonProps) => {
       w={width}
       h="45px"
       maxW={maxWidth}
-      onClick={() => window.open(data.link)}
+      onClick={() => router.push(data.link)}
       borderRadius="4px"
     >
       <Flex alignItems="center" justifyContent="center">

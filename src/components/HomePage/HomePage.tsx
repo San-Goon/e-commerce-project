@@ -14,7 +14,7 @@ interface HomePageContentProps extends BoxProps {}
 
 function HomePageContent({ ...basisProps }: HomePageContentProps) {
   return (
-    <Box {...basisProps}>
+    <Box maxW="600px" m="auto">
       <Section1 />
       <Section2 />
       <Section3 />

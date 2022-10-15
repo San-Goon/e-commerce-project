@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
-import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, Image, Text } from '@chakra-ui/react';
 
 const Section5 = () => {
+  const router = useRouter();
   return (
     <Center w="100%" h="1354px" bg="#FFFCEF">
       <Flex
@@ -31,6 +33,9 @@ const Section5 = () => {
           mt="30px"
           textStyle="md"
           fontWeight="700"
+          onClick={() => {
+            router.push('/list');
+          }}
         >
           상품전체보기
         </Button>

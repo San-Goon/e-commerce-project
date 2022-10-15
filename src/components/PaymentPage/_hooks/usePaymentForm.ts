@@ -5,23 +5,31 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export type FormDataType = {
-  orderName: string;
-  orderPhone: string;
-  orderAddress: string;
-  getName: string;
-  getPhone: string;
-  getAddress: string;
-  request?: string;
+  userName: string;
+  userPhone: string;
+  userAddress: string;
+  userExtraAddress: string;
+  shipName: string;
+  shipPhone: string;
+  shipAddress: string;
+  shipExtraAddress: string;
+  orderMessage?: string;
+  method: string;
+  PIAgree: boolean;
 };
 
 export const defaultValues: FormDataType = {
-  orderName: '',
-  orderPhone: '',
-  orderAddress: '',
-  getName: '',
-  getPhone: '',
-  getAddress: '',
-  request: '',
+  userName: '',
+  userPhone: '',
+  userAddress: '',
+  userExtraAddress: '',
+  shipName: '',
+  shipPhone: '',
+  shipAddress: '',
+  shipExtraAddress: '',
+  orderMessage: '',
+  method: '',
+  PIAgree: false,
 };
 
 /**
@@ -36,8 +44,8 @@ export const defaultValues: FormDataType = {
  * @see https://yarnpkg.com/package/@hookform/resolvers#readme
  * */
 export const PaymentFormSchema = yup.object().shape({
-  orderName: yup.string().required('해당 항목은 필수값 입니다.'),
-  orderPhone: yup
+  userName: yup.string().required('해당 항목은 필수값 입니다.'),
+  userPhone: yup
     .string()
     .test(
       'isNumber',
@@ -48,9 +56,10 @@ export const PaymentFormSchema = yup.object().shape({
       /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
       '정확한 핸드폰 번호를 입력해주세요.',
     ),
-  orderAddress: yup.string().required('해당 항목은 필수값 입니다.'),
-  getName: yup.string().required('해당 항목은 필수값 입니다.'),
-  getPhone: yup
+  userAddress: yup.string().required('해당 항목은 필수값 입니다.'),
+  userExtraAddress: yup.string(),
+  shipName: yup.string().required('해당 항목은 필수값 입니다.'),
+  shipPhone: yup
     .string()
     .test(
       'isNumber',
@@ -61,11 +70,14 @@ export const PaymentFormSchema = yup.object().shape({
       /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
       '정확한 핸드폰 번호를 입력해주세요.',
     ),
-  getAdress: yup.string().required('해당 항목은 필수값 입니다.'),
-  request: yup.string(),
+  shipAddress: yup.string().required('해당 항목은 필수값 입니다.'),
+  shipExtraAddress: yup.string(),
+  orderMessage: yup.string(),
+  method: yup.string().oneOf(['CARD']).required('해당 항목은 필수값 입니다.'),
+  PIAgree: yup.boolean().oneOf([true], '필수약관에 동의해주세요.'),
 });
 
-const useContactForm = (options?: UseFormProps<FormDataType>) => {
+const usePaymentForm = (options?: UseFormProps<FormDataType>) => {
   return useForm<FormDataType>({
     resolver: yupResolver(PaymentFormSchema),
     mode: 'onChange',
@@ -73,4 +85,4 @@ const useContactForm = (options?: UseFormProps<FormDataType>) => {
   });
 };
 
-export default useContactForm;
+export default usePaymentForm;
