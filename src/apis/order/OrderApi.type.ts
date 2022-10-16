@@ -1,7 +1,6 @@
 export type PostOrderBodyType = {
   userId: number;
   price: number;
-  paymentKey: string;
   method: string;
   userName: string;
   userPhone: string;
@@ -9,7 +8,7 @@ export type PostOrderBodyType = {
   shipName: string;
   shipPhone: string;
   shipAddr: string;
-  orderMessage: string;
+  orderMessage?: string;
 };
 
 export type PostOrderReturnType = {
@@ -27,5 +26,20 @@ export type PostOrderReturnType = {
   shipPhone: string;
   shipAddr: string;
   orderMessage: string;
+  created: string;
+};
+
+export type PostOrderStatusBodyType = {
+  orderId: string;
+  productId: number;
+  count: number;
+};
+
+export type PostOrderStatusReturnType = {
+  id: number;
+  orderId: number;
+  productId: number;
+  count: number;
+  shippingStatus: string;
   created: string;
 };

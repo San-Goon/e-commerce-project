@@ -35,5 +35,5 @@ yarn-error.log*
 # vercel
 .vercel
 
-#build info
+#build shipInfo
 tsconfig.tsbuildinfo

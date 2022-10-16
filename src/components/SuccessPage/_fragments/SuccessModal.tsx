@@ -7,7 +7,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-const PaymentModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
+const SuccessModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -22,4 +22,4 @@ const PaymentModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   );
 };
 
-export default PaymentModal;
+export default SuccessModal;

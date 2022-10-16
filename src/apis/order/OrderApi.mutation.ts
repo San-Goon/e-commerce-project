@@ -14,3 +14,11 @@ export const usePostOrderMutation = (
     ...params?.options,
   });
 };
+
+export const usePostOrderStatusMutation = (
+  params?: MutationHookParams<typeof orderApi.postOrderStatus>,
+) => {
+  return useMutation(orderApi.postOrderStatus, {
+    ...params?.options,
+  });
+};
