@@ -3,12 +3,6 @@ import userApi from '@apis/user/UserApi';
 
 import { useMutation } from '@tanstack/react-query';
 
-export const USER_API_MUTATION_KEY = {
-  POST: (param?: any) => ['user-post', param],
-  PATCH: (param?: any) => ['user-patch', param],
-  DELETE: (id: string) => ['user-delete', id],
-};
-
 export const usePostRefreshTokenMutation = (
   params?: MutationHookParams<typeof userApi.postRefreshToken>,
 ) => {
