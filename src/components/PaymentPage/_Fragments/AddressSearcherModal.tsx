@@ -8,11 +8,17 @@ import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 
 interface PropsType {
   address: 'userAddress' | 'shipAddress';
+  addrPost: 'userAddrPost' | 'shipAddrPost';
   isOpen: boolean;
   onClose: () => void;
 }
 
-const AddressSearcherModal = ({ address, isOpen, onClose }: PropsType) => {
+const AddressSearcherModal = ({
+  address,
+  addrPost,
+  isOpen,
+  onClose,
+}: PropsType) => {
   const { setValue } = useFormContext<FormDataType>();
   const handleCompleteAddressSearcher = (data: Address) => {
     let fullAddress = data.address;
@@ -28,8 +34,8 @@ const AddressSearcherModal = ({ address, isOpen, onClose }: PropsType) => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-
     setValue(address, fullAddress);
+    setValue(addrPost, data.zonecode);
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

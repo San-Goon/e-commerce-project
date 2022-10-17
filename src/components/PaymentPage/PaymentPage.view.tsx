@@ -48,7 +48,6 @@ const PaymentPageView = ({ ids }: PropsType) => {
     if (cart) {
       const returnArr = [];
       for (let i = 0; i < products.length; i++) {
-        console.log(products[i]);
         const mergedObj = _.merge(
           (products[i] as UseQueryResult<GetProductByIdReturnType>).data,
           cart[0].cartitem[i],
@@ -60,23 +59,10 @@ const PaymentPageView = ({ ids }: PropsType) => {
     return [];
   }, [products, cart]);
 
-  const orderInfo = useMemo(() => {
-    return {
-      userId: me ? me.id : 0,
-      amount: totalPrice,
-      orderId: 'asdfsadfsadfsadf',
-      orderName: productsList.length
-        ? productsList.length === 1
-          ? `${productsList[0].name}`
-          : `${productsList[0].name} 외 ${productsList.length}건`
-        : '',
-      customerName: getValues('userName'),
-    };
-  }, [me, totalPrice, productsList, getValues]);
-
   const onChangeSame = () => {
     setValue('shipName', getValues('userName'));
     setValue('shipPhone', getValues('userPhone'));
+    setValue('shipAddrPost', getValues('userAddrPost'));
     setValue('shipAddress', getValues('userAddress'));
     setValue('shipExtraAddress', getValues('userExtraAddress'));
   };
@@ -131,7 +117,11 @@ const PaymentPageView = ({ ids }: PropsType) => {
       </Flex>
       <InfoInputs field="ship" />
       <BottomForm totalPrice={totalPrice} />
-      <PaymentButton orderInfo={orderInfo} productsList={productsList} />
+      <PaymentButton
+        userId={me?.id}
+        price={totalPrice}
+        productsList={productsList}
+      />
     </Box>
   );
 };

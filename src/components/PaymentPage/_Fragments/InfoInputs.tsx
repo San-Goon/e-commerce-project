@@ -81,6 +81,7 @@ const InfoInputs = ({ field }: PropsType) => {
       </FormHelper>
       <AddressSearcherModal
         address={`${field}Address`}
+        addrPost={`${field}AddrPost`}
         isOpen={isOpen}
         onClose={onClose}
       />
