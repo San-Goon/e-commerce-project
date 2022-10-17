@@ -10,25 +10,8 @@ import {
 const SHIP_INFO_KEY = '@shipInfo';
 
 export type ShipInfoType = {
-  PIAgree: boolean;
-  method: string;
-  orderMessage?: string;
-  productsList: (GetProductByIdReturnType & CartItemType)[];
-  orderInfo: {
-    userId: number;
-    amount: number;
-    orderId: string;
-    orderName: string;
-    customerName: string;
-  };
-  shipAddress: string;
-  shipExtraAddress: string;
-  shipName: string;
-  shipPhone: string;
-  userAddress: string;
-  userExtraAddress: string;
-  userName: string;
-  userPhone: string;
+  count: number;
+  cartIds: number[];
 };
 
 export const getShipInfo = () => {
