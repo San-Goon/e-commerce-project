@@ -10,8 +10,8 @@ import {
 const SHIP_INFO_KEY = '@shipInfo';
 
 export type ShipInfoType = {
-  count: number;
-  cartIds: number[];
+  productInfos: { productId: string; count: number }[];
+  cartIds: string[];
 };
 
 export const getShipInfo = () => {
