@@ -13,7 +13,7 @@ import {
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 
 import { loadTossPayments } from '@tosspayments/payment-sdk';
-import { setShipInfo } from '@utils/localStorage/shipInfo';
+import { ShipInfoType, setShipInfo } from '@utils/localStorage/shipInfo';
 
 import { FormDataType } from '../_hooks/usePaymentForm';
 
@@ -81,9 +81,18 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
         successUrl: 'http://localhost:3000/success',
         failUrl: 'http://localhost:3000/cart',
       };
-      const count = productsList.length;
-      const cartIds = productsList.map((item) => item.id);
-      await setShipInfo({ count, cartIds });
+      const setLocalStorageData: ShipInfoType = {
+        cartIds: [],
+        productInfos: [],
+      };
+      for (const product of productsList) {
+        setLocalStorageData.cartIds.push(product.id.toString());
+        setLocalStorageData.productInfos.push({
+          productId: product.productId.toString(),
+          count: product.count,
+        });
+      }
+      await setShipInfo(setLocalStorageData);
       await onClickPayment(orderInfo);
     } catch (e) {
       console.error('ERROR!', e);
