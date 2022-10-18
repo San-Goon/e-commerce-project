@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { NextRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -17,6 +17,7 @@ import {
 import {
   usePatchCartItemMutation,
   usePostCartItemMutation,
+  usePostCartMutation,
 } from '@apis/cart/CartApi.mutation';
 import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
@@ -55,6 +56,14 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
       },
     },
   });
+  const { mutate: postCartMutate } = usePostCartMutation({
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['get-cart']);
+        onOpenModal();
+      },
+    },
+  });
   const [count, setCount] = useState(1);
   const {
     isOpen: isOpenModal,
@@ -70,6 +79,14 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
       enabled: !!me,
     },
   });
+
+  useEffect(() => {
+    if (cart && me) {
+      if (cart.length === 0) {
+        postCartMutate(me.id);
+      }
+    }
+  }, [cart, me, postCartMutate]);
 
   const onClickCart = () => {
     if (cart) {

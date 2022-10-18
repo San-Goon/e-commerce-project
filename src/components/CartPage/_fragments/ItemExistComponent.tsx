@@ -15,10 +15,11 @@ import {
 
 import { useDeleteCartItemMutation } from '@apis/cart/CartApi.mutation';
 import { useGetProductsByIdQueries } from '@apis/product/ProductApi.query';
+import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 
 import ShowItemComponent from '@components/CartPage/_fragments/ShowItemComponent';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { UseQueryResult, useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 import { CartItem } from '@utils/types';
 
@@ -45,7 +46,10 @@ const ItemExistComponent = ({ items }: IProps) => {
   const productsList = useMemo(() => {
     const returnArr = [];
     for (let i = 0; i < products.length; i++) {
-      const mergedObj = _.merge((products[i] as any).data, items[i]);
+      const mergedObj = _.merge(
+        (products[i] as UseQueryResult<GetProductByIdReturnType>).data,
+        items[i],
+      );
       returnArr.push(mergedObj);
     }
     return returnArr;

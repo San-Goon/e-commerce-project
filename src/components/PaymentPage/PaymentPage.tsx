@@ -6,12 +6,16 @@ import usePaymentForm, {
   defaultValues,
 } from '@components/PaymentPage/_hooks/usePaymentForm';
 
-const PaymentPage = () => {
+interface PropsType {
+  ids: string;
+}
+
+const PaymentPage = ({ ids }: PropsType) => {
   const formData = usePaymentForm({ defaultValues });
 
   return (
     <FormProvider {...formData}>
-      <PaymentPageView />
+      <PaymentPageView ids={ids} />
     </FormProvider>
   );
 };

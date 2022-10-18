@@ -9,9 +9,11 @@ export type FormDataType = {
   userPhone: string;
   userAddress: string;
   userExtraAddress: string;
+  userAddrPost: string;
   shipName: string;
   shipPhone: string;
   shipAddress: string;
+  shipAddrPost: string;
   shipExtraAddress: string;
   orderMessage?: string;
   method: string;
@@ -23,10 +25,12 @@ export const defaultValues: FormDataType = {
   userPhone: '',
   userAddress: '',
   userExtraAddress: '',
+  userAddrPost: '',
   shipName: '',
   shipPhone: '',
   shipAddress: '',
   shipExtraAddress: '',
+  shipAddrPost: '',
   orderMessage: '',
   method: '',
   PIAgree: false,

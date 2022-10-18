@@ -46,6 +46,7 @@ export function useGetProductsByIdQueries(
       queryKey: PRODUCT_API_QUERY_KEY.GET_BY_ID(id),
       queryFn: () => productApi.getProductById(id),
       staleTime: Infinity,
+      enabled: !!id,
     };
   });
   const query = useQueries({

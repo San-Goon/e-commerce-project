@@ -31,8 +31,6 @@ const ListPage = () => {
       },
     });
 
-  console.log(isFetchingNextPage);
-
   const productList = useMemo(() => {
     return data?.pages
       .map((page) => page.results)

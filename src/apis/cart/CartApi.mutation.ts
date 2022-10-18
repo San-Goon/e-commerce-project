@@ -3,12 +3,6 @@ import { MutationHookParams } from '@apis/type';
 
 import { useMutation } from '@tanstack/react-query';
 
-export const CART_API_MUTATION_KEY = {
-  POST: (param?: any) => ['post-cart-item', param],
-  PATCH: (param?: any) => ['patch-cart-item', param],
-  DELETE: (param?: any) => ['delete-cart-item', param],
-};
-
 export const usePostCartMutation = (
   params?: MutationHookParams<typeof cartApi.postCart>,
 ) => {
