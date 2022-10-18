@@ -40,8 +40,8 @@ export type PostOrderStatusBodyType = {
 };
 
 export type PostOrderStatusReturnType = {
-  id: string;
-  orderId: number;
+  id: number;
+  orderId: string;
   productId: number;
   count: number;
   shippingStatus: string;
