@@ -26,7 +26,9 @@ const WithdrawForm = () => {
                   <Radio value="타 브랜드 이용">타 브랜드 이용</Radio>
                   <Radio value="기타">기타</Radio>
                   {value === '기타' && (
-                    <FormHelper errorText={formState.errors.etcReason?.message}>
+                    <FormHelper
+                      errorText={formState.errors.additionalReason?.message}
+                    >
                       <Input fieldName="additionalReason" w="90%" />
                     </FormHelper>
                   )}

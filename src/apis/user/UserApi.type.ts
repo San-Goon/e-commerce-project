@@ -50,5 +50,5 @@ export type PostRegisterReturnType = {
 
 export type PostWithdrawReasonType = {
   reason: string;
-  additionalReason: string;
+  additionalReason?: string;
 };

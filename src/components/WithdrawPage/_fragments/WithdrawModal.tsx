@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+
 import {
   Button,
   Modal,
@@ -9,7 +12,15 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { deleteToken } from '@utils/cookie/token';
+
 const WithdrawModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
+  const { push } = useRouter();
+  const onClickConfirm = useCallback(() => {
+    onClose();
+    push('/');
+    deleteToken();
+  }, [onClose, push]);
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -20,7 +31,7 @@ const WithdrawModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
           </Text>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="primary" onClick={onClose}>
+          <Button colorScheme="primary" onClick={onClickConfirm}>
             확인
           </Button>
         </ModalFooter>

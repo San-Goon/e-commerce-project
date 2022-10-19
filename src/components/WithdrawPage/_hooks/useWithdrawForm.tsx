@@ -7,13 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export type FormDataType = {
   reason: string;
   typo: string;
-  additionalReason: string;
+  additionalReason?: string;
 };
 
 export const defaultValues: FormDataType = {
   reason: '',
   typo: '',
-  additionalReason: '',
 };
 
 export const withdrawFormSchema = yup.object().shape({
