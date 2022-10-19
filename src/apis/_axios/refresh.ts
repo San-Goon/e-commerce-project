@@ -56,7 +56,7 @@ export const refresh = async (reqData: AxiosRequestConfig) => {
       isTokenRefreshing = true;
       const token = await refeshToken();
       // TODO 필요할 경우 여기서 토큰을 저장한다.
-      onTokenRefreshed(token.access);
+      onTokenRefreshed(token.access as string);
       // 완료되면 제거
       refreshSubscribers = [];
     } catch (error) {

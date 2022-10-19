@@ -7,9 +7,10 @@ import { CONFIG } from '@config';
 const TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@token';
 
 export type TokenType = {
-  access: string;
-  refresh: string;
+  access?: string;
+  refresh?: string;
   isRegister: boolean;
+  socialToken?: string;
 };
 
 export const cookieOption: CookieSetOptions = {

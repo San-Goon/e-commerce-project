@@ -35,7 +35,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 307);
   }
 
-  if ((pathname === '/login' || pathname === '/signup') && token) {
+  if (pathname === '/login' && token) {
     const url = nextUrl.clone();
     url.pathname = '/';
     return NextResponse.redirect(url, 307);

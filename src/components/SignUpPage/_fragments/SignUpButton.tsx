@@ -8,12 +8,11 @@ import { AxiosError } from 'axios';
 import { Button, Center, useDisclosure } from '@chakra-ui/react';
 
 import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
-import useAppStore from '@features/useAppStore';
 import { userSliceActions } from '@features/user/userSlice';
 
 import SignUpModal from '@components/SignUpPage/_fragments/SignUpModal';
 
-import { setToken } from '@utils/cookie/token';
+import { getToken, setToken } from '@utils/cookie/token';
 
 import { FormDataType } from '../_hooks/useSignUpForm';
 
@@ -42,14 +41,14 @@ const SignUpButton = () => {
     },
   });
 
-  const socialToken = useAppStore((store) => store.USER.socialToken);
+  const token = getToken();
 
   useEffect(() => {
-    if (!socialToken) {
+    if (!token?.socialToken) {
       alert('비정상적인 접근입니다.');
       router.back();
     }
-  }, [socialToken, router]);
+  }, []);
 
   const isDisabled = useMemo(() => {
     const values = Object.values(data);
@@ -77,7 +76,7 @@ const SignUpButton = () => {
       gender,
       age,
       marketingAdAgree,
-      socialToken,
+      socialToken: token?.socialToken as string,
     });
   };
 

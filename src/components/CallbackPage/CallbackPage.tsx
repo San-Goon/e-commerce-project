@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Button, Center, CircularProgress, Text } from '@chakra-ui/react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
-import { userSliceActions } from '@features/user/userSlice';
 
 import { TokenType, setToken } from '@utils/cookie/token';
 
@@ -18,18 +16,14 @@ interface PropsType {
 
 const CallbackPage = ({ queries }: PropsType) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const { mutate, isError } = usePostSocialLoginMutation({
     options: {
       onSuccess: (data) => {
+        setToken(data as TokenType);
         {
           if (data.isRegister) {
-            setToken(data as TokenType);
             router.push('/');
           } else {
-            dispatch(
-              userSliceActions.setSocialToken(data.socialToken as string),
-            );
             router.push('/signup');
           }
         }
@@ -53,7 +47,7 @@ const CallbackPage = ({ queries }: PropsType) => {
       {isError ? (
         <>
           <Text textStyle="lg" mt="10px">
-            로그인 정보 확인에 실패했습니다. 다시시도 해주세요.
+            로그인 정보 확인에 실패했습니다. 다시 시도해주세요.
           </Text>
           <Button colorScheme="primary" onClick={onClickButton} mt="30px">
             돌아가기
