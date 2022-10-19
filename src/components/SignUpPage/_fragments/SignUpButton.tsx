@@ -2,9 +2,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useMemo } from 'react';
 import { SubmitHandler, useFormContext, useWatch } from 'react-hook-form';
 
-import { AxiosError } from 'axios';
-
 import { Button, Center } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/toast';
 
 import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
 
@@ -15,6 +14,7 @@ import { FormDataType } from '../_hooks/useSignUpForm';
 import _isEmpty from 'lodash/isEmpty';
 
 const SignUpButton = () => {
+  const toast = useToast();
   const router = useRouter();
   const { formState, handleSubmit } = useFormContext<FormDataType>();
   const data = useWatch<FormDataType>();
@@ -28,8 +28,13 @@ const SignUpButton = () => {
         });
         router.push('/signup/done');
       },
-      onError: (error: AxiosError) => {
-        console.error(error);
+      onError: (error: any) => {
+        for (const key in error.response.data) {
+          toast({
+            status: 'error',
+            description: error.response.data[key][0],
+          });
+        }
       },
     },
   });
