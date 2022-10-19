@@ -48,7 +48,7 @@ const WithdrawButtons = () => {
   };
   return (
     <>
-      <Flex mt="80px" mb="30px" mx="16px">
+      <Flex mt="80px" mb="30px" mx="16px" justifyContent="space-between">
         <Button colorScheme="primary" variant="outline" onClick={onClickBack}>
           취소
         </Button>

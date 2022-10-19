@@ -1,37 +1,24 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import React from 'react';
 
-import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
+import CallbackPage from '@components/CallbackPage';
 
-import { TokenType, setToken } from '@utils/cookie/token';
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queries = context.query;
+  return {
+    props: { queries },
+  };
+};
 
-const Callback = () => {
-  const router = useRouter();
-  const { data, mutate } = usePostSocialLoginMutation();
+interface PropsType {
+  queries: {
+    code: string;
+    state: string;
+  };
+}
 
-  React.useEffect(() => {
-    if (router.query) {
-      mutate({
-        code: router.query.code as string,
-        state: router.query.state as string,
-      });
-    }
-  }, [mutate, router.query]);
-
-  useEffect(() => {
-    if (data) {
-      if (data.isRegister) {
-        setToken(data as TokenType);
-        router.push('/');
-      } else {
-        router.push({
-          pathname: '/signup',
-          query: { token: data.socialToken },
-        });
-      }
-    }
-  }, [router, data]);
-  return <div>callback</div>;
+const Callback = ({ queries }: PropsType) => {
+  return <CallbackPage queries={queries} />;
 };
 
 export default Callback;
