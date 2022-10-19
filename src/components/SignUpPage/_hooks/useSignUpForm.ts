@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export type FormDataType = {
-  profilePath: string;
+  profilePath?: string;
   name: string;
   nickname: string;
   email: string;
@@ -18,7 +18,6 @@ export type FormDataType = {
 };
 
 export const defaultValues = {
-  profilePath: 'https://www.naver.com',
   name: '',
   nickname: '',
   email: '',
@@ -41,7 +40,7 @@ export const defaultValues = {
  * */
 
 export const signUpFormSchema = yup.object().shape({
-  profilePath: yup.string().required('필수!'),
+  profilePath: yup.string().nullable(),
   name: yup.string().min(2, '최소 2자 이상 입력해주세요.'),
   nickname: yup
     .string()
@@ -66,8 +65,8 @@ export const signUpFormSchema = yup.object().shape({
     ),
   gender: yup.string().nullable(),
   age: yup.number().nullable(),
-  serviceAgree: yup.boolean().oneOf([true], 'Field must be checked'),
-  PIAgree: yup.boolean().oneOf([true], 'Field must be checked'),
+  serviceAgree: yup.boolean().oneOf([true], '필수 동의 항목입니다.'),
+  PIAgree: yup.boolean().oneOf([true], '필수 동의 항목입니다.'),
   marketingAdAgree: yup.boolean(),
 });
 

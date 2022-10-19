@@ -34,7 +34,7 @@ export type PostRegisterBodyType = {
   phone: string;
   name: string;
   nickname: string;
-  profilePath: string;
+  profilePath?: string;
   gender?: string;
   age?: number;
   marketingAdAgree: boolean;

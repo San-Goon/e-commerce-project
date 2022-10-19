@@ -14,7 +14,7 @@ interface PropsType extends BoxProps {
 }
 const ProfileImageUploader = ({ fieldName }: PropsType) => {
   const filesValue = useWatch({ name: fieldName });
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
   const { uploadFilesToS3 } = useProfileUpload();
   const onUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const ProfileImageUploader = ({ fieldName }: PropsType) => {
 
   const onDelete = useCallback(() => {
     setTimeout(() => {
-      setValue(fieldName, null);
+      setValue(fieldName, undefined);
     }, 50);
   }, [fieldName, setValue]);
 
@@ -54,7 +54,6 @@ const ProfileImageUploader = ({ fieldName }: PropsType) => {
             position="absolute"
           />
           <input
-            {...register(fieldName)}
             id={`inputFile-${fieldName}`}
             type="file"
             accept="image/png, image/jpg, image/svg"

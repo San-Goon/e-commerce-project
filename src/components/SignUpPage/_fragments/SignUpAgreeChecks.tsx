@@ -7,7 +7,8 @@ import Check from '@icons/System/Check';
 import CircledCheck from '@icons/System/CircledCheck';
 
 const SignUpAgreeChecks = () => {
-  const { formState, getValues, setValue } = useFormContext();
+  const { formState, getValues, setValue, watch } = useFormContext();
+  watch();
 
   const [serviceAgree, PIAgree, marketingAdAgree] = getValues([
     'serviceAgree',
@@ -55,7 +56,6 @@ const SignUpAgreeChecks = () => {
       <Text fontWeight="700" fontSize="md" mt="80px" mb="40px">
         이용약관동의
       </Text>
-
       <Box>
         <Flex
           h="40px"
@@ -69,7 +69,7 @@ const SignUpAgreeChecks = () => {
           </Text>
           <CircledCheck
             boxSize="24px"
-            color={agreeAll ? 'primary.500' : '#CBCED6'}
+            color={agreeAll ? 'primary.500' : 'gray.400'}
             onClick={onClickAll}
             cursor="pointer"
           />
@@ -85,7 +85,7 @@ const SignUpAgreeChecks = () => {
           </Text>
           <Check
             boxSize="24px"
-            color={getValues('serviceAgree') ? 'primary.500' : '#CBCED6'}
+            color={getValues('serviceAgree') ? 'primary.500' : 'gray.400'}
             onClick={onClickService}
             cursor="pointer"
           />
@@ -101,7 +101,7 @@ const SignUpAgreeChecks = () => {
           </Text>
           <Check
             boxSize="24px"
-            color={getValues('PIAgree') ? 'primary.500' : '#CBCED6'}
+            color={getValues('PIAgree') ? 'primary.500' : 'gray.400'}
             onClick={onClickPI}
             cursor="pointer"
           />
@@ -117,7 +117,7 @@ const SignUpAgreeChecks = () => {
           </Text>
           <Check
             boxSize="24px"
-            color={getValues('marketingAdAgree') ? 'primary.500' : '#CBCED6'}
+            color={getValues('marketingAdAgree') ? 'primary.500' : 'gray.400'}
             onClick={onClickMarketing}
             cursor="pointer"
           />

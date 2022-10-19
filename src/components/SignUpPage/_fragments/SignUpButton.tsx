@@ -1,14 +1,19 @@
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { SubmitHandler, useFormContext, useWatch } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { AxiosError } from 'axios';
 
 import { Button, Center, useDisclosure } from '@chakra-ui/react';
 
 import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
+import useAppStore from '@features/useAppStore';
+import { userSliceActions } from '@features/user/userSlice';
 
 import SignUpModal from '@components/SignUpPage/_fragments/SignUpModal';
+
+import { setToken } from '@utils/cookie/token';
 
 import { FormDataType } from '../_hooks/useSignUpForm';
 
@@ -16,12 +21,19 @@ import _isEmpty from 'lodash/isEmpty';
 
 const SignUpButton = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { formState, handleSubmit } = useFormContext<FormDataType>();
   const data = useWatch<FormDataType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate } = usePostRegisterMutation({
     options: {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        dispatch(userSliceActions.deleteSocialToken());
+        setToken({
+          access: data.access,
+          isRegister: true,
+          refresh: data.refresh,
+        });
         onOpen();
       },
       onError: (error: AxiosError) => {
@@ -30,10 +42,18 @@ const SignUpButton = () => {
     },
   });
 
+  const socialToken = useAppStore((store) => store.USER.socialToken);
+
+  useEffect(() => {
+    if (!socialToken) {
+      alert('비정상적인 접근입니다.');
+      router.back();
+    }
+  }, [socialToken, router]);
+
   const isDisabled = useMemo(() => {
-    const { profilePath, ...rest } = data;
-    const restValues = Object.values(rest);
-    if (restValues.some((v) => v === '')) return true;
+    const values = Object.values(data);
+    if (values.some((v) => v === '')) return true;
     if (!_isEmpty(formState.errors)) return true;
     return false;
   }, [formState, data]);
@@ -57,7 +77,7 @@ const SignUpButton = () => {
       gender,
       age,
       marketingAdAgree,
-      socialToken: router.query.token as string,
+      socialToken,
     });
   };
 
@@ -72,7 +92,7 @@ const SignUpButton = () => {
           회원가입완료
         </Button>
       </Center>
-      <SignUpModal isOpen={isOpen} onClose={onClose} />
+      <SignUpModal router={router} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

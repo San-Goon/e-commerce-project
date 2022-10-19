@@ -1,3 +1,6 @@
+import { NextRouter } from 'next/router';
+import { useCallback } from 'react';
+
 import {
   Button,
   Modal,
@@ -5,11 +8,21 @@ import {
   ModalContent,
   ModalFooter,
   ModalOverlay,
-  ModalProps,
   Text,
 } from '@chakra-ui/react';
 
-const SignUpModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
+interface PropsType {
+  router: NextRouter;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const SignUpModal = ({ router, isOpen, onClose }: PropsType) => {
+  const onClickConfirm = useCallback(() => {
+    onClose();
+    router.push('/');
+  }, [onClose, router]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -20,7 +33,7 @@ const SignUpModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
           </Text>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="primary" onClick={onClose}>
+          <Button colorScheme="primary" onClick={onClickConfirm}>
             확인
           </Button>
         </ModalFooter>
