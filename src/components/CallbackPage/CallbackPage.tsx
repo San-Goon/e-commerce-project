@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Button, Center, CircularProgress, Text } from '@chakra-ui/react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
+import { userSliceActions } from '@features/user/userSlice';
 
 import { TokenType, setToken } from '@utils/cookie/token';
 
@@ -16,6 +18,7 @@ interface PropsType {
 
 const CallbackPage = ({ queries }: PropsType) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { mutate, isError } = usePostSocialLoginMutation({
     options: {
       onSuccess: (data) => {
@@ -24,10 +27,10 @@ const CallbackPage = ({ queries }: PropsType) => {
             setToken(data as TokenType);
             router.push('/');
           } else {
-            router.push({
-              pathname: '/signup',
-              query: { token: data.socialToken },
-            });
+            dispatch(
+              userSliceActions.setSocialToken(data.socialToken as string),
+            );
+            router.push('/signup');
           }
         }
       },
