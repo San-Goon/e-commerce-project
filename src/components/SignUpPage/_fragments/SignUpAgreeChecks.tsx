@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -75,14 +76,18 @@ const SignUpAgreeChecks = () => {
           />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
-          <Text
-            color="gray.600"
-            textDecor="underline"
-            fontWeight="400"
-            fontSize="sm"
-          >
-            서비스 이용을 위한 필수약관 동의
-          </Text>
+          <Link href="https://toktokhan.notion.site/6e7a309e8d14464cad38fc86656d564a">
+            <a target="_blank">
+              <Text
+                color="gray.600"
+                textDecor="underline"
+                fontWeight="400"
+                fontSize="sm"
+              >
+                서비스 이용을 위한 필수약관 동의
+              </Text>
+            </a>
+          </Link>
           <Check
             boxSize="24px"
             color={getValues('serviceAgree') ? 'primary.500' : 'gray.400'}
@@ -91,14 +96,18 @@ const SignUpAgreeChecks = () => {
           />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
-          <Text
-            color="gray.600"
-            textDecor="underline"
-            fontWeight="400"
-            fontSize="sm"
-          >
-            개인정보수집 및 이용, 제3자 제공 동의
-          </Text>
+          <Link href="https://toktokhan.notion.site/3-2261ee2f25024c0a9b6a82a6f43fd0dc">
+            <a target="_blank">
+              <Text
+                color="gray.600"
+                textDecor="underline"
+                fontWeight="400"
+                fontSize="sm"
+              >
+                개인정보수집 및 이용, 제3자 제공 동의
+              </Text>
+            </a>
+          </Link>
           <Check
             boxSize="24px"
             color={getValues('PIAgree') ? 'primary.500' : 'gray.400'}
@@ -107,14 +116,18 @@ const SignUpAgreeChecks = () => {
           />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" h="50px">
-          <Text
-            color="gray.600"
-            textDecor="underline"
-            fontWeight="400"
-            fontSize="sm"
-          >
-            마케팅 정보 수신 및 맞춤형 광고 동의(선택)
-          </Text>
+          <Link href="https://toktokhan.notion.site/24f69842ebec48df89a3656bac7cf4c9">
+            <a target="_blank">
+              <Text
+                color="gray.600"
+                textDecor="underline"
+                fontWeight="400"
+                fontSize="sm"
+              >
+                마케팅 정보 수신 및 맞춤형 광고 동의(선택)
+              </Text>
+            </a>
+          </Link>
           <Check
             boxSize="24px"
             color={getValues('marketingAdAgree') ? 'primary.500' : 'gray.400'}
