@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-const ReviewModal = ({ isOpen, onClose }: ModalProps) => {
+const ReviewModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />

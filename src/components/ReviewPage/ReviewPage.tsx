@@ -1,30 +1,30 @@
+import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
-import { usePostReviewMutation } from '@apis/review/ReviewApi.mutation';
+import { Box, Text } from '@chakra-ui/react';
 
-import ReviewPageView from '@components/ReviewPage/ReviewPage.view';
+import ProductListSection from '@components/ReviewPage/_fragment/ProductListSection';
+import ReviewButton from '@components/ReviewPage/_fragment/ReviewButton';
+import ReviewInputSection from '@components/ReviewPage/_fragment/ReviewInputSection';
 import useReviewForm, {
   defaultValues,
 } from '@components/ReviewPage/_hooks/useReviewForm';
 
 const ReviewPage = () => {
   const formData = useReviewForm({ defaultValues });
-  const { mutate } = usePostReviewMutation();
-  const { handleSubmit } = formData;
-  const onSubmit = handleSubmit(({ rating, content, images }) => {
-    console.log(rating, content, images);
-    mutate({
-      userId: 5,
-      productId: 1,
-      orderItemId: 1,
-      rate: rating,
-      content,
-      reviewimageSet: images,
-    });
-  });
+
   return (
     <FormProvider {...formData}>
-      <ReviewPageView onSubmit={onSubmit} />
+      <Box p="16px">
+        <Text textStyle="lg" fontWeight="700" mb="100px">
+          리뷰작성
+        </Text>
+        <Box w="100vw" h="10px" backgroundColor="gray.100" />
+        <ProductListSection />
+        <Box w="100vw" h="10px" backgroundColor="gray.100" />
+        <ReviewInputSection />
+        <ReviewButton />
+      </Box>
     </FormProvider>
   );
 };

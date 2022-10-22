@@ -11,7 +11,7 @@ interface PropsType {
   item: GetProductByIdReturnType & CartItem;
 }
 
-const ListComponent = ({ item }: PropsType) => {
+const ProductList = ({ item }: PropsType) => {
   return (
     <Box m="16px" alignItems="center">
       <Flex mb="15px">
@@ -30,4 +30,4 @@ const ListComponent = ({ item }: PropsType) => {
   );
 };
 
-export default ListComponent;
+export default ProductList;

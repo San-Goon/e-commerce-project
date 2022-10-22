@@ -2,9 +2,11 @@ import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
 import {
+  GetOrderStatusReqType,
   GetOrderStatusReturnType,
   OrderByIdReturnType,
   PatchOrderByIdReqType,
+  PatchOrderShippingStatusReqType,
   PostOrderBodyType,
   PostOrderReturnType,
   PostOrderStatusBodyType,
@@ -17,10 +19,6 @@ export class OrderApi {
     if (axios) this.axios = axios;
   }
 
-  // 	getOrder = async () => Promise<GetOrderReturnType> => {
-  //
-  // }
-
   postOrder = async (body: PostOrderBodyType): Promise<PostOrderReturnType> => {
     const { data } = await this.axios({
       method: 'POST',
@@ -30,13 +28,13 @@ export class OrderApi {
     return data;
   };
 
-  getOrderStatus = async (
-    userId?: string,
-    pageParam?: string,
-  ): Promise<GetOrderStatusReturnType> => {
+  getOrderStatus = async ({
+    userId,
+    page,
+  }: GetOrderStatusReqType): Promise<GetOrderStatusReturnType> => {
     const { data } = await this.axios({
       method: 'GET',
-      url: pageParam ? pageParam : `/v1/order/status/?user_id=${userId}`,
+      url: `/v1/order/status/?page=${page}&user_id=${userId}`,
     });
     return data;
   };
@@ -59,6 +57,16 @@ export class OrderApi {
       method: 'POST',
       url: '/v1/order/status/',
       data: body,
+    });
+    return data;
+  };
+  patchOrderShippingStatus = async (
+    req: PatchOrderShippingStatusReqType,
+  ): Promise<PostOrderStatusReturnType> => {
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: `/v1/order/status/${req.userId}/`,
+      data: req.body,
     });
     return data;
   };

@@ -12,9 +12,9 @@ import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import BottomForm from '@components/PaymentPage/_Fragments/BottomForm';
 import InfoInputs from '@components/PaymentPage/_Fragments/InfoInputs';
-import ListComponent from '@components/PaymentPage/_Fragments/ListComponent';
 import PaymentButton from '@components/PaymentPage/_Fragments/PaymentButton';
 import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import ProductList from '@components/common/ProductList';
 
 import { UseQueryResult } from '@tanstack/react-query';
 
@@ -88,7 +88,7 @@ const PaymentPageView = ({ ids }: PropsType) => {
         productsList.map((item) => {
           return (
             <React.Fragment key={item.id}>
-              <ListComponent item={item} />
+              <ProductList item={item} />
               <Divider />
             </React.Fragment>
           );
