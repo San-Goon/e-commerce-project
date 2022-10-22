@@ -91,3 +91,15 @@ export type GetOrderStatusReturnType = {
   previous: string | null;
   results: PostOrderStatusReturnType[];
 };
+
+export type PatchOrderShippingStatusReqType = {
+  userId: number;
+  body: {
+    shippingStatus: string;
+  };
+};
+
+export type GetOrderStatusReqType = {
+  userId: number;
+  page: number;
+};

@@ -26,3 +26,11 @@ export const usePatchOrderByIdMutation = (
     ...params?.options,
   });
 };
+
+export const usePatchOrderShippingStatus = (
+  params?: MutationHookParams<typeof orderApi.patchOrderShippingStatus>,
+) => {
+  return useMutation(orderApi.patchOrderShippingStatus, {
+    ...params?.options,
+  });
+};
