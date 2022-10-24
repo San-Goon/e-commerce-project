@@ -1,6 +1,3 @@
-import { CartItemType } from '@apis/cart/CartApi.type';
-import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
-
 import {
   getLocalStorage,
   removeLocalStorage,

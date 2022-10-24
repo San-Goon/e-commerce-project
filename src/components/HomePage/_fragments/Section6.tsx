@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
 const Section6 = () => {
   return (

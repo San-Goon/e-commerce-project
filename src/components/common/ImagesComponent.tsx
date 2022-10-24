@@ -8,7 +8,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-const ImagesComponent = ({ url }: any) => {
+interface PropsType {
+  url: string;
+}
+
+const ImagesComponent = ({ url }: PropsType) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>

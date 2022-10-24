@@ -1,7 +1,8 @@
+import { useRouter } from 'next/router';
+
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 
 import { SOCIALS } from './SocialButton.data';
-import {useRouter} from "next/router";
 
 export type SocialType = 'kakao' | 'naver' | 'facebook' | 'google' | 'apple';
 export interface SocialButtonProps {

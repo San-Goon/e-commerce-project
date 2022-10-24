@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, BoxProps } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import Section1 from './_fragments/Section1';
 import Section2 from './_fragments/Section2';
@@ -10,9 +10,7 @@ import Section5 from './_fragments/Section5';
 import Section6 from './_fragments/Section6';
 import Section7 from './_fragments/Section7';
 
-interface HomePageContentProps extends BoxProps {}
-
-function HomePageContent({ ...basisProps }: HomePageContentProps) {
+function HomePageContent() {
   return (
     <Box maxW="600px" m="auto">
       <Section1 />
