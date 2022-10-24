@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import { usePatchOrderShippingStatus } from '@apis/order/OrderApi.mutation';
+import useAppStore from '@features/useAppStore';
 
 import CancelDoneModal from '@components/HistoryPage/_fragments/CancelDoneModal';
 
@@ -25,29 +26,26 @@ interface PropsType {
 
 const HistoryModal = ({ isOpen, onClose, userId }: PropsType) => {
   const queryClient = useQueryClient();
+  const orderQueryKey = useAppStore((store) => store.QUERY_KEY.orderQueryKey);
 
-  const {
-    isOpen: isOpenCancelDone,
-    onOpen: onOpenCancelDone,
-    onClose: onCloseCancelDone,
-  } = useDisclosure();
+  const { isOpen: isOpenCancelDone, onOpen: onOpenCancelDone } =
+    useDisclosure();
 
   const { mutate: cancelMutate } = usePatchOrderShippingStatus({
     options: {
       onSuccess: () => {
-        queryClient.invalidateQueries(['get-status']);
+        queryClient.invalidateQueries(orderQueryKey);
         onOpenCancelDone();
       },
     },
   });
 
   const onClickConfirm = useCallback(() => {
-    onClose();
     cancelMutate({
       userId: userId as number,
       body: { shippingStatus: 'CANCELED' },
     });
-  }, [cancelMutate, onClose, userId]);
+  }, [cancelMutate, userId]);
 
   return (
     <>
@@ -69,7 +67,7 @@ const HistoryModal = ({ isOpen, onClose, userId }: PropsType) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <CancelDoneModal isOpen={isOpenCancelDone} onClose={onCloseCancelDone} />
+      <CancelDoneModal isOpen={isOpenCancelDone} onClose={onClose} />
     </>
   );
 };
