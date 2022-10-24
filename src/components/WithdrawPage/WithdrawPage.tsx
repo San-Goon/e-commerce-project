@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
+
+import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import WithdrawButtons from '@components/WithdrawPage/_fragments/WithdrawButtons';
 import WithdrawForm from '@components/WithdrawPage/_fragments/WithdrawForm';
@@ -12,7 +13,7 @@ import useWithdrawForm, {
 
 const WithdrawPage = () => {
   const formData = useWithdrawForm({ defaultValues });
-  const router = useRouter();
+  const { data } = useGetMeQuery();
 
   return (
     <FormProvider {...formData}>
@@ -37,15 +38,15 @@ const WithdrawPage = () => {
           </Box>
           <Box ml="24px" textColor="gray.700">
             <Text mt="15px" mb="10px">
-              {router.query.name}
+              {data?.name}
             </Text>
-            <Text mb="10px">{router.query.phone}</Text>
-            <Text>{router.query.email}</Text>
+            <Text mb="10px">{data?.phone}</Text>
+            <Text>{data?.email}</Text>
           </Box>
         </Flex>
         <Box w="100vw" h="10px" backgroundColor="gray.100" />
         <WithdrawForm />
-        <WithdrawButtons />
+        <WithdrawButtons id={data?.id} />
       </Box>
     </FormProvider>
   );

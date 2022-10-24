@@ -35,7 +35,7 @@ export class UserApi {
     return data;
   };
 
-  deleteMe = async (id: string): Promise<void> => {
+  deleteMe = async (id: number): Promise<void> => {
     await this.axios({
       method: 'DELETE',
       url: `/v1/user/withdrawal/${id}/`,

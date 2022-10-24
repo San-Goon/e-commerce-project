@@ -14,21 +14,25 @@ import {
 import WithdrawModal from '@components/WithdrawPage/_fragments/WithdrawModal';
 import { FormDataType } from '@components/WithdrawPage/_hooks/useWithdrawForm';
 
-const WithdrawButtons = () => {
+interface PropsType {
+  id?: number;
+}
+
+const WithdrawButtons = ({ id }: PropsType) => {
   const { handleSubmit } = useFormContext<FormDataType>();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: mutatePostReason } = usePostWithdrawReasonMutation({
     options: {
       onSuccess: () => {
-        mutateDeleteMe(router.query.id as string);
+        deleteMeMutate(id as number);
       },
       onError: (error: AxiosError) => {
         console.error(error);
       },
     },
   });
-  const { mutate: mutateDeleteMe } = useDeleteMeMutation({
+  const { mutate: deleteMeMutate } = useDeleteMeMutation({
     options: {
       onSuccess: () => {
         onOpen();
