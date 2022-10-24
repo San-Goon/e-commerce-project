@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export type FormDataType = {
   rating: number;
   content: string;
-  images: File[];
+  images: File[] | string;
 };
 
 export const defaultValues: FormDataType = {

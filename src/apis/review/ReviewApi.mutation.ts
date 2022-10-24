@@ -10,3 +10,11 @@ export const usePostReviewMutation = (
     ...params?.options,
   });
 };
+
+export const usePutReviewMutation = (
+  params?: MutationHookParams<typeof reviewApi.putReview>,
+) => {
+  return useMutation(reviewApi.putReview, {
+    ...params?.options,
+  });
+};

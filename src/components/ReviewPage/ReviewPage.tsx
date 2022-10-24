@@ -6,9 +6,8 @@ import { Box, Text } from '@chakra-ui/react';
 import ProductListSection from '@components/ReviewPage/_fragment/ProductListSection';
 import ReviewButton from '@components/ReviewPage/_fragment/ReviewButton';
 import ReviewInputSection from '@components/ReviewPage/_fragment/ReviewInputSection';
-import useReviewForm, {
-  defaultValues,
-} from '@components/ReviewPage/_hooks/useReviewForm';
+
+import useReviewForm, { defaultValues } from '../../hooks/useReviewForm';
 
 const ReviewPage = () => {
   const formData = useReviewForm({ defaultValues });

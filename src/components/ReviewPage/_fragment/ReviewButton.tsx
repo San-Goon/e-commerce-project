@@ -8,8 +8,9 @@ import { usePostReviewMutation } from '@apis/review/ReviewApi.mutation';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import ReviewModal from '@components/ReviewPage/_fragment/ReviewModal';
-import usePhotosUpload from '@components/ReviewPage/_hooks/usePhotosUpload';
-import { FormDataType } from '@components/ReviewPage/_hooks/useReviewForm';
+
+import usePhotosUpload from '../../../hooks/usePhotosUpload';
+import { FormDataType } from '../../../hooks/useReviewForm';
 
 const ReviewButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +32,7 @@ const ReviewButton = () => {
   }) => {
     const reviewimagePath: string[] = [];
     for (const image of images) {
-      const imagePath = await uploadFilesToS3(image);
+      const imagePath = await uploadFilesToS3(image as File);
       reviewimagePath.push(imagePath.split('.com/')[1]);
     }
     await mutateAsync({
