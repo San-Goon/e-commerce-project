@@ -3,8 +3,11 @@ import { SubmitHandler, useFormContext } from 'react-hook-form';
 import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 
 import { usePutReviewMutation } from '@apis/review/ReviewApi.mutation';
+import useAppStore from '@features/useAppStore';
 
 import ModifyDoneModal from '@components/MyReviewPage/_fragments/ModifyDoneModal';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import usePhotosUpload from '../../../hooks/usePhotosUpload';
 import { FormDataType } from '../../../hooks/useReviewForm';
@@ -15,19 +18,17 @@ interface PropsType {
 }
 
 const ModifyReviewButtons = ({ id, onClose }: PropsType) => {
-  const {
-    isOpen: isOpenDoneModal,
-    onOpen: onOpenDoneModal,
-    onClose: onCloseDoneModal,
-  } = useDisclosure();
+  const queryClient = useQueryClient();
+  const queryKey = useAppStore((store) => store.QUERY_KEY.reviewQueryKey);
+  const { isOpen: isOpenDoneModal, onOpen: onOpenDoneModal } = useDisclosure();
   const { handleSubmit } = useFormContext<FormDataType>();
   const { uploadFilesToS3 } = usePhotosUpload();
 
   const { mutateAsync } = usePutReviewMutation({
     options: {
       onSuccess: () => {
-        onClose();
         onOpenDoneModal();
+        queryClient.invalidateQueries(queryKey);
       },
     },
   });
@@ -63,7 +64,7 @@ const ModifyReviewButtons = ({ id, onClose }: PropsType) => {
       <Button colorScheme="primary" variant="outline" onClick={onClose}>
         닫기
       </Button>
-      <ModifyDoneModal isOpen={isOpenDoneModal} onClose={onCloseDoneModal} />
+      <ModifyDoneModal isOpen={isOpenDoneModal} onClose={onClose} />
     </Flex>
   );
 };

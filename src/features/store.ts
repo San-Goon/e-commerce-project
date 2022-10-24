@@ -1,4 +1,5 @@
 import modalSlice from '@features/modal/modalSlice';
+import queryKeySlice from '@features/queryKey/queryKeySlice';
 import shipInfoSlice from '@features/shipInfo/shipInfoSlice';
 import userSlice from '@features/user/userSlice';
 
@@ -10,6 +11,7 @@ export function makeStore() {
       [userSlice.name]: userSlice.reducer,
       [modalSlice.name]: modalSlice.reducer,
       [shipInfoSlice.name]: shipInfoSlice.reducer,
+      [queryKeySlice.name]: queryKeySlice.reducer,
     },
   });
 }
