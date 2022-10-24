@@ -3,17 +3,17 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Box, Flex, Select, Text } from '@chakra-ui/react';
 
+import { GetMeReturnType } from '@apis/user/UserApi.type';
+
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
 import ProfileImageUploader from '@components/common/ProfileImageUploader';
 
-import Dict = NodeJS.Dict;
-
-interface IProps {
-  data?: Dict<string | string[]>;
+interface PropsType {
+  data?: GetMeReturnType;
 }
 
-const InfoForm = ({ data }: IProps) => {
+const InfoForm = ({ data }: PropsType) => {
   const { formState, control, setValue } = useFormContext();
   useEffect(() => {
     if (data) {
