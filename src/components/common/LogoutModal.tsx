@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+
 import {
   Button,
   Modal,
@@ -9,7 +12,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-const LogoutModal = ({ isOpen, onClose }: ModalProps) => {
+import { deleteToken } from '@utils/cookie/token';
+
+const LogoutModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
+  const router = useRouter();
+  const onClickConfirm = useCallback(() => {
+    deleteToken();
+    router.push('/login');
+  }, [router]);
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -23,7 +33,7 @@ const LogoutModal = ({ isOpen, onClose }: ModalProps) => {
           <Button colorScheme="primary" variant="outline" onClick={onClose}>
             취소
           </Button>
-          <Button colorScheme="primary" onClick={onClose}>
+          <Button colorScheme="primary" onClick={onClickConfirm}>
             확인
           </Button>
         </ModalFooter>
