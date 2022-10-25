@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import * as _ from 'lodash';
@@ -11,10 +11,10 @@ import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import BottomForm from '@components/PaymentPage/_Fragments/BottomForm';
-import InfoInputs from '@components/PaymentPage/_Fragments/InfoInputs';
 import PaymentButton from '@components/PaymentPage/_Fragments/PaymentButton';
 import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 import ProductList from '@components/common/ProductList';
+import ShippingInfoInputs from '@components/common/ShippingInfoInputs';
 
 import { UseQueryResult } from '@tanstack/react-query';
 
@@ -59,13 +59,13 @@ const PaymentPageView = ({ ids }: PropsType) => {
     return [];
   }, [products, cart]);
 
-  const onChangeSame = () => {
+  const onChangeSame = useCallback(() => {
     setValue('shipName', getValues('userName'));
     setValue('shipPhone', getValues('userPhone'));
     setValue('shipAddrPost', getValues('userAddrPost'));
     setValue('shipAddress', getValues('userAddress'));
     setValue('shipExtraAddress', getValues('userExtraAddress'));
-  };
+  }, [getValues, setValue]);
 
   useEffect(() => {
     let totalPrice = 0;
@@ -96,7 +96,7 @@ const PaymentPageView = ({ ids }: PropsType) => {
       <Text mt="46px" mb="40px" textStyle="md" fontWeight="700">
         주문자 정보
       </Text>
-      <InfoInputs field="user" />
+      <ShippingInfoInputs field="user" />
       <Flex
         mt="50px"
         mb="40px"
@@ -115,7 +115,7 @@ const PaymentPageView = ({ ids }: PropsType) => {
           주문자 정보와 동일
         </Checkbox>
       </Flex>
-      <InfoInputs field="ship" />
+      <ShippingInfoInputs field="ship" />
       <BottomForm totalPrice={totalPrice} />
       <PaymentButton
         userId={me?.id}

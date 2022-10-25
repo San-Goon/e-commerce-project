@@ -3,8 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 
-import AddressSearcherModal from '@components/PaymentPage/_Fragments/AddressSearcherModal';
 import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import AddressSearcherModal from '@components/common/AddressSearcherModal';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
 
@@ -12,7 +12,7 @@ interface PropsType {
   field: 'user' | 'ship';
 }
 
-const InfoInputs = ({ field }: PropsType) => {
+const ShippingInfoInputs = ({ field }: PropsType) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { formState } = useFormContext<FormDataType>();
 
@@ -89,4 +89,4 @@ const InfoInputs = ({ field }: PropsType) => {
   );
 };
 
-export default InfoInputs;
+export default ShippingInfoInputs;

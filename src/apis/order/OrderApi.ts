@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
 import {
+  GetOrderByIdReturnType,
   GetOrderStatusReqType,
   GetOrderStatusReturnType,
   OrderByIdReturnType,
@@ -18,6 +19,14 @@ export class OrderApi {
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
+
+  getOrderById = async (id: string): Promise<GetOrderByIdReturnType> => {
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `/v1/order/${id}/`,
+    });
+    return data;
+  };
 
   postOrder = async (body: PostOrderBodyType): Promise<PostOrderReturnType> => {
     const { data } = await this.axios({

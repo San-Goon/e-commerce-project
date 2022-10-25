@@ -1,3 +1,22 @@
+export type GetOrderByIdReturnType = {
+  id: string;
+  price: number;
+  shippingPrice: number;
+  amount: number;
+  method: string;
+  status: string;
+  userName: string;
+  userPhone: string;
+  userAddrPost: string;
+  userAddrDetail: string;
+  shipName: string;
+  shipPhone: string;
+  shipAddrPost: string;
+  shipAddrDetail: string;
+  orderMessage: string;
+  created: string;
+};
+
 export type PostOrderBodyType = {
   userId?: number;
   price: number;
