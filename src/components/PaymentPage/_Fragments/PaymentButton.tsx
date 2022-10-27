@@ -15,7 +15,7 @@ import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { ShipInfoType, setShipInfo } from '@utils/localStorage/shipInfo';
 
-import { FormDataType } from '../_hooks/usePaymentForm';
+import { PaymentFormDataType } from '../_hooks/usePaymentForm';
 
 interface PropsType {
   userId?: number;
@@ -33,7 +33,7 @@ interface OrderInfoType {
 }
 
 const PaymentButton = ({ userId, price, productsList }: PropsType) => {
-  const { handleSubmit } = useFormContext<FormDataType>();
+  const { handleSubmit } = useFormContext<PaymentFormDataType>();
   const { mutateAsync: postOrderMutate } = usePostOrderMutation();
   const { mutateAsync: postOrderStatusMutate } = usePostOrderStatusMutation();
 
@@ -44,21 +44,12 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
       },
     );
   };
-  const onSubmit: SubmitHandler<FormDataType> = async (data) => {
+  const onSubmit: SubmitHandler<PaymentFormDataType> = async (data) => {
     try {
-      const {
-        PIAgree,
-        userAddress,
-        userExtraAddress,
-        shipAddress,
-        shipExtraAddress,
-        ...rest
-      } = data;
+      const { PIAgree, ...rest } = data;
       const mutateData = {
         userId,
         price,
-        userAddrDetail: userAddress + userExtraAddress,
-        shipAddrDetail: shipAddress + shipExtraAddress,
         ...rest,
       };
       const { id: orderId } = await postOrderMutate(mutateData);

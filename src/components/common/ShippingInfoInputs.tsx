@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 
-import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import { PaymentFormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 import AddressSearcherModal from '@components/common/AddressSearcherModal';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
@@ -14,7 +14,7 @@ interface PropsType {
 
 const ShippingInfoInputs = ({ field }: PropsType) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { formState } = useFormContext<FormDataType>();
+  const { formState } = useFormContext<PaymentFormDataType>();
 
   return (
     <>
@@ -53,16 +53,12 @@ const ShippingInfoInputs = ({ field }: PropsType) => {
         labelProps={{ fontSize: '12px' }}
         errorText={
           field === 'ship'
-            ? formState.errors.shipAddress?.message
-            : formState.errors.userAddress?.message
+            ? formState.errors.shipAddr?.message
+            : formState.errors.userAddr?.message
         }
       >
         <Flex>
-          <Input
-            fieldName={`${field}Address`}
-            placeholder=""
-            isReadOnly={true}
-          />
+          <Input fieldName={`${field}Addr`} placeholder="" isReadOnly={true} />
           <Button
             w="30%"
             ml="10px"
@@ -75,12 +71,12 @@ const ShippingInfoInputs = ({ field }: PropsType) => {
         </Flex>
         <Input
           mt="10px"
-          fieldName={`${field}ExtraAddress`}
+          fieldName={`${field}AddrDetail`}
           placeholder="상세주소를 입력해주세요."
         />
       </FormHelper>
       <AddressSearcherModal
-        address={`${field}Address`}
+        addr={`${field}Addr`}
         addrPost={`${field}AddrPost`}
         isOpen={isOpen}
         onClose={onClose}

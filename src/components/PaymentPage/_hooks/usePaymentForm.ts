@@ -4,32 +4,32 @@ import * as yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export type FormDataType = {
+export type PaymentFormDataType = {
   userName: string;
   userPhone: string;
-  userAddress: string;
-  userExtraAddress: string;
+  userAddr: string;
+  userAddrDetail: string;
   userAddrPost: string;
   shipName: string;
   shipPhone: string;
-  shipAddress: string;
+  shipAddr: string;
   shipAddrPost: string;
-  shipExtraAddress: string;
+  shipAddrDetail: string;
   orderMessage?: string;
   method: string;
   PIAgree: boolean;
 };
 
-export const defaultValues: FormDataType = {
+export const defaultValues: PaymentFormDataType = {
   userName: '',
   userPhone: '',
-  userAddress: '',
-  userExtraAddress: '',
+  userAddr: '',
+  userAddrDetail: '',
   userAddrPost: '',
   shipName: '',
   shipPhone: '',
-  shipAddress: '',
-  shipExtraAddress: '',
+  shipAddr: '',
+  shipAddrDetail: '',
   shipAddrPost: '',
   orderMessage: '',
   method: '',
@@ -60,8 +60,9 @@ export const PaymentFormSchema = yup.object().shape({
       /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
       '정확한 핸드폰 번호를 입력해주세요.',
     ),
-  userAddress: yup.string().required('해당 항목은 필수값 입니다.'),
-  userExtraAddress: yup.string(),
+  userAddr: yup.string().required('해당 항목은 필수값 입니다.'),
+  userAddrPost: yup.string().required('!'),
+  userAddrDetail: yup.string(),
   shipName: yup.string().required('해당 항목은 필수값 입니다.'),
   shipPhone: yup
     .string()
@@ -74,15 +75,16 @@ export const PaymentFormSchema = yup.object().shape({
       /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
       '정확한 핸드폰 번호를 입력해주세요.',
     ),
-  shipAddress: yup.string().required('해당 항목은 필수값 입니다.'),
-  shipExtraAddress: yup.string(),
+  shipAddr: yup.string().required('해당 항목은 필수값 입니다.'),
+  shipAddrPost: yup.string().required('!'),
+  shipAddrDetail: yup.string(),
   orderMessage: yup.string(),
   method: yup.string().oneOf(['CARD']).required('해당 항목은 필수값 입니다.'),
   PIAgree: yup.boolean().oneOf([true], '필수약관에 동의해주세요.'),
 });
 
-const usePaymentForm = (options?: UseFormProps<FormDataType>) => {
-  return useForm<FormDataType>({
+const usePaymentForm = (options?: UseFormProps<PaymentFormDataType>) => {
+  return useForm<PaymentFormDataType>({
     resolver: yupResolver(PaymentFormSchema),
     mode: 'onChange',
     ...options,

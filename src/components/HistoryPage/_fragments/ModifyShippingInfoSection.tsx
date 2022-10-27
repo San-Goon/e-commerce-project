@@ -22,11 +22,16 @@ const ModifyShippingInfoSection = ({ orderId }: PropsType) => {
     variables: orderId,
     options: {
       onSuccess: (data) => {
-        console.log(data.userAddrDetail);
         setValue('userName', data.userName);
         setValue('userPhone', data.userPhone);
         setValue('shipName', data.shipName);
         setValue('shipPhone', data.shipPhone);
+        setValue('userAddrPost', data.userAddrPost);
+        setValue('shipAddrPost', data.shipAddrPost);
+        setValue('userAddr', data.userAddr);
+        setValue('shipAddr', data.shipAddr);
+        setValue('userAddrDetail', data.userAddrDetail);
+        setValue('shipAddrDetail', data.shipAddrDetail);
         setValue('orderMessage', data.orderMessage);
       },
     },
@@ -36,8 +41,8 @@ const ModifyShippingInfoSection = ({ orderId }: PropsType) => {
     setValue('shipName', getValues('userName'));
     setValue('shipPhone', getValues('userPhone'));
     setValue('shipAddrPost', getValues('userAddrPost'));
-    setValue('shipAddress', getValues('userAddress'));
-    setValue('shipExtraAddress', getValues('userExtraAddress'));
+    setValue('shipAddr', getValues('userAddr'));
+    setValue('shipAddrDetail', getValues('userAddrDetail'));
   }, [setValue, getValues]);
 
   return (

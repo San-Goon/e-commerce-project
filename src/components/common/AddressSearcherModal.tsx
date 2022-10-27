@@ -4,22 +4,22 @@ import { useFormContext } from 'react-hook-form';
 
 import { Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
-import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import { PaymentFormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 
 interface PropsType {
-  address: 'userAddress' | 'shipAddress';
+  addr: 'userAddr' | 'shipAddr';
   addrPost: 'userAddrPost' | 'shipAddrPost';
   isOpen: boolean;
   onClose: () => void;
 }
 
 const AddressSearcherModal = ({
-  address,
+  addr,
   addrPost,
   isOpen,
   onClose,
 }: PropsType) => {
-  const { setValue } = useFormContext<FormDataType>();
+  const { setValue } = useFormContext<PaymentFormDataType>();
   const handleCompleteAddressSearcher = (data: Address) => {
     let fullAddress = data.address;
     let extraAddress = '';
@@ -34,7 +34,7 @@ const AddressSearcherModal = ({
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    setValue(address, fullAddress);
+    setValue(addr, fullAddress);
     setValue(addrPost, data.zonecode);
   };
   return (

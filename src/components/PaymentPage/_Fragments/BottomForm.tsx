@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import { PaymentFormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
 
@@ -24,7 +24,7 @@ interface PropsType {
 }
 
 const BottomForm = ({ totalPrice }: PropsType) => {
-  const { formState, control } = useFormContext<FormDataType>();
+  const { formState, control } = useFormContext<PaymentFormDataType>();
   return (
     <>
       <FormHelper

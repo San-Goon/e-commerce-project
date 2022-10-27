@@ -12,7 +12,7 @@ import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import BottomForm from '@components/PaymentPage/_Fragments/BottomForm';
 import PaymentButton from '@components/PaymentPage/_Fragments/PaymentButton';
-import { FormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
+import { PaymentFormDataType } from '@components/PaymentPage/_hooks/usePaymentForm';
 import ProductList from '@components/common/ProductList';
 import ShippingInfoInputs from '@components/common/ShippingInfoInputs';
 
@@ -24,7 +24,7 @@ interface PropsType {
 
 const PaymentPageView = ({ ids }: PropsType) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const { setValue, getValues } = useFormContext<FormDataType>();
+  const { setValue, getValues } = useFormContext<PaymentFormDataType>();
 
   const { data: me } = useGetMeQuery();
 
@@ -63,8 +63,8 @@ const PaymentPageView = ({ ids }: PropsType) => {
     setValue('shipName', getValues('userName'));
     setValue('shipPhone', getValues('userPhone'));
     setValue('shipAddrPost', getValues('userAddrPost'));
-    setValue('shipAddress', getValues('userAddress'));
-    setValue('shipExtraAddress', getValues('userExtraAddress'));
+    setValue('shipAddr', getValues('userAddr'));
+    setValue('shipAddrDetail', getValues('userAddrDetail'));
   }, [getValues, setValue]);
 
   useEffect(() => {
