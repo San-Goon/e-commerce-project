@@ -14,7 +14,7 @@ import {
 import { useGetProductListQuery } from '@apis/product/ProductApi.query';
 
 import { formatAvgRate, formatPrice } from '@utils/format';
-import { IProductMap, ITags } from '@utils/types';
+import { ITags } from '@utils/types';
 
 import { StarIcon } from '../../generated/icons/MyIcons';
 
@@ -48,7 +48,7 @@ const ListPage = () => {
   return (
     <Center mt="120px" flexDirection="column" position="relative">
       {productList &&
-        productList.map((item: IProductMap) => (
+        productList.map((item) => (
           <Box
             key={item.id}
             m="0 16px 30px 16px"
@@ -89,7 +89,7 @@ const ListPage = () => {
                 (리뷰 {item.reviewCount}개)
               </Flex>
               <Flex>
-                {item.tags.map((item: ITags) => {
+                {item.tag.map((item: ITags) => {
                   return (
                     <Box
                       key={item.id}

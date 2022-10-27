@@ -10,7 +10,7 @@ export interface IProductMap {
   price: number;
   capacity: number;
   thumbnail: string;
-  tags: Array<ITags>;
+  tag: Array<ITags>;
   avgRate: number;
   reviewCount: number;
 }
