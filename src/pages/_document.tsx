@@ -26,7 +26,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
           {/* SEO */}
           <link rel="apple-touch-icon" href="/icons/120.png" />
           <link rel="apple-touch-icon" sizes="152x152" href="/icons/152.png" />
