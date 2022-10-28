@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import * as _ from 'lodash';
 
@@ -23,11 +23,11 @@ import { UseQueryResult, useQueryClient } from '@tanstack/react-query';
 import { formatPrice } from '@utils/format';
 import { CartItem } from '@utils/types';
 
-interface IProps {
+interface PropsType {
   items: CartItem[];
 }
 
-const ItemExistComponent = ({ items }: IProps) => {
+const ItemExistComponent = ({ items }: PropsType) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checked, setChecked] = useState<boolean[]>([]);
   const queryClient = useQueryClient();
@@ -59,7 +59,7 @@ const ItemExistComponent = ({ items }: IProps) => {
     return checked.every((v) => v);
   }, [checked]);
 
-  const onChangeCheckAll = () => {
+  const onChangeCheckAll = useCallback(() => {
     if (allChecked) {
       for (let i = 0; i < items.length; i++) {
         setChecked(Array(items.length).fill(false));
@@ -69,7 +69,7 @@ const ItemExistComponent = ({ items }: IProps) => {
         setChecked(Array(items.length).fill(true));
       }
     }
-  };
+  }, [allChecked, items.length]);
 
   const productIdsForQuery = useMemo(() => {
     let temp = '';
@@ -81,18 +81,20 @@ const ItemExistComponent = ({ items }: IProps) => {
     return temp;
   }, [checked, items]);
 
-  const onClickDelete = () => {
+  const onClickDelete = useCallback(() => {
     for (let i = 0; i < checked.length; i++) {
       if (checked[i]) {
         deleteMutate(productsList[i].id.toString());
       }
     }
     setChecked(Array(items.length).fill(false));
-  };
+  }, [checked, deleteMutate, items.length, productsList]);
 
   useEffect(() => {
-    setChecked(Array(items.length).fill(false));
-  }, [items]);
+    if (checked.length === 0) {
+      setChecked(Array(items.length).fill(false));
+    }
+  }, [checked, items]);
 
   useEffect(() => {
     let totalPrice = 0;
