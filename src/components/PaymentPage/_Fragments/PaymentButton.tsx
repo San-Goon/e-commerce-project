@@ -69,8 +69,8 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
             ? `${productsList[0].name}`
             : `${productsList[0].name} 외 ${productsList.length}건`,
         customerName: data.userName,
-        successUrl: 'http://localhost:3000/success',
-        failUrl: 'http://localhost:3000/cart',
+        successUrl: `${CONFIG.DOMAIN}/success`,
+        failUrl: `${CONFIG.DOMAIN}/cart`,
       };
       const setLocalStorageData: ShipInfoType = {
         cartIds: [],
