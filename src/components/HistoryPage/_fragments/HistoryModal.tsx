@@ -28,14 +28,19 @@ const HistoryModal = ({ isOpen, onClose, orderId }: PropsType) => {
   const queryClient = useQueryClient();
   const orderQueryKey = useAppStore((store) => store.QUERY_KEY.orderQueryKey);
 
-  const { isOpen: isOpenCancelDone, onOpen: onOpenCancelDone } =
-    useDisclosure();
+  const {
+    isOpen: isOpenCancelDone,
+    onOpen: onOpenCancelDone,
+    onClose: onCloseCancelDone,
+  } = useDisclosure();
 
   const { mutate: cancelMutate } = usePutOrderShippingStatus({
     options: {
       onSuccess: () => {
         queryClient.invalidateQueries(orderQueryKey);
+        console.log(orderQueryKey);
         onOpenCancelDone();
+        onClose();
       },
     },
   });
@@ -67,7 +72,7 @@ const HistoryModal = ({ isOpen, onClose, orderId }: PropsType) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <CancelDoneModal isOpen={isOpenCancelDone} onClose={onClose} />
+      <CancelDoneModal isOpen={isOpenCancelDone} onClose={onCloseCancelDone} />
     </>
   );
 };
