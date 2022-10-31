@@ -23,14 +23,16 @@ const InfoForm = ({ data }: PropsType) => {
       setValue('email', data.email);
       setValue('age', data.age);
       setValue('gender', data.gender);
+      setValue('profileImg', data.profile);
     }
   }, [data, setValue]);
+
   return (
     <>
       <FormHelper mb="40px" label="회원정보입력">
         <Flex justifyContent="center" alignItems="center">
           <Box position="relative">
-            <ProfileImageUploader />
+            <ProfileImageUploader profileImg={data?.profile} />
           </Box>
         </Flex>
       </FormHelper>

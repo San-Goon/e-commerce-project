@@ -8,10 +8,14 @@ import ProfileIcon from '@icons/System/Profile';
 
 import { CloserCircleIcon } from '../../generated/icons/MyIcons';
 
-const ProfileImageUploader = () => {
+interface PropsType {
+  profileImg?: string;
+}
+
+const ProfileImageUploader = ({ profileImg }: PropsType) => {
   const { setValue } = useFormContext();
 
-  const [image, setImage] = useState<File[]>();
+  const [image, setImage] = useState<(File | string)[]>();
   const [previewImg, setPreviewImg] = useState<string[]>();
 
   const onUpload = useCallback(
@@ -32,6 +36,13 @@ const ProfileImageUploader = () => {
   useEffect(() => {
     setValue('profileImg', image);
   }, [image, setValue]);
+
+  useEffect(() => {
+    if (profileImg) {
+      setImage([profileImg]);
+      setPreviewImg([profileImg]);
+    }
+  }, [profileImg]);
 
   const onDelete = useCallback(() => {
     setTimeout(() => {

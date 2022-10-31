@@ -44,7 +44,11 @@ const ModifyButtons = () => {
   }) => {
     let profilePath;
     if (profileImg) {
-      profilePath = await uploadFilesToS3(profileImg[0]);
+      if (typeof profileImg === 'string') {
+        profilePath = profileImg;
+      } else {
+        profilePath = await uploadFilesToS3(profileImg[0]);
+      }
     }
     await mutateAsync({
       profilePath,

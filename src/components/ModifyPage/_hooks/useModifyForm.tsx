@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export type ModifyFormDataType = {
-  profileImg?: File[];
+  profileImg?: File[] | string;
   name: string;
   nickname: string;
   email: string;
