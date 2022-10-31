@@ -4,8 +4,8 @@ import * as yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export type FormDataType = {
-  profilePath?: string;
+export type SignUpFormDataType = {
+  profileImg?: File[];
   name: string;
   nickname: string;
   email: string;
@@ -40,7 +40,7 @@ export const defaultValues = {
  * */
 
 export const signUpFormSchema = yup.object().shape({
-  profilePath: yup.string().nullable(),
+  profileImg: yup.array().nullable(),
   name: yup.string().min(2, '최소 2자 이상 입력해주세요.'),
   nickname: yup
     .string()
@@ -70,8 +70,8 @@ export const signUpFormSchema = yup.object().shape({
   marketingAdAgree: yup.boolean(),
 });
 
-const useSignUpForm = (options?: UseFormProps<FormDataType>) => {
-  return useForm<FormDataType>({
+const useSignUpForm = (options?: UseFormProps<SignUpFormDataType>) => {
+  return useForm<SignUpFormDataType>({
     resolver: yupResolver(signUpFormSchema),
     mode: 'onChange',
     ...options,

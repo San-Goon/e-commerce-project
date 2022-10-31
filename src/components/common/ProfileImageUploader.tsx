@@ -1,38 +1,43 @@
-import React, { useCallback } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { Box, BoxProps, Flex, Image } from '@chakra-ui/react';
+import { Box, Flex, Image } from '@chakra-ui/react';
 
 import FilledPlus from '@icons/System/FilledPlus';
 import ProfileIcon from '@icons/System/Profile';
 
 import { CloserCircleIcon } from '../../generated/icons/MyIcons';
-import useProfileUpload from '../../hooks/useProfileUpload';
 
-interface PropsType extends BoxProps {
-  fieldName: string;
-}
-const ProfileImageUploader = ({ fieldName }: PropsType) => {
-  const filesValue = useWatch({ name: fieldName });
+const ProfileImageUploader = () => {
   const { setValue } = useFormContext();
-  const { uploadFilesToS3 } = useProfileUpload();
+
+  const [image, setImage] = useState<File[]>();
+  const [previewImg, setPreviewImg] = useState<string[]>();
+
   const onUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
-        const file = Array.from(e.target.files)[0];
-        const imgUrl = await uploadFilesToS3(file);
-        if (imgUrl) setValue(fieldName, imgUrl);
+        const tempArr = [];
+        const tempArr2 = [];
+        tempArr.push(e.target.files[0]);
+        tempArr2.push(URL.createObjectURL(e.target.files[0]));
+        setImage(tempArr);
+        setPreviewImg(tempArr2);
         e.target.value = '';
       }
     },
-    [fieldName, setValue, uploadFilesToS3],
+    [],
   );
+
+  useEffect(() => {
+    setValue('profileImg', image);
+  }, [image, setValue]);
 
   const onDelete = useCallback(() => {
     setTimeout(() => {
-      setValue(fieldName, undefined);
+      setValue('profileImg', undefined);
     }, 50);
-  }, [fieldName, setValue]);
+  }, [setValue]);
 
   return (
     <Flex
@@ -43,7 +48,7 @@ const ProfileImageUploader = ({ fieldName }: PropsType) => {
       h="100%"
       position="relative"
     >
-      {!filesValue ? (
+      {!previewImg ? (
         <Box cursor="pointer">
           <ProfileIcon boxSize="120px" />
           <FilledPlus
@@ -54,7 +59,7 @@ const ProfileImageUploader = ({ fieldName }: PropsType) => {
             position="absolute"
           />
           <input
-            id={`inputFile-${fieldName}`}
+            id={`inputFile-profilePath`}
             type="file"
             accept="image/png, image/jpg, image/svg"
             style={{ display: 'none' }}
@@ -64,7 +69,7 @@ const ProfileImageUploader = ({ fieldName }: PropsType) => {
       ) : (
         <>
           <Image
-            src={filesValue}
+            src={previewImg[0]}
             alt="logoImage"
             boxSize="120px"
             borderRadius="50%"

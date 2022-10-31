@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export type ModifyFormDataType = {
-  profilePath?: string;
+  profileImg?: File[];
   name: string;
   nickname: string;
   email: string;
@@ -34,7 +34,7 @@ export const defaultValues = {
  * */
 
 export const modifyFormSchema = yup.object().shape({
-  profilePath: yup.string().nullable(),
+  profileImg: yup.array().nullable(),
   name: yup.string().min(2, '최소 2자 이상 입력해주세요.'),
   nickname: yup
     .string()

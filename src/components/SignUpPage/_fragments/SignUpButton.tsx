@@ -9,16 +9,19 @@ import { usePostRegisterMutation } from '@apis/user/UserApi.mutation';
 
 import { getToken, setToken } from '@utils/cookie/token';
 
-import { FormDataType } from '../_hooks/useSignUpForm';
+import useProfileUpload from '../../../hooks/useProfileUpload';
+import { SignUpFormDataType } from '../_hooks/useSignUpForm';
 
 import _isEmpty from 'lodash/isEmpty';
 
 const SignUpButton = () => {
   const toast = useToast();
   const router = useRouter();
-  const { formState, handleSubmit } = useFormContext<FormDataType>();
-  const data = useWatch<FormDataType>();
-  const { mutate } = usePostRegisterMutation({
+  const { formState, handleSubmit } = useFormContext<SignUpFormDataType>();
+  const data = useWatch<SignUpFormDataType>();
+  const { uploadFilesToS3 } = useProfileUpload();
+
+  const { mutateAsync } = usePostRegisterMutation({
     options: {
       onSuccess: (data) => {
         setToken({
@@ -46,7 +49,7 @@ const SignUpButton = () => {
       alert('비정상적인 접근입니다.');
       router.back();
     }
-  }, []);
+  }, [router, token]);
 
   const isDisabled = useMemo(() => {
     const values = Object.values(data);
@@ -55,17 +58,21 @@ const SignUpButton = () => {
     return false;
   }, [formState, data]);
 
-  const onSubmit: SubmitHandler<FormDataType> = ({
+  const onSubmit: SubmitHandler<SignUpFormDataType> = async ({
     email,
     phone,
     name,
     nickname,
-    profilePath,
+    profileImg,
     gender,
     age,
     marketingAdAgree,
   }) => {
-    mutate({
+    let profilePath;
+    if (profileImg) {
+      profilePath = await uploadFilesToS3(profileImg[0]);
+    }
+    await mutateAsync({
       email,
       phone,
       name,

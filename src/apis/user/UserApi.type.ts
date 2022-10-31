@@ -4,17 +4,31 @@ export type GetMeReturnType = {
   nickname: string;
   phone: string;
   email: string;
-  profile: string;
+  profilePath: string;
   gender: string;
   age: number;
 };
 
-export type PatchMeType = Partial<GetMeReturnType>;
+export type PutMeBodyType = Omit<
+  PostRegisterBodyType,
+  'socialToken' | 'marketingAdAgree'
+>;
 
-export type PostRefreshTokenType = {
-  access: string;
-  refresh: string;
+export type PutMeReturnType = {
+  id: number;
+  email: string;
+  phone: string;
+  name: string;
+  nickname: string;
+  profilePath?: string;
+  gender?: string;
+  age?: number;
 };
+
+// export type PostRefreshTokenType = {
+//   access: string;
+//   refresh: string;
+// };
 
 export type PostSocialLoginBodyType = {
   code: string;

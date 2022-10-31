@@ -3,18 +3,18 @@ import userApi from '@apis/user/UserApi';
 
 import { useMutation } from '@tanstack/react-query';
 
-export const usePostRefreshTokenMutation = (
-  params?: MutationHookParams<typeof userApi.postRefreshToken>,
-) => {
-  return useMutation(userApi.postRefreshToken, {
-    ...params?.options,
-  });
-};
+// export const usePostRefreshTokenMutation = (
+//   params?: MutationHookParams<typeof userApi.postRefreshToken>,
+// ) => {
+//   return useMutation(userApi.postRefreshToken, {
+//     ...params?.options,
+//   });
+// };
 
-export const usePatchMeMutation = (
-  params?: MutationHookParams<typeof userApi.patchMe>,
+export const usePutMeMutation = (
+  params?: MutationHookParams<typeof userApi.putMe>,
 ) => {
-  return useMutation(userApi.patchMe, {
+  return useMutation(userApi.putMe, {
     ...params?.options,
   });
 };

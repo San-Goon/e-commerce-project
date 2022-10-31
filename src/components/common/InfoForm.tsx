@@ -30,7 +30,7 @@ const InfoForm = ({ data }: PropsType) => {
       <FormHelper mb="40px" label="회원정보입력">
         <Flex justifyContent="center" alignItems="center">
           <Box position="relative">
-            <ProfileImageUploader fieldName="profilePath" />
+            <ProfileImageUploader />
           </Box>
         </Flex>
       </FormHelper>

@@ -5,19 +5,23 @@ import { AxiosError } from 'axios';
 
 import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 
-import { usePatchMeMutation } from '@apis/user/UserApi.mutation';
+import { usePutMeMutation } from '@apis/user/UserApi.mutation';
 
 import ModifyModal from '@components/ModifyPage/_fragments/ModifyModal';
 import { ModifyFormDataType } from '@components/ModifyPage/_hooks/useModifyForm';
 
 import { useQueryClient } from '@tanstack/react-query';
 
+import useProfileUpload from '../../../hooks/useProfileUpload';
+
 const ModifyButtons = () => {
   const queryClient = useQueryClient();
   const { handleSubmit } = useFormContext<ModifyFormDataType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = usePatchMeMutation({
+  const { uploadFilesToS3 } = useProfileUpload();
+
+  const { mutateAsync } = usePutMeMutation({
     options: {
       onSuccess: () => {
         onOpen();
@@ -29,7 +33,8 @@ const ModifyButtons = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ModifyFormDataType> = ({
+  const onSubmit: SubmitHandler<ModifyFormDataType> = async ({
+    profileImg,
     name,
     age,
     email,
@@ -37,7 +42,12 @@ const ModifyButtons = () => {
     nickname,
     phone,
   }) => {
-    mutate({
+    let profilePath;
+    if (profileImg) {
+      profilePath = await uploadFilesToS3(profileImg[0]);
+    }
+    await mutateAsync({
+      profilePath,
       name,
       nickname,
       phone,
@@ -60,6 +70,8 @@ const ModifyButtons = () => {
         취소
       </Button>
       <Button
+        w="165px"
+        h="50px"
         colorScheme="primary"
         textStyle="md"
         fontWeight="700"

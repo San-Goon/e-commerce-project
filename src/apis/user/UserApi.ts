@@ -2,14 +2,14 @@ import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
 import {
-  GetMeReturnType,
-  PatchMeType,
-  PostRefreshTokenType,
+  GetMeReturnType, // PostRefreshTokenType,
   PostRegisterBodyType,
   PostRegisterReturnType,
   PostSocialLoginBodyType,
   PostSocialLoginReturnType,
   PostWithdrawReasonType,
+  PutMeBodyType,
+  PutMeReturnType,
 } from '@apis/user/UserApi.type';
 
 export class UserApi {
@@ -26,9 +26,9 @@ export class UserApi {
     return data;
   };
 
-  patchMe = async (body: PatchMeType): Promise<PatchMeType> => {
+  putMe = async (body: PutMeBodyType): Promise<PutMeReturnType> => {
     const { data } = await this.axios({
-      method: 'PATCH',
+      method: 'PUT',
       url: '/v1/user/me/',
       data: body,
     });
@@ -42,14 +42,14 @@ export class UserApi {
     });
   };
 
-  postRefreshToken = async (refresh: string): Promise<PostRefreshTokenType> => {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: '/v1/user/refresh/',
-      data: { refresh },
-    });
-    return data;
-  };
+  // postRefreshToken = async (refresh: string): Promise<PostRefreshTokenType> => {
+  //   const { data } = await this.axios({
+  //     method: 'POST',
+  //     url: '/v1/user/refresh/',
+  //     data: { refresh },
+  //   });
+  //   return data;
+  // };
 
   postSocialLogin = async (
     body: PostSocialLoginBodyType,
