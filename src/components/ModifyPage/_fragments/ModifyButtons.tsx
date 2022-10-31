@@ -8,16 +8,20 @@ import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { usePatchMeMutation } from '@apis/user/UserApi.mutation';
 
 import ModifyModal from '@components/ModifyPage/_fragments/ModifyModal';
-import { FormDataType } from '@components/ModifyPage/_hooks/useModifyForm';
+import { ModifyFormDataType } from '@components/ModifyPage/_hooks/useModifyForm';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 const ModifyButtons = () => {
-  const { handleSubmit } = useFormContext<FormDataType>();
+  const queryClient = useQueryClient();
+  const { handleSubmit } = useFormContext<ModifyFormDataType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mutate } = usePatchMeMutation({
     options: {
       onSuccess: () => {
         onOpen();
+        queryClient.invalidateQueries(['get-me']);
       },
       onError: (error: AxiosError) => {
         console.error(error);
@@ -25,7 +29,7 @@ const ModifyButtons = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormDataType> = ({
+  const onSubmit: SubmitHandler<ModifyFormDataType> = ({
     name,
     age,
     email,

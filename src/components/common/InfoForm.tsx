@@ -107,7 +107,7 @@ const InfoForm = ({ data }: PropsType) => {
       <Controller
         control={control}
         name="gender"
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <FormHelper
             mb="40px"
             label="성별"
@@ -117,6 +117,7 @@ const InfoForm = ({ data }: PropsType) => {
             <Select
               variant="flushed"
               placeholder=""
+              value={value}
               onChange={onChange}
               focusBorderColor="primary.500"
               color="black"
@@ -131,7 +132,7 @@ const InfoForm = ({ data }: PropsType) => {
       <Controller
         control={control}
         name="age"
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <FormHelper
             mb="40px"
             label="연령대"
@@ -141,6 +142,7 @@ const InfoForm = ({ data }: PropsType) => {
             <Select
               variant="flushed"
               placeholder=""
+              value={value}
               onChange={onChange}
               focusBorderColor="primary.500"
               color="black"

@@ -4,7 +4,8 @@ import * as yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export type FormDataType = {
+export type ModifyFormDataType = {
+  profilePath?: string;
   name: string;
   nickname: string;
   email: string;
@@ -18,8 +19,6 @@ export const defaultValues = {
   nickname: '',
   email: '',
   phone: '',
-  gender: '',
-  age: 10,
 };
 
 /**
@@ -35,6 +34,7 @@ export const defaultValues = {
  * */
 
 export const modifyFormSchema = yup.object().shape({
+  profilePath: yup.string().nullable(),
   name: yup.string().min(2, '최소 2자 이상 입력해주세요.'),
   nickname: yup
     .string()
@@ -57,12 +57,12 @@ export const modifyFormSchema = yup.object().shape({
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
       '이메일 주소를 정확하게 입력해주세요.',
     ),
-  gender: yup.string(),
-  age: yup.string(),
+  gender: yup.string().nullable(),
+  age: yup.number().nullable(),
 });
 
-const useModifyForm = (options?: UseFormProps<FormDataType>) => {
-  return useForm<FormDataType>({
+const useModifyForm = (options?: UseFormProps<ModifyFormDataType>) => {
+  return useForm<ModifyFormDataType>({
     resolver: yupResolver(modifyFormSchema),
     mode: 'onChange',
     ...options,
