@@ -71,6 +71,7 @@ const SignUpButton = () => {
     let profilePath;
     if (profileImg) {
       profilePath = await uploadFilesToS3(profileImg[0]);
+      profilePath = profilePath.split('.com/')[1];
     }
     await mutateAsync({
       email,
