@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -62,24 +62,25 @@ const OrderListSection = ({ productList, orderId }: PropsType) => {
     [changeMutate, orderId],
   );
 
-  const { data } = useGetOrderByIdQuery({
+  const { data, isSuccess } = useGetOrderByIdQuery({
     variables: orderId,
-    options: {
-      onSuccess: (data) => {
-        setValue('userName', data.userName);
-        setValue('userPhone', data.userPhone);
-        setValue('shipName', data.shipName);
-        setValue('shipPhone', data.shipPhone);
-        setValue('userAddrPost', data.userAddrPost);
-        setValue('shipAddrPost', data.shipAddrPost);
-        setValue('userAddr', data.userAddr);
-        setValue('shipAddr', data.shipAddr);
-        setValue('userAddrDetail', data.userAddrDetail);
-        setValue('shipAddrDetail', data.shipAddrDetail);
-        setValue('orderMessage', data.orderMessage);
-      },
-    },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setValue('userName', data.userName);
+      setValue('userPhone', data.userPhone);
+      setValue('shipName', data.shipName);
+      setValue('shipPhone', data.shipPhone);
+      setValue('userAddrPost', data.userAddrPost);
+      setValue('shipAddrPost', data.shipAddrPost);
+      setValue('userAddr', data.userAddr);
+      setValue('shipAddr', data.shipAddr);
+      setValue('userAddrDetail', data.userAddrDetail);
+      setValue('shipAddrDetail', data.shipAddrDetail);
+      setValue('orderMessage', data.orderMessage);
+    }
+  }, [data, setValue, isSuccess]);
 
   return (
     <Flex direction="column">
