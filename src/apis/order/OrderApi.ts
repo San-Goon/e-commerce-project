@@ -7,11 +7,12 @@ import {
   GetOrderStatusReturnType,
   OrderByIdReturnType,
   PatchOrderByIdReqType,
-  PatchOrderShippingStatusReqType,
   PostOrderBodyType,
   PostOrderReturnType,
   PostOrderStatusBodyType,
   PostOrderStatusReturnType,
+  PutOrderShippingStatusReqType,
+  PutOrderShippingStatusReturnType,
 } from '@apis/order/OrderApi.type';
 
 export class OrderApi {
@@ -69,12 +70,12 @@ export class OrderApi {
     });
     return data;
   };
-  patchOrderShippingStatus = async (
-    req: PatchOrderShippingStatusReqType,
-  ): Promise<PostOrderStatusReturnType> => {
+  putOrderShippingStatus = async (
+    req: PutOrderShippingStatusReqType,
+  ): Promise<PutOrderShippingStatusReturnType> => {
     const { data } = await this.axios({
-      method: 'PATCH',
-      url: `/v1/order/status/${req.userId}/`,
+      method: 'PUT',
+      url: `/v1/order/status/${req.orderId}/`,
       data: req.body,
     });
     return data;

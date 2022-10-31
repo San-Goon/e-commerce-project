@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { usePatchOrderShippingStatus } from '@apis/order/OrderApi.mutation';
+import { usePutOrderShippingStatus } from '@apis/order/OrderApi.mutation';
 import useAppStore from '@features/useAppStore';
 
 import CancelDoneModal from '@components/HistoryPage/_fragments/CancelDoneModal';
@@ -21,17 +21,17 @@ import { useQueryClient } from '@tanstack/react-query';
 interface PropsType {
   isOpen: boolean;
   onClose: () => void;
-  userId?: number;
+  orderId?: string;
 }
 
-const HistoryModal = ({ isOpen, onClose, userId }: PropsType) => {
+const HistoryModal = ({ isOpen, onClose, orderId }: PropsType) => {
   const queryClient = useQueryClient();
   const orderQueryKey = useAppStore((store) => store.QUERY_KEY.orderQueryKey);
 
   const { isOpen: isOpenCancelDone, onOpen: onOpenCancelDone } =
     useDisclosure();
 
-  const { mutate: cancelMutate } = usePatchOrderShippingStatus({
+  const { mutate: cancelMutate } = usePutOrderShippingStatus({
     options: {
       onSuccess: () => {
         queryClient.invalidateQueries(orderQueryKey);
@@ -42,10 +42,10 @@ const HistoryModal = ({ isOpen, onClose, userId }: PropsType) => {
 
   const onClickConfirm = useCallback(() => {
     cancelMutate({
-      userId: userId as number,
+      orderId: orderId as string,
       body: { shippingStatus: 'CANCELED' },
     });
-  }, [cancelMutate, userId]);
+  }, [cancelMutate, orderId]);
 
   return (
     <>

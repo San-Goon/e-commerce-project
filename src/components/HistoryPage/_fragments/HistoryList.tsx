@@ -1,37 +1,44 @@
-import React, { useMemo } from 'react';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
 
 import { PostOrderStatusReturnType } from '@apis/order/OrderApi.type';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
-
-import HistoryButtons from '@components/HistoryPage/_fragments/HistoryButtons';
 
 import { formatPrice } from '@utils/format';
 
 interface PropsType {
   product: PostOrderStatusReturnType;
+  shippingStatus?: string;
 }
 
-const HistoryList = ({ product }: PropsType) => {
+const HistoryList = ({ product, shippingStatus }: PropsType) => {
+  const [status, setStatus] = useState('');
+
+  useEffect(() => {
+    switch (shippingStatus) {
+      case 'INPROGRESS':
+        setStatus('배송중');
+        break;
+      case 'WAIT':
+        setStatus('상품준비');
+        break;
+      case 'CANCELED':
+        setStatus('주문취소');
+        break;
+      case 'DONE':
+        setStatus('배송완료');
+        break;
+      case 'PAID':
+        setStatus('결제완료');
+        break;
+    }
+  }, [shippingStatus]);
+
   const { data } = useGetProductByIdQuery({
     variables: product.productId.toString(),
   });
-
-  const shippingStatus = useMemo(() => {
-    switch (product.shippingStatus) {
-      case 'INPROGRESS':
-        return '배송중';
-      case 'WAIT':
-        return '상품준비';
-      case 'CANCELED':
-        return '주문취소';
-      case 'DONE':
-        return '배송완료';
-      case 'PAID':
-        return '결제완료';
-    }
-  }, [product]);
 
   return (
     <Box m="16px">
@@ -50,13 +57,31 @@ const HistoryList = ({ product }: PropsType) => {
             </Box>
             <Flex direction="column" alignItems="center" ml="auto">
               <Text textStyle="sm" color="primary.500" fontWeight="700">
-                {shippingStatus}
+                {status}
               </Text>
-              <HistoryButtons
-                shippingStatus={shippingStatus}
-                productId={product.productId}
-                orderId={product.id}
-              />
+              {shippingStatus === 'DONE' ? (
+                <Button
+                  w="70px"
+                  h="20px"
+                  colorScheme="primary"
+                  borderRadius="5px"
+                  variant="outline"
+                  fontSize="12px"
+                  fontWeight="700"
+                >
+                  <Link
+                    href={{
+                      pathname: '/review',
+                      query: {
+                        productId: product.productId,
+                        orderId: product.id,
+                      },
+                    }}
+                  >
+                    리뷰작성
+                  </Link>
+                </Button>
+              ) : null}
             </Flex>
           </Flex>
         </>

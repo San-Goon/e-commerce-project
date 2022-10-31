@@ -27,10 +27,10 @@ export const usePatchOrderByIdMutation = (
   });
 };
 
-export const usePatchOrderShippingStatus = (
-  params?: MutationHookParams<typeof orderApi.patchOrderShippingStatus>,
+export const usePutOrderShippingStatus = (
+  params?: MutationHookParams<typeof orderApi.putOrderShippingStatus>,
 ) => {
-  return useMutation(orderApi.patchOrderShippingStatus, {
+  return useMutation(orderApi.putOrderShippingStatus, {
     ...params?.options,
   });
 };

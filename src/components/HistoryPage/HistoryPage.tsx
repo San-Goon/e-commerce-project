@@ -2,22 +2,14 @@ import React, { useMemo, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 import { useGetOrderStatusQuery } from '@apis/order/OrderApi.query';
 import { PostOrderStatusReturnType } from '@apis/order/OrderApi.type';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 import { queryKeySliceActions } from '@features/queryKey/queryKeySlice';
 
-import HistoryList from '@components/HistoryPage/_fragments/HistoryList';
-import ModifyShippingInfoModal from '@components/HistoryPage/_fragments/ModifyShippingInfoModal';
+import OrderListSection from '@components/HistoryPage/_fragments/OrderListSection';
 import useModifyShippingInfoForm, {
   defaultValues,
 } from '@components/HistoryPage/_hooks/useModifyShippingInfoForm';
@@ -26,8 +18,6 @@ import Pagination from '@components/common/Pagination';
 const HistoryPage = () => {
   const formData = useModifyShippingInfoForm({ defaultValues });
   const [page, setPage] = useState(1);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
 
@@ -73,34 +63,12 @@ const HistoryPage = () => {
           {productList &&
             Object.keys(productList).map((orderId) => {
               return (
-                <Flex key={orderId} direction="column">
-                  <Text textStyle="sm" fontWeight="700">
-                    [{productList[orderId][0].created}]
-                  </Text>
-                  {productList[orderId].map((product) => {
-                    return <HistoryList key={product.id} product={product} />;
-                  })}
-                  <Button
-                    w="150px"
-                    h="50px"
-                    borderRadius="5px"
-                    colorScheme="primary"
-                    fontSize="12px"
-                    fontWeight="700"
-                    ml="auto"
-                    mb="10px"
-                    variant="outline"
-                    onClick={onOpen}
-                  >
-                    배송정보수정
-                  </Button>
-                  <Divider />
-                  <ModifyShippingInfoModal
-                    isOpen={isOpen}
-                    onClose={onClose}
+                <React.Fragment key={orderId}>
+                  <OrderListSection
+                    productList={productList}
                     orderId={orderId}
                   />
-                </Flex>
+                </React.Fragment>
               );
             })}
         </Box>

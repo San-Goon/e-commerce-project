@@ -16,6 +16,7 @@ export type GetOrderByIdReturnType = {
   shipAddr: string;
   shipAddrDetail: string;
   orderMessage: string;
+  shippingStatus: string;
   created: string;
 };
 
@@ -69,7 +70,6 @@ export type PostOrderStatusReturnType = {
   orderId: string;
   productId: number;
   count: number;
-  shippingStatus: string;
   created: string;
 };
 
@@ -111,6 +111,7 @@ export type OrderByIdReturnType = {
   shipAddrPost: string;
   shipAddrDetail: string;
   orderMessage: string;
+  shippingStatus: string;
   created: string;
 };
 
@@ -121,11 +122,16 @@ export type GetOrderStatusReturnType = {
   results: PostOrderStatusReturnType[];
 };
 
-export type PatchOrderShippingStatusReqType = {
-  userId: number;
+export type PutOrderShippingStatusReqType = {
+  orderId: string;
   body: {
     shippingStatus: string;
   };
+};
+
+export type PutOrderShippingStatusReturnType = {
+  id: string;
+  shippingStatus: string;
 };
 
 export type GetOrderStatusReqType = {

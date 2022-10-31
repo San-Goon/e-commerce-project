@@ -15,7 +15,7 @@ const ModifyShippingInfoModal = ({ isOpen, onClose, orderId }: PropsType) => {
       <ModalOverlay />
       <ModalContent>
         <ModalBody>
-          <ModifyShippingInfoSection orderId={orderId} />
+          <ModifyShippingInfoSection />
           <ModifyShippingInfoButtons orderId={orderId} onClose={onClose} />
         </ModalBody>
       </ModalContent>

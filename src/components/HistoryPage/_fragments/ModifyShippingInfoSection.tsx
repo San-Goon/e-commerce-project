@@ -3,39 +3,14 @@ import { useFormContext } from 'react-hook-form';
 
 import { Checkbox, Flex, Text } from '@chakra-ui/react';
 
-import { useGetOrderByIdQuery } from '@apis/order/OrderApi.query';
-
 import { ModifyShippingInfoFormDataType } from '@components/HistoryPage/_hooks/useModifyShippingInfoForm';
 import FormHelper from '@components/common/FormHelper';
 import Input from '@components/common/Input';
 import ShippingInfoInputs from '@components/common/ShippingInfoInputs';
 
-interface PropsType {
-  orderId: string;
-}
-
-const ModifyShippingInfoSection = ({ orderId }: PropsType) => {
+const ModifyShippingInfoSection = () => {
   const { setValue, getValues, formState } =
     useFormContext<ModifyShippingInfoFormDataType>();
-
-  useGetOrderByIdQuery({
-    variables: orderId,
-    options: {
-      onSuccess: (data) => {
-        setValue('userName', data.userName);
-        setValue('userPhone', data.userPhone);
-        setValue('shipName', data.shipName);
-        setValue('shipPhone', data.shipPhone);
-        setValue('userAddrPost', data.userAddrPost);
-        setValue('shipAddrPost', data.shipAddrPost);
-        setValue('userAddr', data.userAddr);
-        setValue('shipAddr', data.shipAddr);
-        setValue('userAddrDetail', data.userAddrDetail);
-        setValue('shipAddrDetail', data.shipAddrDetail);
-        setValue('orderMessage', data.orderMessage);
-      },
-    },
-  });
 
   const onChangeSame = useCallback(() => {
     setValue('shipName', getValues('userName'));
