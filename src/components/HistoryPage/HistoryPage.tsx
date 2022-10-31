@@ -22,7 +22,11 @@ const HistoryPage = () => {
   const dispatch = useDispatch();
 
   const { data } = useGetMeQuery();
-  const { data: products, queryKey } = useGetOrderStatusQuery({
+  const {
+    data: products,
+    queryKey,
+    isSuccess,
+  } = useGetOrderStatusQuery({
     variables: { userId: data?.id as number, page },
     options: {
       enabled: !!data?.id,
@@ -49,33 +53,38 @@ const HistoryPage = () => {
           temp[orderId] = [product];
         }
       });
+      return temp;
     }
-    return temp;
+    return undefined;
   }, [products]);
 
   return (
     <FormProvider {...formData}>
-      <Box mb="30px">
-        <Text textStyle="lg" fontWeight="700">
-          주문내역
-        </Text>
-        <Box mt="80px">
-          {productList &&
-            Object.keys(productList).map((orderId) => {
-              return (
-                <React.Fragment key={orderId}>
-                  <OrderListSection
-                    productList={productList}
-                    orderId={orderId}
-                  />
-                </React.Fragment>
-              );
-            })}
-        </Box>
-        {numPages && (
-          <Pagination numPages={numPages} page={page} setPage={setPage} />
-        )}
-      </Box>
+      {isSuccess ? (
+        <>
+          <Box mb="30px">
+            <Text textStyle="lg" fontWeight="700">
+              주문내역
+            </Text>
+            <Box mt="80px">
+              {productList &&
+                Object.keys(productList).map((orderId) => {
+                  return (
+                    <React.Fragment key={orderId}>
+                      <OrderListSection
+                        productList={productList}
+                        orderId={orderId}
+                      />
+                    </React.Fragment>
+                  );
+                })}
+            </Box>
+            {numPages && (
+              <Pagination numPages={numPages} page={page} setPage={setPage} />
+            )}
+          </Box>
+        </>
+      ) : null}
     </FormProvider>
   );
 };

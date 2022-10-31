@@ -1,7 +1,15 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  CircularProgress,
+  Flex,
+  Image,
+  Text,
+} from '@chakra-ui/react';
 
 import { PostOrderStatusReturnType } from '@apis/order/OrderApi.type';
 import { useGetProductByIdQuery } from '@apis/product/ProductApi.query';
@@ -36,9 +44,17 @@ const HistoryList = ({ product, shippingStatus }: PropsType) => {
     }
   }, [shippingStatus]);
 
-  const { data } = useGetProductByIdQuery({
+  const { data, isLoading } = useGetProductByIdQuery({
     variables: product.productId.toString(),
   });
+
+  if (isLoading) {
+    return (
+      <Center h="107px">
+        <CircularProgress isIndeterminate color="primary.500" />
+      </Center>
+    );
+  }
 
   return (
     <Box m="16px">
