@@ -15,8 +15,8 @@ interface PropsType {
 const ProfileImageUploader = ({ profileImg }: PropsType) => {
   const { setValue } = useFormContext();
 
-  const [image, setImage] = useState<(File | string)[]>();
-  const [previewImg, setPreviewImg] = useState<string[]>();
+  const [image, setImage] = useState<(File | string)[]>([]);
+  const [previewImg, setPreviewImg] = useState<string[]>([]);
 
   const onUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +46,10 @@ const ProfileImageUploader = ({ profileImg }: PropsType) => {
 
   const onDelete = useCallback(() => {
     setTimeout(() => {
-      setValue('profileImg', undefined);
+      setImage([]);
+      setPreviewImg([]);
     }, 50);
-  }, [setValue]);
+  }, []);
 
   return (
     <Flex
@@ -59,7 +60,7 @@ const ProfileImageUploader = ({ profileImg }: PropsType) => {
       h="100%"
       position="relative"
     >
-      {!previewImg ? (
+      {!previewImg.length ? (
         <Box cursor="pointer">
           <ProfileIcon boxSize="120px" />
           <FilledPlus
