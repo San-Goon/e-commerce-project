@@ -4,9 +4,9 @@ export type GetMeReturnType = {
   nickname: string;
   phone: string;
   email: string;
-  profilePath: string;
-  gender: string;
-  age: number;
+  profile?: string;
+  gender?: string;
+  age?: number;
 };
 
 export type PutMeBodyType = Omit<
@@ -20,7 +20,7 @@ export type PutMeReturnType = {
   phone: string;
   name: string;
   nickname: string;
-  profilePath?: string;
+  profile?: string;
   gender?: string;
   age?: number;
 };
