@@ -31,7 +31,7 @@ export type PostCartReturnType = {
 };
 
 export type PatchCartItemReqType = {
-  id: string;
+  id: number;
   count: number;
 };
 

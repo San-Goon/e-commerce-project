@@ -8,7 +8,6 @@ import { Box, Checkbox, Divider, Flex, Text } from '@chakra-ui/react';
 import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { useGetProductsByIdQueries } from '@apis/product/ProductApi.query';
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
-import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import BottomForm from '@components/PaymentPage/_Fragments/BottomForm';
 import PaymentButton from '@components/PaymentPage/_Fragments/PaymentButton';
@@ -17,6 +16,7 @@ import ProductList from '@components/common/ProductList';
 import ShippingInfoInputs from '@components/common/ShippingInfoInputs';
 
 import { UseQueryResult } from '@tanstack/react-query';
+import { getId } from '@utils/cookie/id';
 
 interface PropsType {
   ids: string;
@@ -26,13 +26,10 @@ const PaymentPageView = ({ ids }: PropsType) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const { setValue, getValues } = useFormContext<PaymentFormDataType>();
 
-  const { data: me } = useGetMeQuery();
+  const myId = getId();
 
   const { data: cart } = useGetCartQuery({
-    variables: me?.id.toString(),
-    options: {
-      enabled: !!me,
-    },
+    variables: myId as string,
   });
 
   const products = Object.values(
@@ -40,7 +37,8 @@ const PaymentPageView = ({ ids }: PropsType) => {
       ids
         .toString()
         .split('n')
-        .filter((id: string) => id !== ''),
+        .filter((id: string) => id !== '')
+        .map((id: string) => Number(id)),
     ),
   );
 
@@ -118,7 +116,7 @@ const PaymentPageView = ({ ids }: PropsType) => {
       <ShippingInfoInputs field="ship" />
       <BottomForm totalPrice={totalPrice} />
       <PaymentButton
-        userId={me?.id}
+        userId={Number(myId as string)}
         price={totalPrice}
         productsList={productsList}
       />

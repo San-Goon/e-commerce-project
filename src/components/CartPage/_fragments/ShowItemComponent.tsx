@@ -53,12 +53,12 @@ const ShowItemComponent = ({
 
   const onClickMinus = () => {
     if (product.count > 1) {
-      patchMutate({ id: product.id.toString(), count: product.count - 1 });
+      patchMutate({ id: product.id, count: product.count - 1 });
     }
   };
 
   const onClickPlus = () => {
-    patchMutate({ id: product.id.toString(), count: product.count + 1 });
+    patchMutate({ id: product.id, count: product.count + 1 });
   };
 
   return (

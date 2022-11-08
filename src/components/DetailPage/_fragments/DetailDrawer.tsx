@@ -21,11 +21,11 @@ import {
 } from '@apis/cart/CartApi.mutation';
 import { useGetCartQuery } from '@apis/cart/CartApi.query';
 import { GetProductByIdReturnType } from '@apis/product/ProductApi.type';
-import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import DetailModal from '@components/DetailPage/_fragments/DetailModal';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { getId } from '@utils/cookie/id';
 import { formatPrice } from '@utils/format';
 
 interface PropsType {
@@ -71,29 +71,26 @@ const DetailDrawer = ({ router, data, onClose, isOpen }: PropsType) => {
     onClose: onCloseModal,
   } = useDisclosure();
 
-  const { data: me } = useGetMeQuery();
+  const myId = getId();
 
   const { data: cart } = useGetCartQuery({
-    variables: me?.id.toString(),
-    options: {
-      enabled: !!me,
-    },
+    variables: myId as string,
   });
 
   useEffect(() => {
-    if (cart && me) {
+    if (cart) {
       if (cart.length === 0) {
-        postCartMutate(me.id);
+        postCartMutate(Number(myId));
       }
     }
-  }, [cart, me, postCartMutate]);
+  }, [cart, myId, postCartMutate]);
 
   const onClickCart = () => {
     if (cart) {
       const cartItem = cart[0].cartitem.find((v) => v.productId === data.id);
       if (cartItem) {
         patchMutate({
-          id: cartItem.id.toString(),
+          id: cartItem.id,
           count: cartItem.count + count,
         });
       } else {

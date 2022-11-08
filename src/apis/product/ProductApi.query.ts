@@ -10,7 +10,7 @@ import {
 
 export const PRODUCT_API_QUERY_KEY = {
   GET: (): QueryKey => ['products-list'],
-  GET_BY_ID: (id: string) => ['product-by-id', id],
+  GET_BY_ID: (id: number) => ['product-by-id', id],
 };
 
 export function useGetProductListQuery(
@@ -38,7 +38,7 @@ export function useGetProductByIdQuery(
 }
 
 export function useGetProductsByIdQueries(
-  ids: string[],
+  ids: number[],
   params?: QueryHookParams<typeof productApi.getProductById>,
 ) {
   const queries = ids.map((id) => {

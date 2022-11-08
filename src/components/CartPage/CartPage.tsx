@@ -3,19 +3,17 @@ import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import { useGetCartQuery } from '@apis/cart/CartApi.query';
-import { useGetMeQuery } from '@apis/user/UserApi.query';
 
 import ItemExistComponent from '@components/CartPage/_fragments/ItemExistComponent';
 import NoItemComponent from '@components/CartPage/_fragments/NoItemComponent';
 
+import { getId } from '@utils/cookie/id';
+
 const CartPage = () => {
-  const { data: me } = useGetMeQuery();
+  const myId = getId();
 
   const { data: cart } = useGetCartQuery({
-    variables: me?.id.toString(),
-    options: {
-      enabled: !!me,
-    },
+    variables: myId as string,
   });
 
   return (

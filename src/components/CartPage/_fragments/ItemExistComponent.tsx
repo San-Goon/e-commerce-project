@@ -40,7 +40,7 @@ const ItemExistComponent = ({ items }: PropsType) => {
   });
 
   const products = Object.values(
-    useGetProductsByIdQueries(items.map((item) => item.productId.toString())),
+    useGetProductsByIdQueries(items.map((item) => item.productId)),
   );
 
   const productsList = useMemo(() => {
