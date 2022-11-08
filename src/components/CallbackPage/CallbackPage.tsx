@@ -4,8 +4,9 @@ import React, { useCallback, useEffect } from 'react';
 import { Button, Center, CircularProgress, Text } from '@chakra-ui/react';
 
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
+import { useGetMeQuery } from '@apis/user/UserApi.query';
 
-import { TokenType, setToken } from '@utils/cookie/token';
+import { TokenType, setId, setToken } from '@utils/cookie/token';
 
 interface PropsType {
   queries: {
@@ -16,12 +17,26 @@ interface PropsType {
 
 const CallbackPage = ({ queries }: PropsType) => {
   const router = useRouter();
-  const { mutate, isError } = usePostSocialLoginMutation({
+  const {
+    data: tokenData,
+    mutate,
+    isError: isMutateError,
+    isSuccess: isSuccessMutate,
+  } = usePostSocialLoginMutation({
     options: {
       onSuccess: (data) => {
         setToken(data as TokenType);
+      },
+    },
+  });
+
+  const { isError: isQueryError } = useGetMeQuery({
+    options: {
+      enabled: isSuccessMutate,
+      onSuccess: (data) => {
+        setId(data.id);
         {
-          if (data.isRegister) {
+          if (tokenData?.isRegister) {
             router.push('/');
           } else {
             router.push('/signup');
@@ -44,7 +59,7 @@ const CallbackPage = ({ queries }: PropsType) => {
 
   return (
     <Center minH="100vh" flexDir="column">
-      {isError ? (
+      {isMutateError || isQueryError ? (
         <>
           <Text textStyle="lg" mt="10px">
             로그인 정보 확인에 실패했습니다. 다시 시도해주세요.
