@@ -45,7 +45,7 @@ const HistoryList = ({ product, shippingStatus }: PropsType) => {
   }, [shippingStatus]);
 
   const { data, isLoading } = useGetProductByIdQuery({
-    variables: product.productId.toString(),
+    variables: product.productId,
   });
 
   if (isLoading) {

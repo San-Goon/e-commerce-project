@@ -81,7 +81,7 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
       for (const product of productsList) {
         setLocalStorageData.cartIds.push(product.id.toString());
         setLocalStorageData.productInfos.push({
-          productId: product.productId.toString(),
+          productId: product.productId,
           count: product.count,
         });
       }

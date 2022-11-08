@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
   const { id } = ctx.query;
   await queryClient.prefetchQuery(['product-by-id', id], () =>
-    productApi.getProductById(id as string),
+    productApi.getProductById(Number(id as string)),
   );
 
   return {

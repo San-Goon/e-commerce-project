@@ -25,7 +25,7 @@ import useMoveScroll from '../../hooks/useMoveScroll';
 const DetailPage = () => {
   const router = useRouter();
   const { data } = useGetProductByIdQuery({
-    variables: router.query.id as string,
+    variables: Number(router.query.id as string),
   });
 
   const { element: detail, onMoveToElement: onMoveToDetail } = useMoveScroll();

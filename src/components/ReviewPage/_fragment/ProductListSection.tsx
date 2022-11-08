@@ -10,7 +10,7 @@ import { formatPrice } from '@utils/format';
 const ProductListSection = () => {
   const router = useRouter();
   const { data } = useGetProductByIdQuery({
-    variables: router.query.productId as string,
+    variables: Number(router.query.productId as string),
     options: {
       enabled: !!router.query.productId,
     },
