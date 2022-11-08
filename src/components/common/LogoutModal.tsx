@@ -12,12 +12,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { deleteToken } from '@utils/cookie/token';
+import { deleteId, deleteToken } from '@utils/cookie/token';
 
 const LogoutModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   const router = useRouter();
   const onClickConfirm = useCallback(() => {
     deleteToken();
+    deleteId();
     router.push('/login');
   }, [router]);
   return (
