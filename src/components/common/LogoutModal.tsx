@@ -12,7 +12,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { deleteId, deleteToken } from '@utils/cookie/token';
+import { deleteId } from '@utils/cookie/id';
+import { deleteToken } from '@utils/cookie/token';
 
 const LogoutModal = ({ isOpen, onClose }: Omit<ModalProps, 'children'>) => {
   const router = useRouter();

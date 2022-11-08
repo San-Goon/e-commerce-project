@@ -6,7 +6,8 @@ import { Button, Center, CircularProgress, Text } from '@chakra-ui/react';
 import { usePostSocialLoginMutation } from '@apis/user/UserApi.mutation';
 import { useGetMeQuery } from '@apis/user/UserApi.query';
 
-import { TokenType, setId, setToken } from '@utils/cookie/token';
+import { setId } from '@utils/cookie/id';
+import { TokenType, setToken } from '@utils/cookie/token';
 
 interface PropsType {
   queries: {

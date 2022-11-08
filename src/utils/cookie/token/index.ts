@@ -40,24 +40,3 @@ export const deleteToken = () => {
   const cookies = new Cookies();
   cookies.remove(TOKEN_KEY, cookieOption);
 };
-
-export const getId = () => {
-  if (typeof window === 'undefined') return null;
-  const cookies = new Cookies();
-  const id: number = cookies.get('@id');
-  if (id) {
-    return id;
-  }
-  return null;
-};
-
-export const setId = (id: number) => {
-  const cookies = new Cookies();
-  const stringifyToken = JSON.stringify(id);
-  cookies.set('@id', stringifyToken, cookieOption);
-};
-
-export const deleteId = () => {
-  const cookies = new Cookies();
-  cookies.remove('@id', cookieOption);
-};
