@@ -23,6 +23,8 @@ export type GetOrderByIdReturnType = {
 export type PostOrderBodyType = {
   userId?: number;
   price: number;
+  shippingPrice: number;
+  amount: number;
   method: string;
   userName: string;
   userPhone: string;

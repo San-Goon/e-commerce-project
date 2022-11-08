@@ -50,6 +50,8 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
       const mutateData = {
         userId,
         price,
+        shippingPrice: 0,
+        amount: price,
         ...rest,
       };
       const { id: orderId } = await postOrderMutate(mutateData);
@@ -89,6 +91,8 @@ const PaymentButton = ({ userId, price, productsList }: PropsType) => {
       console.error('ERROR!', e);
     }
   };
+
+  console.log('productList', productsList);
 
   return (
     <>
