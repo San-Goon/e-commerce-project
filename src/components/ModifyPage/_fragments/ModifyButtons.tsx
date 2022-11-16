@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 
@@ -64,16 +65,18 @@ const ModifyButtons = () => {
 
   return (
     <Flex justifyContent="space-between">
-      <Button
-        w="165px"
-        h="50px"
-        textStyle="md"
-        fontWeight="700"
-        colorScheme="primary"
-        variant="outline"
-      >
-        취소
-      </Button>
+      <Link href="/mypage" passHref>
+        <Button
+          w="165px"
+          h="50px"
+          textStyle="md"
+          fontWeight="700"
+          colorScheme="primary"
+          variant="outline"
+        >
+          취소
+        </Button>
+      </Link>
       <Button
         w="165px"
         h="50px"
