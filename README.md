@@ -1,11 +1,3 @@
-# Next.js starter2
-
-똑똑한개발자에서 진행하는 프로젝트의 스타터 프로젝트 next-init 2.0입니다.
-
-# 🚀 Quick Start
-
-Use this template 버튼을 활용해서 프로젝트의 repository를 생성해주세요.
-
 # 📁 Folder Structure
 
 A quick look at the directories you'll see in this project.
