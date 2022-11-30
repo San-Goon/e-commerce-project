@@ -10,6 +10,7 @@
 
 ## Installation
 ```bash
+yarn
 yarn dev
 ```
 </br>
